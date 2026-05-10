@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="iconss\vecteezy_isolate-grow-economic-flat-icon_21048252.png"
+    />
+    <link rel="stylesheet" href="news.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.3.2/css/flag-icons.min.css"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/simple-icons-font@latest/font/simple-icons.min.css"
+    />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="langToggle">
+      <img
+        src="https://avatars.mds.yandex.net/get-entity_search/118194/224019704/S600xU_2x"
+        alt="RU"
+        style="cursor: pointer; width: 32px; height: 32px"
+      />
+    </div>
+
+    <header class="KUI">
+      <h1 class="GLZG">Pulp Fiction Fed</h1>
+    </header>
+
+    <main class="three-columns">
+      <div class="sidebar">
+        <div class="sidebar-title">
+          <span data-ru="Курсы валют" data-en="Exchange rates"
+            >Курсы валют</span
+          >
+        </div>
+        <div class="sidebar-content">
+          <h4 data-ru="Основные мировые валюты">Основные мировые валюты</h4>
+          <ul id="currencies-major" class="currency-list"></ul>
+
+          <h4 data-ru="Другие важные валюты">Другие важные валюты</h4>
+          <ul id="currencies-other" class="currency-list"></ul>
+
+          <h4 data-ru="Азиатские и ближневосточные валюты">
+            Азиатские и ближневосточные валюты
+          </h4>
+          <ul id="currencies-asia" class="currency-list"></ul>
+
+          <h4 data-ru="Ближний Восток и другие">Ближний Восток и другие</h4>
+          <ul id="currencies-middleeast" class="currency-list"></ul>
+
+          <h4 data-ru="СНГ и соседние страны">СНГ и соседние страны</h4>
+          <ul id="currencies-cis" class="currency-list"></ul>
+
+          <small>
+            обновлено:
+            <span id="update-date">загружается...</span>
+            •
+            <a
+              href="https://cbr.ru/currency_base/daily/"
+              target="_blank"
+              data-ru="официальные курсы ЦБ РФ"
+              data-en="official exchange rates of the Central Bank of the Russian Federation"
+              >официальные курсы ЦБ РФ</a
+            >
+          </small>
+        </div>
+      </div>
+
+      <div class="Main-Content">
+        <div class="KUIZ">
+          <div class="CenterP">
+            <div class="Trade"></div>
+          </div>
+        </div>
+
+        <div class="KUI">
+          <div class="paragr">
+            <ul>
+              <li>
+                <a href="https://ria.ru/?ysclid=mn621xsbc6259021681"
+                  >РИА Новости</a
+                >
+              </li>
+              <li>
+                <a href="https://www.rbc.ru/?ysclid=mn622r4z66425330451">РБК</a>
+              </li>
+              <li>
+                <a
+                  href="https://www.kommersant.ru/lenta?hl=ru-RU&ysclid=mn61yngxin843831870"
+                  >Коммерсантъ</a
+                >
+              </li>
+              <li>
+                <a href="https://iz.ru/?ysclid=mn624jyz65330594717"
+                  >Известия
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://ria.ru/20220622/spetsoperatsiya-1795199102.html?ysclid=mn61rulj2c802511208"
+                  >Карта сво на Украине</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ПРАВАЯ БОКОВАЯ ПАНЕЛЬ -->
+      <div class="sidebar">
+        <div class="sidebar-title">
+          <span
+            data-ru="Стратегические металлы, нефть, газ и акции"
+            data-en="Strategic metals, oil, gas and stocks"
+            >Стратегические металлы, нефть, газ и акции</span
+          >
+        </div>
+        <div class="sidebar-content">
+          <h4
+            data-ru="Драгоценные и стратегические металлы"
+            data-en="Precious and strategic metals"
+          >
+            Драгоценные и стратегические металлы
+          </h4>
+          <ul id="metals-list"></ul>
+
+          <h4>Нефть</h4>
+          <ul id="oil-prices"></ul>
+          <small>
+            1 баррель = 158.99 литров | 1 американский галлон = 3.785 литров
+          </small>
+          <h4>Природный газ (крупные производители)</h4>
+          <ul id="gas-producers"></ul>
+
+          <h4>Криптовалюты</h4>
+          <div class="Crypto-i">
+            <ul id="CriptoVVV"></ul>
+          </div>
+
+          <h4>Акции крупнейших компаний</h4>
+          <small>США • ЕС • Китай • РФ</small>
+          <ul id="stocks"></ul>
+          <small
+            >данные с <a href="https://www.cbr.ru/">ЦБ РФ</a>,
+            <a href="https://www.moex.com/">MOEX</a>,
+            <a href="https://www.nyse.com/">NYSE</a>,
+            <a href="https://www.binance.com/">Binance</a>,
+            <a href="https://www.bybit.com/">ByBit</a> и других бирж • цены
+            приблизительные</small
+          >
+        </div>
+      </div>
+    </main>
+    <footer>© 2026 Орлов. Все права защищены.</footer>
+    <script type="module" src="js/main.js"></script>
+  </body>
+</html>

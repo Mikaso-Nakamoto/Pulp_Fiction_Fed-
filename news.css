@@ -1,0 +1,275 @@
+*, *::before, *::after {
+    box-sizing: border-box;           /* padding и border включаются в width/height */
+}
+
+*:not(dialog) {
+    margin: 0;                        
+}
+
+body {
+    margin: 0;                       
+    padding: 0;
+    line-height: 1.5;                 /* межстрочный интервал по умолчанию */
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; /*шрифты для разных ОС */
+}
+
+
+h1, h2, h3, h4, h5, h6,
+p, ul, ol, li,
+blockquote, figure, hr {
+    margin: 0;
+    padding: 0;
+}
+
+/* точки у списков */
+ul, ol {
+    list-style: none;
+}
+
+/* изображения и видео отзывчивые*/
+img, picture, video, canvas, svg {
+    display: block;
+    max-width: 100%;
+}
+
+/* подчёркивание у ссылок */
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.crypto-icon{
+      -webkit-user-select: none; /* для Safari */
+  -moz-user-select: none; /* для Firefox */
+  -ms-user-select: none; /* для Internet Explorer/Edge */
+  user-select: none; /* для остальных браузеров */
+}
+
+
+::selection {
+    background-color: #1e3a8a;
+    color: #ffffff;
+}
+
+
+body{
+    background: #A9A9A9;
+}
+.paragr{
+    border: 3px solid #D3D3D3;
+    border-radius: 12px;
+    margin: 8px 0;
+    padding: 8px;
+    background: #DCDCDC ;
+}
+.CenterP{
+    border: 3px solid #D3D3D3;
+    border-radius: 12px;
+    margin: 8px 0;
+    padding: 8px;
+    background: #DCDCDC ;
+    height: 300px;
+}
+
+
+
+
+
+
+a{
+    color: black ;
+}
+a:hover{
+    color: DimGrey;
+}
+.GLZG{
+    text-align: center;
+    color: #140d4e;
+}
+.GLZG:hover{
+    color: #0c0738;
+}
+.KUI{
+    max-width: 1080px;
+    margin: 50px auto;
+    padding: 15px;
+    background: #C0C0C0 ;
+    border-radius: 30px; 
+}
+.KUIZ{
+    width: 1080px;
+    height: 350px;
+    margin: 50px auto;
+    padding: 15px;
+    background: #C0C0C0 ;
+    border-radius: 30px; 
+}
+
+/* ТРИ КОЛОНКИ + САЙДБАРЫ*/
+
+
+.three-columns {
+    display: flex;                    /* делает три колонки рядом */
+    justify-content: center;          /* центрирует весь блок по ширине экрана */
+    gap: 25px;                        /* расстояние между колонками */
+    max-width: 1450px;                /* максимальная ширина всего блока */
+    margin: 30px auto;                /* центрирование + отступ сверху */
+    padding: 0 20px;                  /* отступы слева и справа от краёв экрана */
+    align-items: stretch;             /* все три колонки одной высоты */
+}
+
+.main-content {
+    flex: 1;                          /* центральная колонка занимает всё свободное место */
+    min-width: 0;                     /* важно для корректной работы flex */
+}
+
+.sidebar {
+    flex: 0 0 290px;                  /* фиксированная ширина боковых панелей (можно менять) */
+    background: #DCDCDC;              /* цвет фона .KUIZ блоков */
+    border: 3px solid #D3D3D3;        /* чёрная рамка, как у тебя */
+    border-radius: 30px;              /* скругление углов 30px */
+    padding: 20px;                    /* внутренние отступы */
+    box-sizing: border-box;           /* чтобы padding не увеличивал ширину */
+    display: flex;
+    flex-direction: column;           /* чтобы заголовок был сверху, а контент растягивался */
+}
+
+.sidebar-title {
+    background: #C8C8C8;              /* серый фон заголовка */
+    color: #140d4e;
+    font-weight: bold;
+    text-align: center;
+    padding: 12px 15px;
+    border-radius: 18px;              /* скругление заголовка */
+    margin-bottom: 18px;
+}
+
+.sidebar-content {
+    flex: 1;                          /* контент занимает всё оставшееся пространство */
+    font-size: 15px;                  /* размер текста */
+    line-height: 1.55;                /* межстрочный интервал */
+    color: #222;
+}
+
+
+/* Стили для flag-icons */
+.fi {
+    margin-right: 8px;           /* расстояние между флагом и кодом валюты */
+    vertical-align: middle;      /* выравнивание по центру строки */
+    font-size: 1.15em;           /* размер флага */
+    line-height: 1;
+}
+
+.sidebar-content strong {
+    display: block;
+    margin: 14px 0 6px 0;
+    color: #030303;
+}
+
+.si {
+    margin-right: 5px;
+    font-size: 1.15em;
+    vertical-align: middle;
+    line-height: 1;
+}
+
+.sidebar-content h4 {
+    margin: 14px 0 7px 0;
+    color: #030303;
+}
+
+.sidebar-content ul {
+    margin-bottom: 18px;
+}
+
+.crypto-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+    vertical-align: middle;
+    flex-shrink: 0;           /* чтобы не сжималась */
+}
+
+/* Дополнительно — чтобы SVG внутри иконки занимал всю область */
+.crypto-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.currency-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px 0;
+}
+
+.currency-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.currency-list li:last-child {
+  border-bottom: none;
+}
+
+.rate {
+  font-weight: 600;
+  min-width: 120px;
+  text-align: right;
+  margin-right: 10px;
+}
+
+.Trade{
+    border: solid red 2px;
+    border-radius: 10px;
+    height: 270px;
+    margin-top: 5px;
+}
+
+.change {
+  font-size: 0.92em;
+  font-weight: 500;
+  min-width: 85px;
+  text-align: right;
+}
+
+.langToggle{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    width: 38px;
+    height: 38px;
+    border-radius: 9px;
+    padding: 2px 1px 1px 2px;
+    transition: all 0.35s ease;
+}
+
+.langToggle img{
+  border: 1px solid rgba(255, 255, 255, 0.25); 
+  backdrop-filter: blur(14px);
+  border-radius: 8px;
+}
+
+.langToggle:hover{
+    transform: translateY(-3px);
+}
+
+
+.change.up   { color: #006400; }   /* тёмно-зелёный */
+.change.down { color: #b30000; }   /* тёмно-красный */
+.change.zero { color: #666666; }
+
+
+
+@media (max-width: 720px) {
+    .three-columns{
+        flex-direction: column;
+    }
+}
