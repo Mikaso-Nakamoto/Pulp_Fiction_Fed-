@@ -21,12 +21,48 @@
     <title>Document</title>
   </head>
   <body>
-    <div class="langToggle">
+    <div class="langToggle" id="langToggle">
       <img
         src="https://avatars.mds.yandex.net/get-entity_search/118194/224019704/S600xU_2x"
         alt="RU"
-        style="cursor: pointer; width: 32px; height: 32px"
+        id="current-flag"
       />
+      <span id="current-lang"></span>
+    </div>
+
+    <!-- Выпадающее меню -->
+    <div class="lang-dropdown" id="langDropdown">
+      <div class="lang-main-group">
+        <div class="lang-option" data-lang="ru">
+          <span class="fi fi-ru"></span> Русский
+        </div>
+        <div class="lang-option" data-lang="en">
+          <span class="fi fi-gb"></span> English
+        </div>
+        <div class="lang-option" data-lang="de">
+          <span class="fi fi-de"></span> Deutsch
+        </div>
+        <div class="lang-option" data-lang="fr">
+          <span class="fi fi-fr"></span> Français
+        </div>
+        <div class="lang-option" data-lang="zh">
+          <span class="fi fi-cn"></span> 中文
+        </div>
+        <div class="lang-option" data-lang="kr">
+          <span class="fi fi-kr"></span> 한국어
+        </div>
+        <div class="lang-option" data-lang="jp">
+          <span class="fi fi-jp"></span> 日本語
+        </div>
+      </div>
+
+      <div class="lang-separator"></div>
+
+      <div class="lang-other">
+        <small
+          >Не нашли свой язык? посмотрите <a href="#footer">здесь</a>
+        </small>
+      </div>
     </div>
 
     <header class="KUI">
@@ -36,27 +72,35 @@
     <main class="three-columns">
       <div class="sidebar">
         <div class="sidebar-title">
-          <span data-ru="Курсы валют" data-en="Exchange rates"
-            >Курсы валют</span
-          >
+          <span>Курсы валют</span>
         </div>
         <div class="sidebar-content">
           <h4 data-ru="Основные мировые валюты">Основные мировые валюты</h4>
-          <ul id="currencies-major" class="currency-list"></ul>
+          <div class="left-sidebar-content">
+            <ul id="currencies-major" class="currency-list"></ul>
+          </div>
 
           <h4 data-ru="Другие важные валюты">Другие важные валюты</h4>
-          <ul id="currencies-other" class="currency-list"></ul>
+          <div class="left-sidebar-content">
+            <ul id="currencies-other" class="currency-list"></ul>
+          </div>
 
           <h4 data-ru="Азиатские и ближневосточные валюты">
             Азиатские и ближневосточные валюты
           </h4>
-          <ul id="currencies-asia" class="currency-list"></ul>
+          <div class="left-sidebar-content">
+            <ul id="currencies-asia" class="currency-list"></ul>
+          </div>
 
           <h4 data-ru="Ближний Восток и другие">Ближний Восток и другие</h4>
-          <ul id="currencies-middleeast" class="currency-list"></ul>
+          <div class="left-sidebar-content">
+            <ul id="currencies-middleeast" class="currency-list"></ul>
+          </div>
 
           <h4 data-ru="СНГ и соседние страны">СНГ и соседние страны</h4>
-          <ul id="currencies-cis" class="currency-list"></ul>
+          <div class="left-sidebar-content">
+            <ul id="currencies-cis" class="currency-list"></ul>
+          </div>
 
           <small>
             обновлено:
@@ -74,41 +118,55 @@
       </div>
 
       <div class="Main-Content">
-        <div class="KUIZ">
-          <div class="CenterP">
-            <div class="Trade"></div>
-          </div>
-        </div>
+        <div class="converter-wrapper">
+          <div class="converter-container">
+            <!-- Левая колонка -->
+            <div class="currency-selector left">
+              <h3>Отдаю</h3>
+              <div class="currency-list-scroll" id="from-list"></div>
+            </div>
 
-        <div class="KUI">
-          <div class="paragr">
-            <ul>
-              <li>
-                <a href="https://ria.ru/?ysclid=mn621xsbc6259021681"
-                  >РИА Новости</a
-                >
-              </li>
-              <li>
-                <a href="https://www.rbc.ru/?ysclid=mn622r4z66425330451">РБК</a>
-              </li>
-              <li>
-                <a
-                  href="https://www.kommersant.ru/lenta?hl=ru-RU&ysclid=mn61yngxin843831870"
-                  >Коммерсантъ</a
-                >
-              </li>
-              <li>
-                <a href="https://iz.ru/?ysclid=mn624jyz65330594717"
-                  >Известия
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://ria.ru/20220622/spetsoperatsiya-1795199102.html?ysclid=mn61rulj2c802511208"
-                  >Карта сво на Украине</a
-                >
-              </li>
-            </ul>
+            <!-- Центральный конвертер -->
+            <div class="converter-main">
+              <div class="exchange-card">
+                <div class="currency-header">
+                  <span class="flag" id="from-flag">🇺🇸</span>
+                  <span class="code" id="from-code">USD</span>
+                </div>
+                <input type="number" id="from-amount" value="100" step="any" />
+              </div>
+
+              <div class="swap-container">
+                <span class="swap-arrow">↓</span>
+              </div>
+
+              <div class="exchange-card">
+                <div class="currency-header">
+                  <span class="flag" id="to-flag">eu</span>
+                  <span class="code" id="to-code">EUR</span>
+                </div>
+                <input type="number" id="to-amount" readonly />
+              </div>
+
+              <div class="rate-display">
+                1 <span id="from-currency-name">USD</span> =
+                <span id="exchange-rate">92.45</span>
+                <span id="to-currency-name">RUB</span>
+              </div>
+              <div class="currency-info-panel" id="currency-info-panel">
+                <h4 id="info-currency-name">Выберите валюту</h4>
+                <p id="info-description">
+                  Здесь будет краткая история и интересные факты о выбранной
+                  валюте.
+                </p>
+              </div>
+            </div>
+
+            <!-- Правая колонка -->
+            <div class="currency-selector right">
+              <h3>Получаю</h3>
+              <div class="currency-list-scroll" id="to-list"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -158,7 +216,9 @@
         </div>
       </div>
     </main>
-    <footer>© 2026 Орлов. Все права защищены.</footer>
+    <footer>
+      <div id="footer">© Copyright © 2026 Орлов. Все права защищены. ©</div>
+    </footer>
     <script type="module" src="js/main.js"></script>
   </body>
 </html>

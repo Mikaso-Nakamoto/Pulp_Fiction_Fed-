@@ -6,7 +6,7 @@ export const currencyGroups = {
         { code: "GBP", flag: "gb", name: "GBP" },
         { code: "JPY", flag: "jp", name: "JPY" },
         { code: "CNY", flag: "cn", name: "CNY" },
-        { code: "CHF", flag: "ch", name: "CHF" }
+        { code: "CHF", flag: "ch", name: "CHF" },
     ],
 
     other: [
@@ -49,6 +49,7 @@ export const currencyGroups = {
     ],
 
     cis: [
+        { code: "RUB", flag: "ru", name: "RUB" }, 
         { code: "BYN", flag: "by", name: "BYN" },
         { code: "KZT", flag: "kz", name: "KZT" },
         { code: "UAH", flag: "ua", name: "UAH" },

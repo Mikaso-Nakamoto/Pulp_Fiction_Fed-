@@ -47,61 +47,67 @@ a {
 
 
 ::selection {
-    background-color: #1e3a8a;
+    background-color: #444444;
     color: #ffffff;
 }
 
-
+/* https://avatars.mds.yandex.net/i?id=41f8710cffac2a4bebad9c50c2da37c9_l-9229366-images-thumbs&ref=rim&n=13&w=1470&h=827 */
 body{
-    background: #A9A9A9;
+   background-image: url("https://images.wallpaperscraft.com/image/single/stairs_down_railing_201608_2048x1152.jpg"); /* https://images.wallpaperscraft.com/image/single/stairs_down_railing_201608_2048x1152.jpg */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    min-height: 100vh;
 }
 .paragr{
     border: 3px solid #D3D3D3;
     border-radius: 12px;
     margin: 8px 0;
     padding: 8px;
-    background: #DCDCDC ;
+    backdrop-filter: blur(1px);
 }
 .CenterP{
     border: 3px solid #D3D3D3;
     border-radius: 12px;
     margin: 8px 0;
     padding: 8px;
-    background: #DCDCDC ;
+    backdrop-filter: blur(1px);
     height: 300px;
 }
 
-
-
-
-
-
 a{
-    color: black ;
+    color: rgb(168, 168, 168) ;
 }
 a:hover{
-    color: DimGrey;
+    color: rgb(201, 201, 201);
 }
 .GLZG{
     text-align: center;
-    color: #140d4e;
-}
-.GLZG:hover{
-    color: #0c0738;
+    color:  #ffffff;
+
+      -webkit-user-select: none; /* для Safari */
+  -moz-user-select: none; /* для Firefox */
+  -ms-user-select: none; /* для Internet Explorer/Edge */
+  user-select: none; /* для остальных браузеров */
+
 }
 .KUI{
     max-width: 1080px;
     margin: 50px auto;
     padding: 15px;
-    background: #C0C0C0 ;
+    backdrop-filter: blur(12px);
     border-radius: 30px; 
+    border: solid 2px #d3d3d3;
+    background: rgba(75, 74, 74, 0.288);
 }
+
 .KUIZ{
     width: 1080px;
     height: 350px;
     margin: 50px auto;
     padding: 15px;
-    background: #C0C0C0 ;
+    backdrop-filter: blur(1px);
     border-radius: 30px; 
 }
 
@@ -125,8 +131,9 @@ a:hover{
 
 .sidebar {
     flex: 0 0 290px;                  /* фиксированная ширина боковых панелей (можно менять) */
-    background: #DCDCDC;              /* цвет фона .KUIZ блоков */
-    border: 3px solid #D3D3D3;        /* чёрная рамка, как у тебя */
+    backdrop-filter: blur(12px);           /* цвет фона .KUIZ блоков */
+    background: rgba(63, 63, 63, 0.185); /* полупрозрачный фон */
+    border: 3px solid #bebebe;        /* чёрная рамка, как у тебя */
     border-radius: 30px;              /* скругление углов 30px */
     padding: 20px;                    /* внутренние отступы */
     box-sizing: border-box;           /* чтобы padding не увеличивал ширину */
@@ -135,20 +142,52 @@ a:hover{
 }
 
 .sidebar-title {
-    background: #C8C8C8;              /* серый фон заголовка */
-    color: #140d4e;
+    backdrop-filter: blur(10px); 
+    color: #dbdbdb;
     font-weight: bold;
     text-align: center;
     padding: 12px 15px;
     border-radius: 18px;              /* скругление заголовка */
     margin-bottom: 18px;
+    border: solid 1.3px #d3d3d3;    
+    transition: transform 0.3s ease;       /* рамка для заголовка */
+
+  -webkit-user-select: none; /* для Safari */
+  -moz-user-select: none; /* для Firefox */
+  -ms-user-select: none; /* для Internet Explorer/Edge */
+  user-select: none; /* для остальных браузеров */
+
+}
+
+.sidebar-title:hover {
+    transform: scale(1.05);       /* эффект при наведении на заголовок */
 }
 
 .sidebar-content {
     flex: 1;                          /* контент занимает всё оставшееся пространство */
     font-size: 15px;                  /* размер текста */
     line-height: 1.55;                /* межстрочный интервал */
-    color: #222;
+    color: #f0f0f0;
+
+    -webkit-user-select: none; /* для Safari */
+  -moz-user-select: none; /* для Firefox */
+  -ms-user-select: none; /* для Internet Explorer/Edge */
+  user-select: none; /* для остальных браузеров */
+
+}
+
+.left-sidebar-content{
+    backdrop-filter: blur(10px);
+    border: solid 1.2px #d3d3d3;
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 17px;
+    transition: all 0.3s ease; /* плавный переход для эффекта при наведении */
+}
+
+.left-sidebar-content:hover{
+    transform: translateY(-3px);
+    transform: scale(1.01); 
 }
 
 
@@ -156,14 +195,14 @@ a:hover{
 .fi {
     margin-right: 8px;           /* расстояние между флагом и кодом валюты */
     vertical-align: middle;      /* выравнивание по центру строки */
-    font-size: 1.15em;           /* размер флага */
+    font-size: 1.85em;           /* размер флага */
     line-height: 1;
 }
 
 .sidebar-content strong {
     display: block;
     margin: 14px 0 6px 0;
-    color: #030303;
+    color: #cccccc;
 }
 
 .si {
@@ -175,7 +214,7 @@ a:hover{
 
 .sidebar-content h4 {
     margin: 14px 0 7px 0;
-    color: #030303;
+    color: #eeeeee;
 }
 
 .sidebar-content ul {
@@ -224,12 +263,7 @@ a:hover{
   margin-right: 10px;
 }
 
-.Trade{
-    border: solid red 2px;
-    border-radius: 10px;
-    height: 270px;
-    margin-top: 5px;
-}
+
 
 .change {
   font-size: 0.92em;
@@ -238,20 +272,13 @@ a:hover{
   text-align: right;
 }
 
-.langToggle{
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    backdrop-filter: blur(14px);
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    width: 38px;
-    height: 38px;
-    border-radius: 9px;
-    padding: 2px 1px 1px 2px;
-    transition: all 0.35s ease;
-}
-
 .langToggle img{
+  -webkit-user-select: none; /* для Safari */
+  -moz-user-select: none; /* для Firefox */
+  -ms-user-select: none; /* для Internet Explorer/Edge */
+  user-select: none; /* для остальных браузеров */
+
+
   border: 1px solid rgba(255, 255, 255, 0.25); 
   backdrop-filter: blur(14px);
   border-radius: 8px;
@@ -272,4 +299,335 @@ a:hover{
     .three-columns{
         flex-direction: column;
     }
+}
+
+/* ==================== КОНВЕРТЕР ==================== */
+
+.converter-container {
+    display: grid;
+    grid-template-columns: 290px 480px 290px;
+    gap: 18px;
+    margin: 30px auto;
+    max-width: 1320px;
+}
+
+.currency-selector {
+    background: rgba(73, 73, 73, 0.158);
+    backdrop-filter: blur(8px);
+    border: 3px solid #D3D3D3;
+    border-radius: 20px;
+    padding: 16px;
+    height: 100%;
+    max-height: 720px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+
+        -webkit-user-select: none; /* для Safari */
+  -moz-user-select: none; /* для Firefox */
+  -ms-user-select: none; /* для Internet Explorer/Edge */
+  user-select: none; /* для остальных браузеров */
+
+}
+
+.currency-selector h3 {
+    text-align: center;
+    margin-bottom: 16px;
+    color: #dbdbdb;
+    font-size: 1.4rem;
+    font-weight: 600;  
+
+    -webkit-user-select: none; /* для Safari */
+  -moz-user-select: none; /* для Firefox */
+  -ms-user-select: none; /* для Internet Explorer/Edge */
+  user-select: none; /* для остальных браузеров */
+
+}
+
+/* Список валют */
+.currency-list-scroll { 
+    &::-webkit-scrollbar {
+    display: none;
+    }
+    /* Скрываем для Firefox */
+    scrollbar-width: none;
+
+    /* Скрываем для старого Internet Explorer и Edge */
+    -ms-overflow-style: none;
+    flex: 1;
+    overflow-y: auto;
+}
+
+.currency-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 14px;
+    background: rgba(80, 79, 79, 0.212);
+    backdrop-filter: blur(8px);
+    border-radius: 12px;
+    margin-bottom: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.currency-item:hover {
+    backdrop-filter: blur(1px);
+    transform: translateY(2px);
+}
+.currency-item.active {
+    backdrop-filter: blur(1px);
+    color:  #cccccc;
+}
+
+.currency-item .fi {
+    font-size: 1.5rem;
+    width: 32px;
+}
+
+.currency-item .code {
+    font-weight: 700;
+    font-size: 1.15rem;
+}
+
+/* Центральный конвертер */
+.converter-main {
+    background: rgba(58, 58, 58, 0.267);  /*background: rgba(7, 4, 4, 0.267); */
+    backdrop-filter: blur(10px);
+    border: 3px solid #D3D3D3;
+    border-radius: 24px;
+    padding: 28px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+/* Центральный конвертер - исправление переполнения цифр */
+.exchange-card {
+    background: rgba(7, 4, 4, 0.158);
+    backdrop-filter: blur(10px);
+    border: 2px solid #D3D3D3;
+    border-radius: 16px;
+    padding: 18px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-height: 78px;
+}
+
+.currency-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 140px;
+    flex-shrink: 0;
+}
+
+.flag {
+    font-size: 24px;
+    -webkit-user-select: none; /* для Safari */
+  -moz-user-select: none; /* для Firefox */
+  -ms-user-select: none; /* для Internet Explorer/Edge */
+  user-select: none; /* для остальных браузеров */
+}
+
+.code {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #e7e6e6;
+    flex-shrink: 0;
+
+        -webkit-user-select: none; /* для Safari */
+  -moz-user-select: none; /* для Firefox */
+  -ms-user-select: none; /* для Internet Explorer/Edge */
+  user-select: none; /* для остальных браузеров */
+
+}
+
+/* Главное исправление — область с цифрами */
+#from-amount, #to-amount {
+    flex: 1;
+    font-size: 2rem;
+    font-weight: 600;
+    text-align: right;
+    border: none;
+    background: transparent;
+    outline: none;
+    color: #e0e0e0;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding-right: 8px;
+}
+
+/* Дополнительная защита от переполнения */
+.exchange-card input {
+    max-width: 100%;
+}
+
+.swap-container {
+    text-align: center;
+    font-size: 2.6rem;
+    color: #e0e0e0;
+    padding: 6px 0;
+
+            -webkit-user-select: none; /* для Safari */
+  -moz-user-select: none; /* для Firefox */
+  -ms-user-select: none; /* для Internet Explorer/Edge */
+  user-select: none; /* для остальных браузеров */
+}
+
+.rate-display {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #dbdbdb;
+    font-weight: 500;
+}
+
+/* Убираем стрелочки у input type="number" */
+
+/* Chrome, Edge, Safari */
+#from-amount::-webkit-outer-spin-button,
+#from-amount::-webkit-inner-spin-button,
+#to-amount::-webkit-outer-spin-button,
+#to-amount::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+#from-amount,
+#to-amount {
+    -moz-appearance: textfield;
+}
+
+/* Дополнительно — чтобы при фокусе стрелочки тоже не появлялись */
+#from-amount:focus,
+#to-amount:focus {
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+}
+
+/* Информационная панель */
+.currency-info-panel {
+    backdrop-filter: blur(10px);
+    border: 3px solid #D3D3D3;
+    border-radius: 20px;
+    padding: 20px 24px;
+    margin-top: 20px;
+    min-height: 140px;
+}
+
+.currency-info-panel h4 {
+    color: #cccccc;
+    margin-bottom: 10px;
+    font-size: 1.35rem;
+}
+
+.currency-info-panel p {
+    color: #cccccc;
+    line-height: 1.6;
+    font-size: 1.02rem;
+}
+
+
+/* Переключатель языков */
+.langToggle {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(29, 29, 29, 0.1);
+    backdrop-filter: blur(1px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    width: 45px;
+    height: 38px;
+    border-radius: 9px;
+    padding: 2px 2px 2px 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.langToggle:hover {
+    background: rgba(7, 7, 7, 0.2);
+    transform: translateY(-2px);
+}
+
+.langToggle img {
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+}
+
+#current-lang {
+    font-weight: 600;
+    font-size: 15px;
+    color: white;
+}
+
+/* Выпадающее меню */
+.lang-dropdown {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.39);
+    top: 70px;
+    right: 20px;
+    backdrop-filter: blur(10px);
+    border: 1px solid #646363;
+    border-radius: 12px;
+    padding: 12px 8px;
+    width: 240px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    display: none;
+    z-index: 1100;
+    color: #cccccc;
+}
+
+.lang-dropdown.show {
+    display: block;
+}
+
+.lang-main-group .lang-option {
+    padding: 10px 12px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition:  transform 0.2s ease;  
+}
+
+.lang-main-group .lang-option:hover {
+   backdrop-filter: blur(1px);
+   transform: translateY(-2px);
+       background: rgba(78, 77, 77, 0.164);
+}
+
+.lang-separator {
+    height: 1px;
+    background: #8f8f8f;
+    margin: 8px 0;
+}
+
+.lang-other small {
+    display: block;
+    padding: 6px 12px 4px;
+    color: #c7c6c6;
+    font-size: 0.85rem;
+}
+
+.lang-option.small {
+    font-size: 0.95rem;
+    padding: 8px 12px;
+}
+
+#footer {
+    text-align: center;
+    padding: 12px 0;
+    color: #c7c6c6;
+    font-size: 0.9rem;
+    margin-top: 30px;
 }
