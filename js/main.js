@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderStocks();
     initConverter();
     renderMoex();
+    initMobileAccordions(); 
     }
 
     catch (error){
@@ -54,3 +55,27 @@ document.querySelectorAll('.lang-option').forEach(option => {
         langDropdown.classList.remove('show');
     });
 });
+
+
+// Функция для инициализации мобильного аккордеона
+function initMobileAccordions() {
+    const headers = document.querySelectorAll('.sidebar-content h4');
+    
+    headers.forEach(header => {
+        const content = header.nextElementSibling;
+        
+        // Проверяем, что контент есть И это НЕ блок с Индексом страха (класс .paragr)
+        if (content && !content.classList.contains('paragr')) {
+            
+            // Даем этому заголовку специальный класс для стилей кнопки
+            header.classList.add('accordion-header');
+            
+            header.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    header.classList.toggle('active');
+                    content.classList.toggle('show');
+                }
+            });
+        }
+    });
+}

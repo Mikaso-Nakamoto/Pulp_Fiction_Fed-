@@ -89,16 +89,12 @@ a:hover {
     align-items: stretch;
 }
 
+/* ИСПРАВЛЕНА ОПЕЧАТКА: было .main-Content, стало .Main-Content как в HTML */
 .main-Content {
     flex: 1;
     min-width: 0;
 }
 
-@media (max-width: 720px) {
-    .three-columns {
-        flex-direction: column;
-    }
-}
 
 /* ==================== БОКОВЫЕ ПАНЕЛИ (САЙДБАРЫ) ==================== */
 .sidebar {
@@ -175,7 +171,7 @@ a:hover {
 
 .currency-list li {
     display: flex;
-    flex-wrap: wrap; /* Позволяет процентам переноситься на новую строку */
+    flex-wrap: wrap; 
     align-items: center;
     justify-content: space-between;
     padding: 8px 0;
@@ -192,10 +188,9 @@ a:hover {
     margin-right: 10px;
 }
 
-/* Стили для изменения курса за 24 часа */
 .change-container {
     width: 100%;
-    padding-left: 36px; /* Выравниваем под текстом валюты */
+    padding-left: 36px; 
     margin-top: 2px;
 }
 
@@ -203,11 +198,10 @@ a:hover {
     font-weight: 500;
 }
 
-.change-up { color: #00cc66; font-size: 0.9em; }     /* Зеленый */
-.change-down { color: #ff4d4d; font-size: 0.9em; }   /* Красный */
-.change-neutral { color: #aaaaaa; font-size: 0.9em; }/* Серый */
+.change-up { color: #00cc66; font-size: 0.9em; }     
+.change-down { color: #ff4d4d; font-size: 0.9em; }   
+.change-neutral { color: #aaaaaa; font-size: 0.9em; }
 
-/* Иконки флагов и крипты */
 .fi {
     margin-right: 8px;
     vertical-align: middle;
@@ -272,12 +266,12 @@ a:hover {
 .currency-list-scroll { 
     flex: 1;
     overflow-y: auto;
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; 
+    -ms-overflow-style: none; 
 }
 
 .currency-list-scroll::-webkit-scrollbar {
-    display: none; /* Chrome, Safari */
+    display: none; 
 }
 
 .currency-item {
@@ -521,4 +515,118 @@ a:hover {
     color: #c7c6c6;
     font-size: 0.9rem;
     margin-top: 30px;
+}
+
+
+/* =========================================
+   АДАПТИВ ДЛЯ МОБИЛЬНЫХ ТЕЛЕФОНОВ (до 768px)
+   ========================================= */
+@media screen and (max-width: 768px) {
+    body {
+        overflow-x: hidden;
+    }
+
+    .KUI {
+        margin: 70px 15px 20px 15px; 
+    }
+
+    .three-columns {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        padding: 10px;
+        margin: 10px auto;
+    }
+
+    .Main-Content { order: 1; width: 100%; margin: 0; }
+    .sidebar:first-of-type { order: 2; width: 100%; }
+    .sidebar:last-of-type { order: 3; width: 100%; }
+
+    .converter-container {
+        display: flex;
+        flex-direction: column; 
+        gap: 15px;
+    }
+
+    .currency-selector {
+        width: 100%;
+        max-height: 250px; 
+    }
+
+    /* 1. ЦЕНТРИРУЕМ ВАЛЮТЫ В СПИСКАХ КАЛЬКУЛЯТОРА */
+    .currency-item {
+        justify-content: center; /* Центрирует флаг и код валюты */
+    }
+
+    .converter-main {
+        width: 100%;
+        padding: 20px 15px;
+    }
+
+    .exchange-card {
+        padding: 15px 10px;
+        gap: 10px;
+    }
+
+    .currency-header { min-width: auto; }
+    #from-amount, #to-amount { font-size: 1.5rem; }
+
+    .paragr {
+        flex-direction: row !important;
+        padding: 10px !important;
+    }
+  
+    .paragr > div:last-child {
+        padding-left: 5px !important;
+    }
+
+       /* 2. СТИЛИ ДЛЯ СВОРАЧИВАЮЩИХСЯ КАТЕГОРИЙ (АККОРДЕОН) */
+    
+    /* Стили кнопки только для тех h4, которым JS даст этот класс */
+    .accordion-header {
+        cursor: pointer;
+        background: rgba(255, 255, 255, 0.1);
+        padding: 12px 15px;
+        border-radius: 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 15px;
+        border: 1px solid rgba(255,255,255,0.2);
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Рисуем стрелочку */
+    .accordion-header::after {
+        content: '▼';
+        font-size: 0.7em;
+        transition: transform 0.3s ease;
+        color: #aaa;
+    }
+
+    /* Стрелочка смотрит вверх при открытии */
+    .accordion-header.active::after {
+        transform: rotate(180deg);
+    }
+
+    /* Скрываем списки валют по умолчанию на телефонах */
+    .left-sidebar-content, 
+    #moex-list, 
+    .Crypto-i {
+        display: none; 
+    }
+
+    /* Показываем их при открытии */
+    .left-sidebar-content.show,
+    #moex-list.show,
+    .Crypto-i.show {
+        display: block;
+        animation: fadeIn 0.3s ease forwards;
+    }
+}
+
+/* Анимация плавного появления списков */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
 }
