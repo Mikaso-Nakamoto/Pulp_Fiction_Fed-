@@ -3,9 +3,8 @@ import { currencyGroups, cryptoList } from './data.js';
 
 let fromCurrency = "USD";
 let toCurrency = "RUB";
-let rates = {}; // Теперь здесь будут храниться объекты {current, previous}
+let rates = {}; 
 
-// ==================== ЗАГРУЗКА КУРСОВ (ГИБРИДНАЯ + ИСТОРИЯ) ====================
 async function loadCBRRates() {
     try {
         const cbrRes = await fetch('https://www.cbr-xml-daily.ru/daily_json.js');
@@ -13,7 +12,6 @@ async function loadCBRRates() {
 
         rates = {};
         
-        // 1. Заполняем базу ЦБ РФ (Сохраняем ТЕКУЩУЮ и ВЧЕРАШНЮЮ цену)
         Object.keys(cbrData.Valute).forEach(code => {
             const valute = cbrData.Valute[code];
             rates[code] = {
@@ -22,7 +20,6 @@ async function loadCBRRates() {
             };
         });
 
-        // 2. Глобальные курсы (для экзотики)
         try {
             const globalRes = await fetch('https://open.er-api.com/v6/latest/USD');
             const globalData = await globalRes.json();
@@ -31,12 +28,11 @@ async function loadCBRRates() {
             Object.keys(globalData.rates).forEach(code => {
                 if (!rates[code] && code !== "RUB") {
                     const price = usdToRub / globalData.rates[code];
-                    rates[code] = {
-                        current: price,
-                        previous: price // У экзотики нет бесплатной истории, ставим прочерк
-                    };
+                    rates[code] = { current: price, previous: price };
                 }
             });
+
+            
         } catch (globalError) {
             console.error('❌ Ошибка загрузки глобальных курсов', globalError);
         }
@@ -49,10 +45,111 @@ async function loadCBRRates() {
     }
 }
 
-// ==================== РАСЧЁТ ====================
+async function loadCryptoRates() {
+    try {
+        const res = await fetch('https://api.binance.com/api/v3/ticker/24hr');
+        const data = await res.json();
+
+        const binanceRates = {};
+        data.forEach(ticker => {
+            binanceRates[ticker.symbol] = {
+                price: parseFloat(ticker.lastPrice),
+                percent: parseFloat(ticker.priceChangePercent)
+            };
+        });
+
+        const usdToRub = rates["USD"] ? rates["USD"].current : 90;
+
+        document.querySelectorAll('#CriptoVVV li').forEach(li => {
+            const symbol = li.dataset.symbol;
+            if (!symbol) return;
+
+            const priceEl = li.querySelector('.crypto-price');
+            const changeEl = li.querySelector('.crypto-change');
+
+            let tickerName = symbol + "USDT"; 
+            let coinPriceUsd = 0; 
+
+            if (symbol === "USDT" || symbol === "USDC" || symbol === "USDE") {
+                coinPriceUsd = 1;
+                if(priceEl) priceEl.textContent = "1.0000";
+                if(changeEl) changeEl.innerHTML = `<span class="change-neutral">— 0.00%</span>`;
+            } else {
+                const coinData = binanceRates[tickerName];
+                if (coinData) {
+                    coinPriceUsd = coinData.price;
+                    if (priceEl && changeEl) {
+                        let decimals = coinPriceUsd < 1 ? 6 : 2;
+                        priceEl.textContent = coinPriceUsd.toFixed(decimals);
+
+                        let colorClass = "change-neutral";
+                        let arrow = "—"; let sign = "";
+
+                        if (coinData.percent > 0) { colorClass = "change-up"; arrow = "↑"; sign = "+"; } 
+                        else if (coinData.percent < 0) { colorClass = "change-down"; arrow = "↓"; }
+
+                        changeEl.innerHTML = `<span class="${colorClass}">${arrow} ${Math.abs(coinData.percent).toFixed(2)}%</span>`;
+                    }
+                } else {
+                    if (priceEl) priceEl.textContent = "Нет данных";
+                }
+            }
+
+            if (coinPriceUsd > 0) {
+                rates[symbol] = { current: coinPriceUsd * usdToRub, previous: coinPriceUsd * usdToRub };
+            }
+        });
+
+        updateConversion();
+    } catch (error) {
+        console.error('❌ Ошибка загрузки криптовалют:', error);
+    }
+}
+
+// ==================== АНАЛИТИКА: ИНДЕКС СТРАХА И ЖАДНОСТИ ====================
+async function loadMarketAnalytics() {
+    try {
+        const res = await fetch('https://api.alternative.me/fng/?limit=1');
+        const data = await res.json();
+        
+        if (data && data.data && data.data[0]) {
+            const value = parseInt(data.data[0].value);
+            
+            const valueEl = document.getElementById('fng-value');
+            const statusEl = document.getElementById('fng-status');
+            const needleEl = document.getElementById('fng-needle');
+
+            if (valueEl && statusEl && needleEl) {
+                valueEl.textContent = value;
+                
+                let color = "#888";
+                let ruStatus = "Нейтрально";
+
+                if (value <= 25) { color = "#ff4d4d"; ruStatus = "Жесткий страх"; }
+                else if (value <= 45) { color = "#ffcc00"; ruStatus = "Страх"; }
+                else if (value <= 54) { color = "#dbdbdb"; ruStatus = "Нейтрально"; }
+                else if (value <= 74) { color = "#99cc33"; ruStatus = "Жадность"; }
+                else { color = "#00cc66"; ruStatus = "Дикая жадность"; }
+
+                valueEl.style.color = color;
+                statusEl.style.color = color;
+                statusEl.textContent = ruStatus;
+
+                // МАТЕМАТИКА ВРАЩЕНИЯ СТРЕЛКИ
+                // Переводим значение от 0-100 в угол от -90 до +90 градусов
+                const angle = (value / 100) * 180 - 90;
+                
+                // Вращаем стрелку! (В CSS уже заложена плавная анимация transition)
+                needleEl.style.transform = `rotate(${angle}deg)`;
+            }
+        }
+    } catch (error) {
+        console.error('❌ Ошибка загрузки Индекса:', error);
+    }
+}
+
 function getRate(code) {
     if (code === "RUB") return 1;
-    // Теперь берем именно .current из объекта
     return rates[code] ? rates[code].current : null;
 }
 
@@ -64,7 +161,6 @@ function calculateRate(from, to) {
     return fromRate / toRate;
 }
 
-// ==================== ОБНОВЛЕНИЕ КОНВЕРТЕРА ====================
 function updateCurrencyDisplay(side, code) {
     const flagEl = document.getElementById(side + '-flag');
     const codeEl = document.getElementById(side + '-code');
@@ -82,14 +178,11 @@ function updateCurrencyDisplay(side, code) {
     codeEl.textContent = data.code;
 }
 
-// ГЛАВНАЯ ФУНКЦИЯ КОНВЕРТАЦИИ С ЗАЩИТОЙ ВВОДА
 function updateConversion(event) {
     const fromInput = document.getElementById('from-amount');
     const toInput = document.getElementById('to-amount');
-    
     let isReverse = false;
 
-    // Очистка ввода от букв и лишних символов
     if (event && (event.target.id === 'from-amount' || event.target.id === 'to-amount')) {
         let target = event.target;
         isReverse = target.id === 'to-amount';
@@ -100,10 +193,7 @@ function updateConversion(event) {
         if (parts.length > 2) {
             val = parts[0] + '.' + parts.slice(1).join('');
         }
-        
-        if (target.value !== val) {
-            target.value = val;
-        }
+        if (target.value !== val) target.value = val;
     }
 
     document.getElementById('from-currency-name').textContent = fromCurrency;
@@ -111,44 +201,41 @@ function updateConversion(event) {
 
     const rate = calculateRate(fromCurrency, toCurrency);
 
+    const formatNumber = (num) => {
+        if (num === 0) return "0.0000";
+        if (Math.abs(num) < 0.0001) return num.toFixed(8);
+        if (Math.abs(num) < 0.01) return num.toFixed(6);
+        return num.toFixed(4);
+    };
+
     if (rate !== null) {
-        document.getElementById('exchange-rate').textContent = rate.toFixed(4);
+        document.getElementById('exchange-rate').textContent = formatNumber(rate);
 
         if (!isReverse) {
             let amount = parseFloat(fromInput.value); 
-            if (isNaN(amount) || fromInput.value === '') {
-                toInput.value = ''; 
-            } else {
-                toInput.value = (amount * rate).toFixed(4);
-            }
+            if (isNaN(amount) || fromInput.value === '') toInput.value = ''; 
+            else toInput.value = formatNumber(amount * rate);
         } else {
             let amount = parseFloat(toInput.value);
-            if (isNaN(amount) || toInput.value === '') {
-                fromInput.value = ''; 
-            } else {
-                fromInput.value = (amount / rate).toFixed(4);
-            }
+            if (isNaN(amount) || toInput.value === '') fromInput.value = ''; 
+            else fromInput.value = formatNumber(amount / rate);
         }
     } else {
-        if (!isReverse) toInput.value = "—";
-        else fromInput.value = "—";
+        if (!isReverse) toInput.value = "—"; else fromInput.value = "—";
         document.getElementById('exchange-rate').textContent = "—";
     }
 }
 
-// ==================== ИНФО-ПАНЕЛЬ ====================
 function updateInfoPanel(code) {
     const data = getCurrencyData(code);
     const nameEl = document.getElementById('info-currency-name');
     const descEl = document.getElementById('info-description');
 
     if (!data) return;
-
     nameEl.textContent = `${code} — ${data.type === 'fiat' ? 'национальная валюта' : 'криптовалюта'}`;
     descEl.textContent = currencyDescriptions[code] || "Информация о данной валюте скоро появится.";
 }
 
-// ==================== ЛЕВЫЙ САЙДБАР (С ПРОЦЕНТАМИ) ====================
 function updateSidebarRates() {
     document.querySelectorAll('#currencies-major li, #currencies-other li, #currencies-asia li, #currencies-middleeast li, #currencies-cis li').forEach(li => {
         const code = li.dataset.code;
@@ -171,32 +258,21 @@ function updateSidebarRates() {
             const diff = data.current - data.previous;
             const percent = data.previous ? (diff / data.previous) * 100 : 0;
 
-            let colorClass = "change-neutral";
-            let arrow = "—";
-            let sign = "";
+            let colorClass = "change-neutral"; let arrow = "—"; let sign = "";
 
-            if (diff > 0.001) { 
-                colorClass = "change-up";
-                arrow = "↑";
-                sign = "+";
-            } else if (diff < -0.001) { 
-                colorClass = "change-down";
-                arrow = "↓";
-            }
+            if (diff > 0.001) { colorClass = "change-up"; arrow = "↑"; sign = "+"; } 
+            else if (diff < -0.001) { colorClass = "change-down"; arrow = "↓"; }
 
             const diffStr = Math.abs(diff).toFixed(4); 
             const percentStr = Math.abs(percent).toFixed(2);
 
             changeEl.innerHTML = `<span class="${colorClass}">${arrow} ${diffStr} (${sign}${percentStr}%)</span>`;
-            
         } else if (rateEl && changeEl) {
-            rateEl.textContent = "—";
-            changeEl.innerHTML = "";
+            rateEl.textContent = "—"; changeEl.innerHTML = "";
         }
     });
 }
 
-// ==================== РЕНДЕР СПИСКОВ КОНВЕРТЕРА ====================
 function renderList(containerId, selectedCode) {
     const container = document.getElementById(containerId);
     if (!container) return;
@@ -212,11 +288,8 @@ function renderList(containerId, selectedCode) {
         const div = document.createElement('div');
         div.className = `currency-item ${curr.code === selectedCode ? 'active' : ''}`;
 
-        if (curr.type === 'fiat') {
-            div.innerHTML = `<span class="fi fi-${curr.flag}"></span><span class="code">${curr.code}</span>`;
-        } else {
-            div.innerHTML = `<img src="./iconss/${curr.icon}" style="width:26px;height:26px;border-radius:4px;"> <span class="code">${curr.code}</span>`;
-        }
+        if (curr.type === 'fiat') div.innerHTML = `<span class="fi fi-${curr.flag}"></span><span class="code">${curr.code}</span>`;
+        else div.innerHTML = `<img src="./iconss/${curr.icon}" style="width:26px;height:26px;border-radius:4px;"> <span class="code">${curr.code}</span>`;
 
         div.onclick = () => {
             if (containerId === 'from-list') fromCurrency = curr.code;
@@ -231,12 +304,10 @@ function renderList(containerId, selectedCode) {
 
             if (containerId === 'to-list') updateInfoPanel(toCurrency);
         };
-
         container.appendChild(div);
     });
 }
 
-// ==================== getCurrencyData ====================
 function getCurrencyData(code) {
     for (let group of Object.values(currencyGroups)) {
         const found = group.find(item => item.code === code);
@@ -247,8 +318,76 @@ function getCurrencyData(code) {
     return null;
 }
 
-// ==================== ИНИЦИАЛИЗАЦИЯ ====================
-export function initConverter() {
+export function renderMoex() {
+    const container = document.getElementById(`moex-list`);
+    if (!container) return;
+    container.innerHTML = '';
+
+    moexStocks.forEach(item => {
+        const li = document.createElement(`li`);
+        li.dataset.symbol = item.symbol;
+        li.innerHTML = `
+            <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                <span>${item.name} <small style="color: #888;">(${item.symbol})</small></span>
+                <div style="text-align: right;">
+                    <span class="moex-price" style="font-weight: bold;">загрузка...</span>
+                    <span style="font-size: 0.9em; color: #ccc;">₽</span>
+                </div>
+            </div>
+            <div class="change-container" style="padding-left: 0; margin-top: 2px;">
+                <span class="market-change"></span>
+            </div>
+        `;
+        container.appendChild(li);
+    });
+}
+// ==================== АКЦИИ МОСКОВСКОЙ БИРЖИ (MOEX API) ====================
+async function loadMoexStocks() {
+    try {
+        const res = await fetch('https://iss.moex.com/iss/engines/stock/markets/shares/boards/TQBR/securities.json?iss.meta=off&iss.only=marketdata');
+        const data = await res.json();
+        
+        const columns = data.marketdata.columns;
+        const secidIdx = columns.indexOf('SECID');
+        const priceIdx = columns.indexOf('LAST');
+        const percentIdx = columns.indexOf('LASTTOPREVPRICE');
+
+        const marketData = data.marketdata.data;
+
+        document.querySelectorAll('#moex-list li').forEach(li => {
+            const ticker = li.dataset.symbol;
+            if (!ticker) return;
+
+            const row = marketData.find(r => r[secidIdx] === ticker);
+            const priceEl = li.querySelector('.moex-price');
+            const changeEl = li.querySelector('.market-change');
+
+            if (row && priceEl && changeEl) {
+                const price = row[priceIdx];
+                const percent = row[percentIdx];
+
+                if (price) {
+                    priceEl.textContent = price.toFixed(2);
+                } else {
+                    priceEl.textContent = "—"; // Если торги закрыты
+                }
+
+                if (percent !== null) {
+                    let colorClass = "change-neutral";
+                    let arrow = "—"; let sign = "";
+
+                    if (percent > 0) { colorClass = "change-up"; arrow = "↑"; sign = "+"; } 
+                    else if (percent < 0) { colorClass = "change-down"; arrow = "↓"; }
+
+                    changeEl.innerHTML = `<span class="${colorClass}">${arrow} ${Math.abs(percent).toFixed(2)}%</span>`;
+                }
+            }
+        });
+    } catch (error) {
+        console.error('❌ Ошибка загрузки данных MOEX:', error);
+    }
+}
+export async function initConverter() {
     renderList('from-list', fromCurrency);
     renderList('to-list', toCurrency);
 
@@ -256,13 +395,26 @@ export function initConverter() {
     updateCurrencyDisplay('to', toCurrency);
     updateInfoPanel(toCurrency);
 
-    loadCBRRates();
+    // Первичная загрузка
+    await loadCBRRates();
+    loadCryptoRates(); 
+    loadMarketAnalytics();
+    loadMoexStocks(); 
+
+    // Таймеры обновления в фоне
+    setInterval(loadCryptoRates, 10000); // Крипта - каждые 10 сек
+    setInterval(loadMoexStocks, 15000);  // Акции РФ - каждые 15 сек
+    setInterval(loadCBRRates, 3600000);  // Валюты - раз в час
+    setInterval(loadMarketAnalytics, 3600000); // Индекс - раз в час
 
     document.getElementById('from-amount').addEventListener('input', updateConversion);
     document.getElementById('to-amount').addEventListener('input', updateConversion);
 }
 
-// ==================== ОПИСАНИЯ ====================
+
+
+
+
 const currencyDescriptions = {
 USD: "Доллар США — главная резервная валюта мира. Введён в 1792 году. Контролируется Федеральной резервной системой (ФРС).",
 EUR: "Евро — официальная валюта 20 стран Еврозоны. Введена в безналичное обращение в 1999 году, в наличное — в 2002 году. Является второй по значимости резервной валютой на планете.",
@@ -329,4 +481,5 @@ TRX: "Tron — блокчейн-платформа, запущенная в 2017
 LINK: "Chainlink — сеть оракулов, обеспечивающая связь смарт-контрактов с внешними данными. Позволяет блокчейнам безопасно взаимодействовать с реальным миром. Является критически важной инфраструктурой для индустрии DeFi.",
 PAXG: "PAX Gold — стейблкоин, обеспеченный физическим золотом в соотношении один к одному. Каждый токен соответствует одной тройской унции золота в хранилищах Лондона. Позволяет владеть золотом без сложностей с его хранением.",
 XAUT: "Tether Gold — цифровой актив, привязанный к цене физического золота. Обеспечивается слитками, находящимися в швейцарских хранилищах. Сочетает в себе надежность драгметаллов и преимущества блокчейна."
+
 };

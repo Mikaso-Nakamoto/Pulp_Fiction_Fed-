@@ -1,11 +1,12 @@
 // js/main.js
+
 import { initConverter } from './converter.js';
 import { 
     renderAllCurrencies, 
     renderCrypto, 
     renderOilPrices, 
     renderGasProducers, 
-    renderMetals, 
+    renderMoex,
     renderStocks 
 } from './render.js';
 
@@ -16,11 +17,9 @@ document.addEventListener('DOMContentLoaded', () => {
    try{   // Рендерим структуру
     renderAllCurrencies();
     renderCrypto();
-    renderOilPrices();
-    renderGasProducers();
-    renderMetals();
     renderStocks();
     initConverter();
+    renderMoex();
     }
 
     catch (error){

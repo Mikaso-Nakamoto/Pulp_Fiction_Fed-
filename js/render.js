@@ -1,5 +1,5 @@
 // js/render.js
-import { currencyGroups, cryptoList, oilPrices, gasProducers, metalsList, stocksArr } from './data.js';
+import { currencyGroups, cryptoList, moexStocks } from './data.js';
 
 export function renderAllCurrencies() {
     renderCurrencyGroup(`currencies-major`, currencyGroups.major);
@@ -17,7 +17,6 @@ function renderCurrencyGroup(containerId, items) {
     items.forEach(item => {
         const li = document.createElement('li');
         li.dataset.code = item.code;
-        // Разбили на 2 строки: сверху флаг+имя, снизу цена и проценты
         li.innerHTML = `
             <div style="display: flex; align-items: center; gap: 10px;">
                 <span class="fi fi-${item.flag}"></span>
@@ -40,68 +39,53 @@ export function renderCrypto() {
     cryptoList.forEach(item => {
         const li = document.createElement('li');
         li.dataset.symbol = item.symbol;
-
         li.innerHTML = `
-            <span class="crypto-icon ${item.className}">
-                <img src="/iconss/${item.icon}" alt="${item.symbol}" />
-            </span>
-            ${item.symbol} — 
-            <span class="crypto-price">${item.price}</span> ${item.unit}
-            ${item.extra || ''}
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+                <div style="display: flex; align-items: center;">
+                    <span class="crypto-icon ${item.className}">
+                        <img src="/iconss/${item.icon}" alt="${item.symbol}" />
+                    </span>
+                    <span>${item.symbol}</span>
+                </div>
+                <div style="text-align: right;">
+                    <span class="crypto-price" style="font-weight: bold;">загрузка...</span> ${item.unit}
+                    <div class="change-container" style="padding-left: 0; margin-top: 0;">
+                        <span class="crypto-change"></span>
+                    </div>
+                </div>
+            </div>
+            ${item.extra ? `<div style="font-size: 0.8em; color: #888; margin-top: 4px;">${item.extra}</div>` : ''}
         `;
-
         container.appendChild(li);
     });
 }
 
-export function renderOilPrices() {
-    const container = document.getElementById(`oil-prices`);
-    if (!container) return;
-    container.innerHTML = ``;
-
-    oilPrices.forEach(item => {
-        const li = document.createElement(`li`);
-        li.dataset.name = item.name;
-        li.innerHTML = `${item.name} — <span class="oil-price">${item.price}</span> ${item.unit} ${item.extra ? `<small>${item.extra}</small>` : ``}`;
-        container.appendChild(li);
-    });
-}
-
-export function renderGasProducers() {
-    const container = document.getElementById(`gas-producers`);
-    if (!container) return;
-    container.innerHTML = ``;
-
-    gasProducers.forEach(item => {
-        const li = document.createElement(`li`);
-        li.innerHTML = `${item.name} — <span class="gas-price">${item.price}</span> ${item.unit}`;
-        container.appendChild(li);
-    });
-}
-
-export function renderMetals() {
-    const container = document.getElementById(`metals-list`);
+export function renderMoex() {
+    const container = document.getElementById(`moex-list`);
     if (!container) return;
     container.innerHTML = '';
 
-    metalsList.forEach(item => {
+    moexStocks.forEach(item => {
         const li = document.createElement(`li`);
         li.dataset.symbol = item.symbol;
-        li.innerHTML = `${item.name} (${item.symbol}) — <span class="metal-price">${item.price}</span> ${item.unit}`;
+        li.innerHTML = `
+            <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                <span>${item.name} <small style="color: #888;">(${item.symbol})</small></span>
+                <div style="text-align: right;">
+                    <span class="moex-price" style="font-weight: bold;">загрузка...</span>
+                    <span style="font-size: 0.9em; color: #ccc;">₽</span>
+                </div>
+            </div>
+            <div class="change-container" style="padding-left: 0; margin-top: 2px;">
+                <span class="market-change"></span>
+            </div>
+        `;
         container.appendChild(li);
     });
 }
 
-export function renderStocks() {
-    const container = document.getElementById('stocks');
-    if (!container) return;
-    container.innerHTML = '';
-
-    stocksArr.forEach(stock => {
-        const li = document.createElement(`li`);
-        li.innerText = `${stock.title} — ${stock.value} ${stock.typeOfValue}`;
-        container.appendChild(li);
-    });
-}
-
-window.testRender = { renderAllCurrencies, renderCrypto };
+// ЗАГЛУШКИ ДЛЯ main.js (чтобы он не выдал ошибку)
+export function renderMetals() {}
+export function renderOilPrices() {}
+export function renderGasProducers() {}
+export function renderStocks() {}
