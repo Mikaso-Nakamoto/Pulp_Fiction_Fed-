@@ -43,7 +43,7 @@ export function renderCrypto() {
             <div style="display: flex; align-items: center; justify-content: space-between;">
                 <div style="display: flex; align-items: center;">
                     <span class="crypto-icon ${item.className}">
-                        <img src="iconss/${item.icon}" alt="${item.symbol}" />
+                        <img src="./iconss/${item.icon}" alt="${item.symbol}" />
                     </span>
                     <span>${item.symbol}</span>
                 </div>

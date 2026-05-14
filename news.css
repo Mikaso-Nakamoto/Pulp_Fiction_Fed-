@@ -549,25 +549,17 @@ div.undertrump {
     .sidebar:first-of-type { order: 2; width: 100%; }
     .sidebar:last-of-type { order: 3; width: 100%; }
 
+    /* --- АДАПТИВ КОНВЕРТЕРА (ВСПЛЫВАЮЩИЕ ОКНА) --- */
     .converter-container {
         display: flex;
         flex-direction: column; 
         gap: 15px;
     }
 
-    .currency-selector {
-        width: 100%;
-        max-height: 250px; 
-    }
-
-    /* 1. ЦЕНТРИРУЕМ ВАЛЮТЫ В СПИСКАХ КАЛЬКУЛЯТОРА */
-    .currency-item {
-        justify-content: center; /* Центрирует флаг и код валюты */
-    }
-
     .converter-main {
         width: 100%;
         padding: 20px 15px;
+        order: 1;
     }
 
     .exchange-card {
@@ -575,9 +567,77 @@ div.undertrump {
         gap: 10px;
     }
 
-    .currency-header { min-width: auto; }
-    #from-amount, #to-amount { font-size: 1.5rem; }
+    /* Кнопки вызова меню валют */
+    .currency-header {
+        min-width: auto;
+        cursor: pointer;
+        background: rgba(255, 255, 255, 0.1);
+        padding: 8px 12px;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        transition: background 0.2s;
+        -webkit-tap-highlight-color: transparent;
+    }
 
+    .currency-header:active {
+        background: rgba(255, 255, 255, 0.2);
+    }
+
+    .currency-header::after {
+        content: '▼';
+        font-size: 0.6em;
+        margin-left: 8px;
+        color: #aaa;
+    }
+
+    #from-amount, #to-amount { 
+        font-size: 1.5rem; 
+    }
+
+    /* Сами списки валют превращаем в модальные окна */
+    .currency-selector {
+        display: none; /* Прячем по умолчанию */
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 90% !important;
+        max-height: 70vh;
+        z-index: 9999;
+        background: rgba(30, 30, 30, 0.95);
+        backdrop-filter: blur(15px);
+        border: 2px solid #666;
+        box-shadow: 0 10px 50px rgba(0,0,0,0.8);
+        border-radius: 20px;
+    }
+
+    /* Класс для показа окна (добавляется через JS) */
+    .currency-selector.show-modal {
+        display: flex !important;
+        animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    /* Прячем лишние заголовки "Отдаю/Получаю" внутри модалки */
+    .currency-selector h3 {
+        display: none;
+    }
+
+    /* Центрируем иконку и текст внутри всплывающего списка */
+    .currency-item {
+        justify-content: center; 
+    }
+
+    /* Затемнение фона при открытом меню */
+    body.modal-open::before {
+        content: '';
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(0,0,0,0.7);
+        backdrop-filter: blur(3px);
+        z-index: 9998; 
+    }
+
+    /* --- ТРАМП И ИНДЕКС СТРАХА --- */
     .paragr {
         flex-direction: row !important;
         padding: 10px !important;
@@ -587,9 +647,7 @@ div.undertrump {
         padding-left: 5px !important;
     }
 
-       /* 2. СТИЛИ ДЛЯ СВОРАЧИВАЮЩИХСЯ КАТЕГОРИЙ (АККОРДЕОН) */
-    
-    /* Стили кнопки только для тех h4, которым JS даст этот класс */
+    /* --- СТИЛИ ДЛЯ СВОРАЧИВАЮЩИХСЯ КАТЕГОРИЙ (АККОРДЕОН) --- */
     .accordion-header {
         cursor: pointer;
         background: rgba(255, 255, 255, 0.1);
@@ -603,7 +661,6 @@ div.undertrump {
         -webkit-tap-highlight-color: transparent;
     }
 
-    /* Рисуем стрелочку */
     .accordion-header::after {
         content: '▼';
         font-size: 0.7em;
@@ -611,19 +668,16 @@ div.undertrump {
         color: #aaa;
     }
 
-    /* Стрелочка смотрит вверх при открытии */
     .accordion-header.active::after {
         transform: rotate(180deg);
     }
 
-    /* Скрываем списки валют по умолчанию на телефонах */
     .left-sidebar-content, 
     #moex-list, 
     .Crypto-i {
         display: none; 
     }
 
-    /* Показываем их при открытии */
     .left-sidebar-content.show,
     #moex-list.show,
     .Crypto-i.show {
@@ -632,8 +686,15 @@ div.undertrump {
     }
 }
 
-/* Анимация плавного появления списков */
+/* =========================================
+   АНИМАЦИИ
+   ========================================= */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(-5px); }
     to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes popIn {
+    from { opacity: 0; transform: translate(-50%, -45%) scale(0.9); }
+    to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 }
