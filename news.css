@@ -517,6 +517,13 @@ a:hover {
     margin-top: 30px;
 }
 
+div.undertrump {
+    text-align: center;
+    margin-top: 8px;
+    color: #c7c6c6;
+    font-size: 0.85rem;
+}
+
 
 /* =========================================
    АДАПТИВ ДЛЯ МОБИЛЬНЫХ ТЕЛЕФОНОВ (до 768px)

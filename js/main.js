@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error(`ошибка загрузки блоков`)
     }
     // Инициализируем мультиязычность
-    //initI18n(); временно
+    //initI18n();
 
     // Загружаем курсы в соответствии с выбранной локалью
     loadRates();
