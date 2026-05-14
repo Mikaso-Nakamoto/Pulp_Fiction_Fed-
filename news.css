@@ -680,14 +680,18 @@ div.undertrump {
         z-index: 9998; 
     }
 
-    /* --- ТРАМП И ИНДЕКС СТРАХА --- */
+       /* --- ТРАМП И ИНДЕКС СТРАХА --- */
     .paragr {
-        flex-direction: row !important;
+        justify-content: center !important; /* Собираем элементы в центре */
+        gap: 25px !important; /* Добавляем ровные отступы между головой, линией и текстом */
         padding: 10px !important;
     }
   
+    /* Настраиваем блок с цифрами */
     .paragr > div:last-child {
-        padding-left: 5px !important;
+        flex: 0 0 auto !important; /* Запрещаем блоку растягиваться вправо */
+        text-align: left !important; /* Выравниваем цифры по левому краю (ближе к линии) */
+        padding-left: 0 !important; 
     }
 
     /* --- СТИЛИ ДЛЯ СВОРАЧИВАЮЩИХСЯ КАТЕГОРИЙ (АККОРДЕОН) --- */
@@ -794,7 +798,6 @@ div.undertrump {
         display: block;
         animation: fadeIn 0.3s ease forwards;
     }
-
 }
 
 /* =========================================
