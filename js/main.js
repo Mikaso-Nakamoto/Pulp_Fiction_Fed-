@@ -21,8 +21,9 @@ document.addEventListener('DOMContentLoaded', () => {
         initConverter();
         renderMoex();
         
-        initMobileAccordions(); // Наш аккордеон из прошлого шага
-        initMobileConverter();  // <---- ДОБАВЛЯЕМ СЮДА
+        initMobileAccordions(); 
+        initMobileConverter();  
+        initMobileInfoAccordion(); // <--- ДОБАВЛЯЕМ СЮДА
     
     } catch (error) {
         console.error(`ошибка загрузки блоков:`, error);
@@ -132,4 +133,21 @@ function initMobileConverter() {
             }
         }
     });
+}
+
+// Функция для скрытия/показа истории валюты на мобильных устройствах
+function initMobileInfoAccordion() {
+    // Находим заголовок (название валюты) и сам текст описания
+    const infoHeader = document.querySelector('#info-currency-name');
+    const infoText = document.querySelector('#info-description');
+
+    if (infoHeader && infoText) {
+        infoHeader.addEventListener('click', () => {
+            // Срабатывает только на мобильных экранах
+            if (window.innerWidth <= 768) {
+                infoHeader.classList.toggle('active');
+                infoText.classList.toggle('show');
+            }
+        });
+    }
 }
