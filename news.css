@@ -727,6 +727,74 @@ div.undertrump {
         display: block;
         animation: fadeIn 0.3s ease forwards;
     }
+
+        /* --- МЕНЯЕМ МЕСТАМИ КУРС И ИСТОРИЮ (АДАПТИВ) --- */
+    
+    /* 1. Делаем блок с курсом красивым и заметным (как бы ставим его на место инфо-панели) */
+    .rate-display {
+        background: rgba(45, 45, 45, 0.95) !important;
+        padding: 15px;
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        font-size: 1.3rem; 
+        margin-top: 5px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    /* 2. Убираем рамки у инфо-панели, так как теперь это будет просто кнопка */
+    .currency-info-panel {
+        padding: 0 !important; 
+        border: none !important;
+        background: transparent !important;
+        min-height: auto !important;
+        margin-top: 10px;
+    }
+
+    /* 3. Превращаем заголовок истории в кнопку (как в боковом меню) */
+    .currency-info-panel h4 {
+        cursor: pointer;
+        background: rgba(255, 255, 255, 0.1);
+        padding: 12px 15px;
+        border-radius: 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border: 1px solid rgba(255,255,255,0.2);
+        -webkit-tap-highlight-color: transparent;
+        font-size: 1rem;
+        margin-bottom: 0 !important;
+    }
+
+    /* Добавляем стрелочку */
+    .currency-info-panel h4::after {
+        content: '▼';
+        font-size: 0.7em;
+        transition: transform 0.3s ease;
+        color: #aaa;
+    }
+
+    /* Поворот стрелочки при открытии */
+    .currency-info-panel h4.active::after {
+        transform: rotate(180deg);
+    }
+
+    /* 4. Прячем сам текст истории по умолчанию */
+    .currency-info-panel p {
+        display: none;
+        background: rgba(45, 45, 45, 0.95);
+        padding: 15px;
+        border-radius: 12px;
+        margin-top: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        font-size: 0.95rem;
+    }
+
+    /* Класс для показа текста с анимацией */
+    .currency-info-panel p.show {
+        display: block;
+        animation: fadeIn 0.3s ease forwards;
+    }
+
 }
 
 /* =========================================
