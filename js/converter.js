@@ -3,8 +3,266 @@ import { currencyGroups, cryptoList } from './data.js';
 
 let fromCurrency = "USD";
 let toCurrency = "RUB";
+let rates = {}; // Теперь здесь будут храниться объекты {current, previous}
 
-// Описания валют
+// ==================== ЗАГРУЗКА КУРСОВ (ГИБРИДНАЯ + ИСТОРИЯ) ====================
+async function loadCBRRates() {
+    try {
+        const cbrRes = await fetch('https://www.cbr-xml-daily.ru/daily_json.js');
+        const cbrData = await cbrRes.json();
+
+        rates = {};
+        
+        // 1. Заполняем базу ЦБ РФ (Сохраняем ТЕКУЩУЮ и ВЧЕРАШНЮЮ цену)
+        Object.keys(cbrData.Valute).forEach(code => {
+            const valute = cbrData.Valute[code];
+            rates[code] = {
+                current: parseFloat(valute.Value) / parseFloat(valute.Nominal),
+                previous: parseFloat(valute.Previous) / parseFloat(valute.Nominal)
+            };
+        });
+
+        // 2. Глобальные курсы (для экзотики)
+        try {
+            const globalRes = await fetch('https://open.er-api.com/v6/latest/USD');
+            const globalData = await globalRes.json();
+            const usdToRub = rates["USD"] ? rates["USD"].current : globalData.rates["RUB"];
+
+            Object.keys(globalData.rates).forEach(code => {
+                if (!rates[code] && code !== "RUB") {
+                    const price = usdToRub / globalData.rates[code];
+                    rates[code] = {
+                        current: price,
+                        previous: price // У экзотики нет бесплатной истории, ставим прочерк
+                    };
+                }
+            });
+        } catch (globalError) {
+            console.error('❌ Ошибка загрузки глобальных курсов', globalError);
+        }
+        
+        updateConversion();
+        updateSidebarRates();
+
+    } catch (error) {
+        console.error('❌ Ошибка загрузки курсов ЦБ:', error);
+    }
+}
+
+// ==================== РАСЧЁТ ====================
+function getRate(code) {
+    if (code === "RUB") return 1;
+    // Теперь берем именно .current из объекта
+    return rates[code] ? rates[code].current : null;
+}
+
+function calculateRate(from, to) {
+    if (from === to) return 1;
+    const fromRate = getRate(from);
+    const toRate = getRate(to);
+    if (!fromRate || !toRate) return null;
+    return fromRate / toRate;
+}
+
+// ==================== ОБНОВЛЕНИЕ КОНВЕРТЕРА ====================
+function updateCurrencyDisplay(side, code) {
+    const flagEl = document.getElementById(side + '-flag');
+    const codeEl = document.getElementById(side + '-code');
+
+    if (!flagEl || !codeEl) return;
+
+    const data = getCurrencyData(code);
+    if (!data) return;
+
+    if (data.type === 'fiat') {
+        flagEl.innerHTML = `<span class="fi fi-${data.flag}"></span>`;
+    } else {
+        flagEl.innerHTML = `<img src="./iconss/${data.icon}" style="width:38px;height:38px;border-radius:6px;" alt="${data.code}">`;
+    }
+    codeEl.textContent = data.code;
+}
+
+// ГЛАВНАЯ ФУНКЦИЯ КОНВЕРТАЦИИ С ЗАЩИТОЙ ВВОДА
+function updateConversion(event) {
+    const fromInput = document.getElementById('from-amount');
+    const toInput = document.getElementById('to-amount');
+    
+    let isReverse = false;
+
+    // Очистка ввода от букв и лишних символов
+    if (event && (event.target.id === 'from-amount' || event.target.id === 'to-amount')) {
+        let target = event.target;
+        isReverse = target.id === 'to-amount';
+        
+        let val = target.value.replace(/,/g, '.');
+        val = val.replace(/[^0-9.]/g, '');
+        let parts = val.split('.');
+        if (parts.length > 2) {
+            val = parts[0] + '.' + parts.slice(1).join('');
+        }
+        
+        if (target.value !== val) {
+            target.value = val;
+        }
+    }
+
+    document.getElementById('from-currency-name').textContent = fromCurrency;
+    document.getElementById('to-currency-name').textContent = toCurrency;
+
+    const rate = calculateRate(fromCurrency, toCurrency);
+
+    if (rate !== null) {
+        document.getElementById('exchange-rate').textContent = rate.toFixed(4);
+
+        if (!isReverse) {
+            let amount = parseFloat(fromInput.value); 
+            if (isNaN(amount) || fromInput.value === '') {
+                toInput.value = ''; 
+            } else {
+                toInput.value = (amount * rate).toFixed(4);
+            }
+        } else {
+            let amount = parseFloat(toInput.value);
+            if (isNaN(amount) || toInput.value === '') {
+                fromInput.value = ''; 
+            } else {
+                fromInput.value = (amount / rate).toFixed(4);
+            }
+        }
+    } else {
+        if (!isReverse) toInput.value = "—";
+        else fromInput.value = "—";
+        document.getElementById('exchange-rate').textContent = "—";
+    }
+}
+
+// ==================== ИНФО-ПАНЕЛЬ ====================
+function updateInfoPanel(code) {
+    const data = getCurrencyData(code);
+    const nameEl = document.getElementById('info-currency-name');
+    const descEl = document.getElementById('info-description');
+
+    if (!data) return;
+
+    nameEl.textContent = `${code} — ${data.type === 'fiat' ? 'национальная валюта' : 'криптовалюта'}`;
+    descEl.textContent = currencyDescriptions[code] || "Информация о данной валюте скоро появится.";
+}
+
+// ==================== ЛЕВЫЙ САЙДБАР (С ПРОЦЕНТАМИ) ====================
+function updateSidebarRates() {
+    document.querySelectorAll('#currencies-major li, #currencies-other li, #currencies-asia li, #currencies-middleeast li, #currencies-cis li').forEach(li => {
+        const code = li.dataset.code;
+        if (!code) return;
+
+        const rateEl = li.querySelector('.rate');
+        const changeEl = li.querySelector('.change'); 
+        
+        if (code === "RUB") {
+            if (rateEl) rateEl.textContent = "1 ₽";
+            if (changeEl) changeEl.innerHTML = `<span class="change-neutral">— 0.00 (0.00%)</span>`;
+            return;
+        }
+
+        const data = rates[code];
+        
+        if (data && rateEl && changeEl) {
+            rateEl.textContent = data.current.toFixed(2) + " ₽";
+
+            const diff = data.current - data.previous;
+            const percent = data.previous ? (diff / data.previous) * 100 : 0;
+
+            let colorClass = "change-neutral";
+            let arrow = "—";
+            let sign = "";
+
+            if (diff > 0.001) { 
+                colorClass = "change-up";
+                arrow = "↑";
+                sign = "+";
+            } else if (diff < -0.001) { 
+                colorClass = "change-down";
+                arrow = "↓";
+            }
+
+            const diffStr = Math.abs(diff).toFixed(4); 
+            const percentStr = Math.abs(percent).toFixed(2);
+
+            changeEl.innerHTML = `<span class="${colorClass}">${arrow} ${diffStr} (${sign}${percentStr}%)</span>`;
+            
+        } else if (rateEl && changeEl) {
+            rateEl.textContent = "—";
+            changeEl.innerHTML = "";
+        }
+    });
+}
+
+// ==================== РЕНДЕР СПИСКОВ КОНВЕРТЕРА ====================
+function renderList(containerId, selectedCode) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    container.innerHTML = '';
+
+    const allCurrencies = [
+        ...Object.values(currencyGroups).flat().map(item => ({...item, type: 'fiat'})),
+        ...cryptoList.map(item => ({code: item.symbol, type: 'crypto', icon: item.icon}))
+    ];
+
+    allCurrencies.forEach(curr => {
+        const div = document.createElement('div');
+        div.className = `currency-item ${curr.code === selectedCode ? 'active' : ''}`;
+
+        if (curr.type === 'fiat') {
+            div.innerHTML = `<span class="fi fi-${curr.flag}"></span><span class="code">${curr.code}</span>`;
+        } else {
+            div.innerHTML = `<img src="./iconss/${curr.icon}" style="width:26px;height:26px;border-radius:4px;"> <span class="code">${curr.code}</span>`;
+        }
+
+        div.onclick = () => {
+            if (containerId === 'from-list') fromCurrency = curr.code;
+            else toCurrency = curr.code;
+
+            renderList('from-list', fromCurrency);
+            renderList('to-list', toCurrency);
+
+            updateCurrencyDisplay('from', fromCurrency);
+            updateCurrencyDisplay('to', toCurrency);
+            updateConversion();
+
+            if (containerId === 'to-list') updateInfoPanel(toCurrency);
+        };
+
+        container.appendChild(div);
+    });
+}
+
+// ==================== getCurrencyData ====================
+function getCurrencyData(code) {
+    for (let group of Object.values(currencyGroups)) {
+        const found = group.find(item => item.code === code);
+        if (found) return { ...found, type: 'fiat' };
+    }
+    const crypto = cryptoList.find(item => item.symbol === code);
+    if (crypto) return { code: crypto.symbol, type: 'crypto', icon: crypto.icon };
+    return null;
+}
+
+// ==================== ИНИЦИАЛИЗАЦИЯ ====================
+export function initConverter() {
+    renderList('from-list', fromCurrency);
+    renderList('to-list', toCurrency);
+
+    updateCurrencyDisplay('from', fromCurrency);
+    updateCurrencyDisplay('to', toCurrency);
+    updateInfoPanel(toCurrency);
+
+    loadCBRRates();
+
+    document.getElementById('from-amount').addEventListener('input', updateConversion);
+    document.getElementById('to-amount').addEventListener('input', updateConversion);
+}
+
+// ==================== ОПИСАНИЯ ====================
 const currencyDescriptions = {
 USD: "Доллар США — главная резервная валюта мира. Введён в 1792 году. Контролируется Федеральной резервной системой (ФРС).",
 EUR: "Евро — официальная валюта 20 стран Еврозоны. Введена в безналичное обращение в 1999 году, в наличное — в 2002 году. Является второй по значимости резервной валютой на планете.",
@@ -72,106 +330,3 @@ LINK: "Chainlink — сеть оракулов, обеспечивающая с�
 PAXG: "PAX Gold — стейблкоин, обеспеченный физическим золотом в соотношении один к одному. Каждый токен соответствует одной тройской унции золота в хранилищах Лондона. Позволяет владеть золотом без сложностей с его хранением.",
 XAUT: "Tether Gold — цифровой актив, привязанный к цене физического золота. Обеспечивается слитками, находящимися в швейцарских хранилищах. Сочетает в себе надежность драгметаллов и преимущества блокчейна."
 };
-
-function getCurrencyData(code) {
-    for (let group of Object.values(currencyGroups)) {
-        const found = group.find(item => item.code === code);
-        if (found) return { ...found, type: 'fiat' };
-    }
-    const crypto = cryptoList.find(item => item.symbol === code);
-    if (crypto) return { code: crypto.symbol, type: 'crypto', icon: crypto.icon };
-    return null;
-}
-
-function updateCurrencyDisplay(side, code) {
-    const data = getCurrencyData(code);
-    if (!data) return;
-
-    const flagEl = document.getElementById(side + '-flag');
-    const codeEl = document.getElementById(side + '-code');
-
-    if (data.type === 'fiat') {
-        flagEl.innerHTML = `<span class="fi fi-${data.flag}"></span>`;
-    } else {
-        flagEl.innerHTML = `<img src="iconss/${data.icon}" style="width:38px;height:38px;border-radius:6px;">`;
-    }
-    codeEl.textContent = data.code;
-}
-
-function updateInfoPanel(code) {
-    const data = getCurrencyData(code);
-    const nameEl = document.getElementById('info-currency-name');
-    const descEl = document.getElementById('info-description');
-
-    nameEl.textContent = `${code} — ${data ? (data.type === 'fiat' ? 'национальная валюта' : 'криптовалюта') : ''}`;
-    descEl.textContent = currencyDescriptions[code] || "Информация о данной валюте скоро появится.";
-}
-
-function renderList(containerId, selectedCode) {
-const container = document.getElementById(containerId);
-    container.innerHTML = '';
-
-    const allCurrencies = [
-        ...Object.values(currencyGroups).flat().map(item => ({...item, type: 'fiat'})),
-        ...cryptoList.map(item => ({code: item.symbol, type: 'crypto', icon: item.icon}))
-    ];
-
-    allCurrencies.forEach(curr => {
-        const div = document.createElement('div');
-        div.className = `currency-item ${curr.code === selectedCode ? 'active' : ''}`;
-
-        if (curr.type === 'fiat') {
-            div.innerHTML = `<span class="fi fi-${curr.flag}"></span><span class="code">${curr.code}</span>`;
-        } else {
-            div.innerHTML = `
-                <img src="/iconss/${curr.icon}" 
-                     style="width:26px; height:26px; border-radius:4px;" 
-                     alt="${curr.code}">
-                <span class="code">${curr.code}</span>
-            `;
-        }
-
-        div.onclick = () => {
-            if (containerId === 'from-list') {
-                fromCurrency = curr.code;
-            } else {
-                toCurrency = curr.code;
-                updateInfoPanel(toCurrency);        // ← Это было пропущено
-            }
-
-            // Перерисовываем оба списка
-            renderList('from-list', fromCurrency);
-            renderList('to-list', toCurrency);
-
-            // Обновляем отображение в карточках
-            updateCurrencyDisplay('from', fromCurrency);
-            updateCurrencyDisplay('to', toCurrency);
-            updateConversion();
-        };
-
-        container.appendChild(div);
-    });
-}
-
-function updateConversion() {
-    const amount = parseFloat(document.getElementById('from-amount').value) || 0;
-    const rate = 92.45;
-
-    document.getElementById('to-amount').value = (amount * rate).toFixed(2);
-    document.getElementById('exchange-rate').textContent = rate.toFixed(2);
-}
-
-export function initConverter() {
-    renderList('from-list', fromCurrency);
-    renderList('to-list', toCurrency);
-
-    updateCurrencyDisplay('from', fromCurrency);
-    updateCurrencyDisplay('to', toCurrency);
-    updateInfoPanel(toCurrency);                    // ← добавили
-
-    document.getElementById('from-amount').addEventListener('input', updateConversion);
-
-    // Обновляем информацию при смене валюты
-    // (вызывается из renderList)
-    updateConversion();
-}

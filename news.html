@@ -133,7 +133,12 @@
                   <span class="flag" id="from-flag">🇺🇸</span>
                   <span class="code" id="from-code">USD</span>
                 </div>
-                <input type="number" id="from-amount" value="100" step="any" />
+                <input
+                  type="text"
+                  inputmode="decimal"
+                  id="from-amount"
+                  value="100"
+                />
               </div>
 
               <div class="swap-container">
@@ -145,7 +150,7 @@
                   <span class="flag" id="to-flag">eu</span>
                   <span class="code" id="to-code">EUR</span>
                 </div>
-                <input type="number" id="to-amount" readonly />
+                <input type="text" inputmode="decimal" id="to-amount" />
               </div>
 
               <div class="rate-display">

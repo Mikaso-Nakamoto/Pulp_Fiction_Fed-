@@ -1,5 +1,6 @@
 // js/render.js
 import { currencyGroups, cryptoList, oilPrices, gasProducers, metalsList, stocksArr } from './data.js';
+
 export function renderAllCurrencies() {
     renderCurrencyGroup(`currencies-major`, currencyGroups.major);
     renderCurrencyGroup(`currencies-other`, currencyGroups.other);
@@ -16,16 +17,20 @@ function renderCurrencyGroup(containerId, items) {
     items.forEach(item => {
         const li = document.createElement('li');
         li.dataset.code = item.code;
+        // Разбили на 2 строки: сверху флаг+имя, снизу цена и проценты
         li.innerHTML = `
-            <span class="fi fi-${item.flag}"></span>
-            ${item.name} — 
-            <span class="rate">00,0000 ₽</span> 
-            <span class="change"></span>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span class="fi fi-${item.flag}"></span>
+                <span>${item.name}</span> 
+            </div>
+            <span class="rate" style="font-weight: bold;">загрузка...</span> 
+            <div class="change-container">
+                <span class="change"></span>
+            </div>
         `;
         container.appendChild(li);
     });
 }
-
 
 export function renderCrypto() {
     const container = document.getElementById('CriptoVVV');
@@ -99,5 +104,4 @@ export function renderStocks() {
     });
 }
 
-console.log(`Render.ja download`)
-window.testRender = (renderAllCurrencies, renderCrypto)
+window.testRender = { renderAllCurrencies, renderCrypto };

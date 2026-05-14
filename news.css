@@ -1,5 +1,6 @@
+/* ==================== БАЗОВЫЕ НАСТРОЙКИ (RESET) ==================== */
 *, *::before, *::after {
-    box-sizing: border-box;           /* padding и border включаются в width/height */
+    box-sizing: border-box;
 }
 
 *:not(dialog) {
@@ -9,10 +10,15 @@
 body {
     margin: 0;                       
     padding: 0;
-    line-height: 1.5;                 /* межстрочный интервал по умолчанию */
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; /*шрифты для разных ОС */
+    line-height: 1.5;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-image: url("https://images.wallpaperscraft.com/image/single/stairs_down_railing_201608_2048x1152.jpg");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    min-height: 100vh;
 }
-
 
 h1, h2, h3, h4, h5, h6,
 p, ul, ol, li,
@@ -21,78 +27,39 @@ blockquote, figure, hr {
     padding: 0;
 }
 
-/* точки у списков */
 ul, ol {
     list-style: none;
 }
 
-/* изображения и видео отзывчивые*/
 img, picture, video, canvas, svg {
     display: block;
     max-width: 100%;
 }
 
-/* подчёркивание у ссылок */
 a {
-    color: inherit;
+    color: rgb(168, 168, 168);
     text-decoration: none;
 }
 
-.crypto-icon{
-      -webkit-user-select: none; /* для Safari */
-  -moz-user-select: none; /* для Firefox */
-  -ms-user-select: none; /* для Internet Explorer/Edge */
-  user-select: none; /* для остальных браузеров */
+a:hover {
+    color: rgb(201, 201, 201);
 }
-
 
 ::selection {
     background-color: #444444;
     color: #ffffff;
 }
 
-/* https://avatars.mds.yandex.net/i?id=41f8710cffac2a4bebad9c50c2da37c9_l-9229366-images-thumbs&ref=rim&n=13&w=1470&h=827 */
-body{
-   background-image: url("https://images.wallpaperscraft.com/image/single/stairs_down_railing_201608_2048x1152.jpg"); /* https://images.wallpaperscraft.com/image/single/stairs_down_railing_201608_2048x1152.jpg */
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-    min-height: 100vh;
-}
-.paragr{
-    border: 3px solid #D3D3D3;
-    border-radius: 12px;
-    margin: 8px 0;
-    padding: 8px;
-    backdrop-filter: blur(1px);
-}
-.CenterP{
-    border: 3px solid #D3D3D3;
-    border-radius: 12px;
-    margin: 8px 0;
-    padding: 8px;
-    backdrop-filter: blur(1px);
-    height: 300px;
+/* ЗАПРЕТ ВЫДЕЛЕНИЯ ТЕКСТА ДЛЯ ЭЛЕМЕНТОВ ИНТЕРФЕЙСА */
+.unselectable {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
-a{
-    color: rgb(168, 168, 168) ;
-}
-a:hover{
-    color: rgb(201, 201, 201);
-}
-.GLZG{
-    text-align: center;
-    color:  #ffffff;
-
-      -webkit-user-select: none; /* для Safari */
-  -moz-user-select: none; /* для Firefox */
-  -ms-user-select: none; /* для Internet Explorer/Edge */
-  user-select: none; /* для остальных браузеров */
-
-}
-.KUI{
+/* ==================== ШАПКА ==================== */
+.KUI {
     max-width: 1080px;
     margin: 50px auto;
     padding: 15px;
@@ -102,43 +69,48 @@ a:hover{
     background: rgba(75, 74, 74, 0.288);
 }
 
-.KUIZ{
-    width: 1080px;
-    height: 350px;
-    margin: 50px auto;
-    padding: 15px;
-    backdrop-filter: blur(1px);
-    border-radius: 30px; 
+.GLZG {
+    text-align: center;
+    color: #ffffff;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
-/* ТРИ КОЛОНКИ + САЙДБАРЫ*/
-
-
+/* ==================== ОСНОВНАЯ СЕТКА (ТРИ КОЛОНКИ) ==================== */
 .three-columns {
-    display: flex;                    /* делает три колонки рядом */
-    justify-content: center;          /* центрирует весь блок по ширине экрана */
-    gap: 25px;                        /* расстояние между колонками */
-    max-width: 1450px;                /* максимальная ширина всего блока */
-    margin: 30px auto;                /* центрирование + отступ сверху */
-    padding: 0 20px;                  /* отступы слева и справа от краёв экрана */
-    align-items: stretch;             /* все три колонки одной высоты */
-}
-
-.main-content {
-    flex: 1;                          /* центральная колонка занимает всё свободное место */
-    min-width: 0;                     /* важно для корректной работы flex */
-}
-
-.sidebar {
-    flex: 0 0 290px;                  /* фиксированная ширина боковых панелей (можно менять) */
-    backdrop-filter: blur(12px);           /* цвет фона .KUIZ блоков */
-    background: rgba(63, 63, 63, 0.185); /* полупрозрачный фон */
-    border: 3px solid #bebebe;        /* чёрная рамка, как у тебя */
-    border-radius: 30px;              /* скругление углов 30px */
-    padding: 20px;                    /* внутренние отступы */
-    box-sizing: border-box;           /* чтобы padding не увеличивал ширину */
     display: flex;
-    flex-direction: column;           /* чтобы заголовок был сверху, а контент растягивался */
+    justify-content: center;
+    gap: 25px;
+    max-width: 1450px;
+    margin: 30px auto;
+    padding: 0 20px;
+    align-items: stretch;
+}
+
+.main-Content {
+    flex: 1;
+    min-width: 0;
+}
+
+@media (max-width: 720px) {
+    .three-columns {
+        flex-direction: column;
+    }
+}
+
+/* ==================== БОКОВЫЕ ПАНЕЛИ (САЙДБАРЫ) ==================== */
+.sidebar {
+    flex: 0 0 290px;
+    backdrop-filter: blur(12px);
+    background: rgba(63, 63, 63, 0.185);
+    border: 3px solid #bebebe;
+    border-radius: 30px;
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
 }
 
 .sidebar-title {
@@ -147,69 +119,29 @@ a:hover{
     font-weight: bold;
     text-align: center;
     padding: 12px 15px;
-    border-radius: 18px;              /* скругление заголовка */
+    border-radius: 18px;
     margin-bottom: 18px;
     border: solid 1.3px #d3d3d3;    
-    transition: transform 0.3s ease;       /* рамка для заголовка */
-
-  -webkit-user-select: none; /* для Safari */
-  -moz-user-select: none; /* для Firefox */
-  -ms-user-select: none; /* для Internet Explorer/Edge */
-  user-select: none; /* для остальных браузеров */
-
+    transition: transform 0.3s ease;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .sidebar-title:hover {
-    transform: scale(1.05);       /* эффект при наведении на заголовок */
+    transform: scale(1.05);
 }
 
 .sidebar-content {
-    flex: 1;                          /* контент занимает всё оставшееся пространство */
-    font-size: 15px;                  /* размер текста */
-    line-height: 1.55;                /* межстрочный интервал */
+    flex: 1;
+    font-size: 15px;
+    line-height: 1.55;
     color: #f0f0f0;
-
-    -webkit-user-select: none; /* для Safari */
-  -moz-user-select: none; /* для Firefox */
-  -ms-user-select: none; /* для Internet Explorer/Edge */
-  user-select: none; /* для остальных браузеров */
-
-}
-
-.left-sidebar-content{
-    backdrop-filter: blur(10px);
-    border: solid 1.2px #d3d3d3;
-    border-radius: 12px;
-    padding: 12px;
-    margin-bottom: 17px;
-    transition: all 0.3s ease; /* плавный переход для эффекта при наведении */
-}
-
-.left-sidebar-content:hover{
-    transform: translateY(-3px);
-    transform: scale(1.01); 
-}
-
-
-/* Стили для flag-icons */
-.fi {
-    margin-right: 8px;           /* расстояние между флагом и кодом валюты */
-    vertical-align: middle;      /* выравнивание по центру строки */
-    font-size: 1.85em;           /* размер флага */
-    line-height: 1;
-}
-
-.sidebar-content strong {
-    display: block;
-    margin: 14px 0 6px 0;
-    color: #cccccc;
-}
-
-.si {
-    margin-right: 5px;
-    font-size: 1.15em;
-    vertical-align: middle;
-    line-height: 1;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .sidebar-content h4 {
@@ -221,6 +153,68 @@ a:hover{
     margin-bottom: 18px;
 }
 
+.left-sidebar-content {
+    backdrop-filter: blur(10px);
+    border: solid 1.2px #d3d3d3;
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 17px;
+    transition: all 0.3s ease;
+}
+
+.left-sidebar-content:hover {
+    transform: translateY(-3px) scale(1.01); 
+}
+
+/* ==================== СПИСКИ ВАЛЮТ (САЙДБАР) ==================== */
+.currency-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px 0;
+}
+
+.currency-list li {
+    display: flex;
+    flex-wrap: wrap; /* Позволяет процентам переноситься на новую строку */
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.currency-list li:last-child {
+    border-bottom: none;
+}
+
+.rate {
+    font-weight: 600;
+    text-align: right;
+    margin-right: 10px;
+}
+
+/* Стили для изменения курса за 24 часа */
+.change-container {
+    width: 100%;
+    padding-left: 36px; /* Выравниваем под текстом валюты */
+    margin-top: 2px;
+}
+
+.change {
+    font-weight: 500;
+}
+
+.change-up { color: #00cc66; font-size: 0.9em; }     /* Зеленый */
+.change-down { color: #ff4d4d; font-size: 0.9em; }   /* Красный */
+.change-neutral { color: #aaaaaa; font-size: 0.9em; }/* Серый */
+
+/* Иконки флагов и крипты */
+.fi {
+    margin-right: 8px;
+    vertical-align: middle;
+    font-size: 1.85em;
+    line-height: 1;
+}
+
 .crypto-icon {
     display: inline-flex;
     align-items: center;
@@ -229,80 +223,19 @@ a:hover{
     height: 24px;
     margin-right: 10px;
     vertical-align: middle;
-    flex-shrink: 0;           /* чтобы не сжималась */
+    flex-shrink: 0;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
-/* Дополнительно — чтобы SVG внутри иконки занимал всю область */
 .crypto-icon svg {
     width: 100%;
     height: 100%;
 }
 
-.currency-list {
-  list-style: none;
-  padding: 0;
-  margin: 0 0 20px 0;
-}
-
-.currency-list li {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 8px 0;
-  border-bottom: 1px solid #eee;
-}
-
-.currency-list li:last-child {
-  border-bottom: none;
-}
-
-.rate {
-  font-weight: 600;
-  min-width: 120px;
-  text-align: right;
-  margin-right: 10px;
-}
-
-
-
-.change {
-  font-size: 0.92em;
-  font-weight: 500;
-  min-width: 85px;
-  text-align: right;
-}
-
-.langToggle img{
-  -webkit-user-select: none; /* для Safari */
-  -moz-user-select: none; /* для Firefox */
-  -ms-user-select: none; /* для Internet Explorer/Edge */
-  user-select: none; /* для остальных браузеров */
-
-
-  border: 1px solid rgba(255, 255, 255, 0.25); 
-  backdrop-filter: blur(14px);
-  border-radius: 8px;
-}
-
-.langToggle:hover{
-    transform: translateY(-3px);
-}
-
-
-.change.up   { color: #006400; }   /* тёмно-зелёный */
-.change.down { color: #b30000; }   /* тёмно-красный */
-.change.zero { color: #666666; }
-
-
-
-@media (max-width: 720px) {
-    .three-columns{
-        flex-direction: column;
-    }
-}
-
-/* ==================== КОНВЕРТЕР ==================== */
-
+/* ==================== ЦЕНТРАЛЬНЫЙ КОНВЕРТЕР ==================== */
 .converter-container {
     display: grid;
     grid-template-columns: 290px 480px 290px;
@@ -322,12 +255,10 @@ a:hover{
     overflow: hidden;
     display: flex;
     flex-direction: column;
-
-        -webkit-user-select: none; /* для Safari */
-  -moz-user-select: none; /* для Firefox */
-  -ms-user-select: none; /* для Internet Explorer/Edge */
-  user-select: none; /* для остальных браузеров */
-
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .currency-selector h3 {
@@ -336,26 +267,17 @@ a:hover{
     color: #dbdbdb;
     font-size: 1.4rem;
     font-weight: 600;  
-
-    -webkit-user-select: none; /* для Safari */
-  -moz-user-select: none; /* для Firefox */
-  -ms-user-select: none; /* для Internet Explorer/Edge */
-  user-select: none; /* для остальных браузеров */
-
 }
 
-/* Список валют */
 .currency-list-scroll { 
-    &::-webkit-scrollbar {
-    display: none;
-    }
-    /* Скрываем для Firefox */
-    scrollbar-width: none;
-
-    /* Скрываем для старого Internet Explorer и Edge */
-    -ms-overflow-style: none;
     flex: 1;
     overflow-y: auto;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+}
+
+.currency-list-scroll::-webkit-scrollbar {
+    display: none; /* Chrome, Safari */
 }
 
 .currency-item {
@@ -375,9 +297,10 @@ a:hover{
     backdrop-filter: blur(1px);
     transform: translateY(2px);
 }
+
 .currency-item.active {
     backdrop-filter: blur(1px);
-    color:  #cccccc;
+    color: #cccccc;
 }
 
 .currency-item .fi {
@@ -390,9 +313,9 @@ a:hover{
     font-size: 1.15rem;
 }
 
-/* Центральный конвертер */
+/* Блок самого калькулятора */
 .converter-main {
-    background: rgba(58, 58, 58, 0.267);  /*background: rgba(7, 4, 4, 0.267); */
+    background: rgba(58, 58, 58, 0.267);
     backdrop-filter: blur(10px);
     border: 3px solid #D3D3D3;
     border-radius: 24px;
@@ -402,7 +325,6 @@ a:hover{
     gap: 18px;
 }
 
-/* Центральный конвертер - исправление переполнения цифр */
 .exchange-card {
     background: rgba(7, 4, 4, 0.158);
     backdrop-filter: blur(10px);
@@ -425,10 +347,10 @@ a:hover{
 
 .flag {
     font-size: 24px;
-    -webkit-user-select: none; /* для Safari */
-  -moz-user-select: none; /* для Firefox */
-  -ms-user-select: none; /* для Internet Explorer/Edge */
-  user-select: none; /* для остальных браузеров */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .code {
@@ -436,15 +358,12 @@ a:hover{
     font-weight: 700;
     color: #e7e6e6;
     flex-shrink: 0;
-
-        -webkit-user-select: none; /* для Safari */
-  -moz-user-select: none; /* для Firefox */
-  -ms-user-select: none; /* для Internet Explorer/Edge */
-  user-select: none; /* для остальных браузеров */
-
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
-/* Главное исправление — область с цифрами */
 #from-amount, #to-amount {
     flex: 1;
     font-size: 2rem;
@@ -459,10 +378,6 @@ a:hover{
     text-overflow: ellipsis;
     white-space: nowrap;
     padding-right: 8px;
-}
-
-/* Дополнительная защита от переполнения */
-.exchange-card input {
     max-width: 100%;
 }
 
@@ -471,11 +386,10 @@ a:hover{
     font-size: 2.6rem;
     color: #e0e0e0;
     padding: 6px 0;
-
-            -webkit-user-select: none; /* для Safari */
-  -moz-user-select: none; /* для Firefox */
-  -ms-user-select: none; /* для Internet Explorer/Edge */
-  user-select: none; /* для остальных браузеров */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .rate-display {
@@ -485,31 +399,7 @@ a:hover{
     font-weight: 500;
 }
 
-/* Убираем стрелочки у input type="number" */
-
-/* Chrome, Edge, Safari */
-#from-amount::-webkit-outer-spin-button,
-#from-amount::-webkit-inner-spin-button,
-#to-amount::-webkit-outer-spin-button,
-#to-amount::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-/* Firefox */
-#from-amount,
-#to-amount {
-    -moz-appearance: textfield;
-}
-
-/* Дополнительно — чтобы при фокусе стрелочки тоже не появлялись */
-#from-amount:focus,
-#to-amount:focus {
-    -webkit-appearance: none;
-    -moz-appearance: textfield;
-}
-
-/* Информационная панель */
+/* Информационная панель внизу калькулятора */
 .currency-info-panel {
     backdrop-filter: blur(10px);
     border: 3px solid #D3D3D3;
@@ -531,8 +421,7 @@ a:hover{
     font-size: 1.02rem;
 }
 
-
-/* Переключатель языков */
+/* ==================== ПЕРЕКЛЮЧАТЕЛЬ ЯЗЫКОВ ==================== */
 .langToggle {
     position: absolute;
     top: 20px;
@@ -561,6 +450,12 @@ a:hover{
     width: 24px;
     height: 24px;
     border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.25); 
+    backdrop-filter: blur(14px);
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 #current-lang {
@@ -569,7 +464,7 @@ a:hover{
     color: white;
 }
 
-/* Выпадающее меню */
+/* Выпадающее меню языков */
 .lang-dropdown {
     position: absolute;
     background: rgba(0, 0, 0, 0.39);
@@ -597,13 +492,13 @@ a:hover{
     align-items: center;
     gap: 10px;
     cursor: pointer;
-    transition:  transform 0.2s ease;  
+    transition: transform 0.2s ease;  
 }
 
 .lang-main-group .lang-option:hover {
-   backdrop-filter: blur(1px);
-   transform: translateY(-2px);
-       background: rgba(78, 77, 77, 0.164);
+    backdrop-filter: blur(1px);
+    transform: translateY(-2px);
+    background: rgba(78, 77, 77, 0.164);
 }
 
 .lang-separator {
@@ -619,11 +514,7 @@ a:hover{
     font-size: 0.85rem;
 }
 
-.lang-option.small {
-    font-size: 0.95rem;
-    padding: 8px 12px;
-}
-
+/* ==================== ФУТЕР ==================== */
 #footer {
     text-align: center;
     padding: 12px 0;
