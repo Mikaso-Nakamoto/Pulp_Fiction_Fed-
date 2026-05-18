@@ -79,10 +79,24 @@ export const cryptoList = [
     { symbol: "XAUT", icon: "xaut.svg",  className: "xauti",   price: "0.00", unit: "USDT", extra: "<small>(Tether Gold)</small>" }
 ];
 
+// ... (оставь currencyGroups и cryptoList как были)
+
 export const moexStocks = [
-    { symbol: "SBER", name: "Сбербанк" },
-    { symbol: "GAZP", name: "Газпром" },
-    { symbol: "LKOH", name: "Лукойл" },
-    { symbol: "YDEX", name: "Яндекс" },
-    { symbol: "T", name: "Т-Банк" }
+    { symbol: "MOEX", name: "Московская биржа", key: "moexStock" },
+    { symbol: "SBER", name: "Сбербанк", key: "sber" },
+    { symbol: "SBERP", name: "Сбербанк (преф.)", key: "sberP" },
+    { symbol: "VTBR", name: "ВТБ", key: "vtb" },
+    { symbol: "T", name: "Т-Банк", key: "tBank" },
+    { symbol: "YDEX", name: "Яндекс", key: "yandex" },
+    { symbol: "GAZP", name: "Газпром", key: "gazprom" },
+    { symbol: "LKOH", name: "Лукойл", key: "lukoil" },
+    { symbol: "ROSN", name: "Роснефть", key: "rosneft" },
+    { symbol: "TATN", name: "Татнефть", key: "tatneft" },
+    { symbol: "NVTK", name: "Новатэк", key: "novatek" },
+    { symbol: "SNGS", name: "Сургутнефтегаз", key: "surgut" },
+    { symbol: "MGNT", name: "Магнит", key: "magnit" },
+    { symbol: "CHMF", name: "Мечел", key: "mechel" },
+    { symbol: "ALRS", name: "Алроса", key: "alrosa" },
+    { symbol: "RGSS", name: "Росгосстрах", key: "rosgos" },
+    { symbol: "AFKS", name: "АФК Система", key: "afk" },
 ];

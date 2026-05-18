@@ -1,492 +1,88 @@
-// js/translations.js
 export const translations = {
-    ru: {
-        siteTitle: "Pulp Fiction Fed",
-        exchangeRates: "Курсы валют",
-        majorCurrencies: "Основные мировые валюты",
-        otherCurrencies: "Другие важные валюты",
-        asiaCurrencies: "Азиатские и ближневосточные валюты",
-        middleEast: "Ближний Восток и другие",
-        cis: "СНГ и соседние страны",
-        strategicMetals: "Драгоценные и стратегические металлы",
-        oil: "Нефть",
-        naturalGas: "Природный газ (крупные производители)",
-        cryptocurrencies: "Криптовалюты",
-        stocks: "Акции крупнейших компаний",
-
-        updated: "обновлено:",
-        loading: "загружается...",  
-        officialRates: "официальные курсы ЦБ РФ",
-
-        sidebarTitle: "Стратегические металлы, нефть, газ и акции",
-        barrelInfo: "1 баррель = 158.99 литров | 1 американский галлон = 3.785 литров",
-        companiesFrom: "США • ЕС • Китай • РФ",
-        dataDisclaimer: "Данные с ЦБ РФ, MOEX, NYSE, Binance, ByBit и других источников • цены приблизительные и могут отличаться от реальных • для получения более точной информации обращайтесь к официальным источникам.",
-
-        // Новости (будут переопределяться из localeConfig)
-        newsRIA: "РИА Новости",
-        newsRBK: "РБК",
-        newsKommersant: "Коммерсантъ",
-        newsIz: "Известия"
+    ru: { 
+        siteTitle: "Victoria Falls", exchangeRates: "Курсы валют", iGive: "Отдаю", iGet: "Получаю", selectCurrency: "Выберите валюту", currencyHistory: "Здесь будет краткая история и интересные факты о выбранной валюте.", allAssets: "Все доступные активы", histChart: "Исторический график", sp500: "Тепловая карта S&P 500", marketAnalytics: "Рыночная аналитика", moexStocks: "Акции Московской Биржи (MOEX)", globalIndexes: "Глобальные рыночные индексы", fearGreed: "Страх и Жадность", altSeason: "Индекс Альтсезона", cryptoBinance: "Криптовалюты (Binance)", updated: "обновлено:", news: "Финансовые новости", majorCurrencies: "Основные мировые валюты", otherCurrencies: "Другие важные валюты", asiaCurrencies: "Азиатские и ближневосточные валюты", middleEast: "Ближний Восток и другие", cis: "СНГ и соседние страны", loading: "загрузка...", noData: "Нет данных", chartHist: "Исторический график", chartPro: "Профессиональный график", chartLoading: "Загрузка данных...", chartError: "Ошибка загрузки графика", date: "Дата", price: "Цена", fiatCategory: "Фиатные валюты", cryptoCategory: "Криптовалюты", fiatCurrency: "национальная валюта", cryptoCurrency: "криптовалюта", noInfo: "Информация о данной валюте скоро появится.", moexClosed: "Торги на MOEX закрыты.", rateFor: "Курс за", update: "обновление", fngExtremeFear: "Жесткий страх", fngFear: "Страх", fngNeutral: "Нейтрально", fngGreed: "Жадность", fngExtremeGreed: "Дикая жадность", altBtcSeason: "Сезон Биткоина", altBtcLean: "Склонность к BTC", altNeutral: "Нейтрально", altAltLean: "Склонность к Альтам", altSeasonText: "Альтсезон!",
+     dragHandle: "Перетащить", cisTitle: "СНГ и соседи", europeTitle: "Европа и Запад", asiaTitle: "Азия и другие", financeNews: "Финансовые новости", pulpFiction: "Pulp Fiction Fed", project: "О проекте", thanks: "Благодарности", docs: "Документы", apiSources: "Источники API", up: "↑ Наверх", disclaimer: "Данные с ЦБ РФ, MOEX, NYSE, Binance, ByBit и других источников • цены приблизительные и могут отличаться от реальных • для получения более точной информации обращайтесь к официальным источникам."
+         ,moexStock: "Московская биржа",
+    sber: "Сбербанк",
+    sberP: "Сбербанк (привилегированные акции)",
+    vtb: "ВТБ",
+    tBank: "Т-Банк",
+    yandex: "Яндекс",
+    gazprom: "Газпром",
+    lukoil: "Лукойл",
+    rosneft: "Роснефть",
+    tatneft: "Татнефть",
+    novatek: "Новатэк",
+    surgut: "Сургутнефтегаз",
+    magnit: "Магнит",
+    mechel: "Мечел",
+    alrosa: "Алроса",
+    rosgos: "Росгосстрах",
+    afk: "АФК Система"   
+   
     },
-    
-    en: {
-        siteTitle: "Pulp Fiction Fed",
-        exchangeRates: "Exchange Rates",
-        majorCurrencies: "Major World Currencies",
-        otherCurrencies: "Other Important Currencies",
-        asiaCurrencies: "Asian and Middle Eastern Currencies",
-        middleEast: "Middle East and Others",
-        cis: "CIS and Neighboring Countries",
-        strategicMetals: "Precious and Strategic Metals",
-        oil: "Oil",
-        naturalGas: "Natural Gas (Major Producers)",
-        cryptocurrencies: "Cryptocurrencies",
-        stocks: "Major Company Stocks",
-
-        updated: "updated:",
-        loading: "loading...",
-        officialRates: "official exchange rates of the Central Bank of the Russian Federation",
-
-        sidebarTitle: "Strategic Metals, Oil, Gas and Stocks",
-        barrelInfo: "1 barrel = 158.99 liters | 1 American gallon = 3.785 liters",
-        companiesFrom: "USA • EU • China • Russia",
-        dataDisclaimer: "Data from the Central Bank of the Russian Federation, MOEX, NYSE, Binance, ByBit and other sources • prices are approximate...",
-
-        newsRIA: "RIA Novosti",
-        newsRBK: "RBC",
-        newsKommersant: "Kommersant",
-        newsIz: "Izvestia"
+    en: { 
+        siteTitle: "Victoria Falls", exchangeRates: "Exchange Rates", iGive: "I Give", iGet: "I Get", selectCurrency: "Select Currency", currencyHistory: "Brief history and interesting facts about the selected currency will be here.", allAssets: "All Available Assets", histChart: "Historical Chart", sp500: "S&P 500 Heatmap", marketAnalytics: "Market Analytics", moexStocks: "MOEX Stocks", globalIndexes: "Global Market Indexes", fearGreed: "Fear & Greed", altSeason: "Altcoin Season Index", cryptoBinance: "Cryptocurrencies (Binance)", updated: "updated:", news: "Financial News", majorCurrencies: "Major World Currencies", otherCurrencies: "Other Important Currencies", asiaCurrencies: "Asian & Middle Eastern Currencies", middleEast: "Middle East & Others", cis: "CIS & Neighboring Countries", loading: "loading...", noData: "No data", chartHist: "Historical Chart", chartPro: "Professional Chart", chartLoading: "Loading data...", chartError: "Error loading chart", date: "Date", price: "Price", fiatCategory: "Fiat Currencies", cryptoCategory: "Cryptocurrencies", fiatCurrency: "national currency", cryptoCurrency: "cryptocurrency", noInfo: "Information about this currency will appear soon.", moexClosed: "MOEX trading is closed.", rateFor: "Rate for", update: "update", fngExtremeFear: "Extreme Fear", fngFear: "Fear", fngNeutral: "Neutral", fngGreed: "Greed", fngExtremeGreed: "Extreme Greed", altBtcSeason: "Bitcoin Season", altBtcLean: "Leaning to BTC", altNeutral: "Neutral", altAltLean: "Leaning to Alts", altSeasonText: "Altcoin Season!",
+        dragHandle: "Drag", cisTitle: "CIS & Neighbors", europeTitle: "Europe & West", asiaTitle: "Asia & Others", financeNews: "Financial News", pulpFiction: "Pulp Fiction Fed", project: "About Project", thanks: "Gratitude", docs: "Documents", apiSources: "API Sources", up: "↑ Top", disclaimer: "Data from CBR, MOEX, NYSE, Binance, ByBit and other sources • prices are approximate • for accurate info consult official sources."
     },
-
-    de: {
-        siteTitle: "Pulp Fiction Fed",
-        exchangeRates: "Wechselkurse",
-        majorCurrencies: "Die wichtigsten Währungen der Welt",
-        otherCurrencies: "Andere wichtige Währungen",
-        asiaCurrencies: "Asiatische und nahöstliche Währungen",
-        middleEast: "Naher Osten und andere",
-        cis: "GUS und Nachbarländer",
-        strategicMetals: "Edelmetalle und strategische Metalle",
-        oil: "Erdöl",
-        naturalGas: "Erdgas (große Erzeuger)",
-        cryptocurrencies: "Kryptowährungen",
-        stocks: "Aktien großer Unternehmen",
-
-        updated: "aktualisiert:",
-        loading: "wird geladen...",
-        officialRates: "offizielle Wechselkurse der Zentralbank der Russischen Föderation",
-
-        sidebarTitle: "Strategische Metalle, Öl, Gas und Aktien",
-        barrelInfo: "1 Fass = 158,99 Liter | 1 amerikanischer Gallone = 3,785 Liter",
-        companiesFrom: "USA • EU • China • Russland",
-        dataDisclaimer: "Daten von der Zentralbank der Russischen Föderation...",
-
-        newsRIA: "RIA Novosti",
-        newsRBK: "RBC",
-        newsKommersant: "Kommersant",
-        newsIz: "Izvestia"
+    de: { 
+        siteTitle: "Victoria Falls", exchangeRates: "Wechselkurse", iGive: "Ich gebe", iGet: "Ich bekomme", selectCurrency: "Währung wählen", currencyHistory: "Hier finden Sie eine kurze Geschichte und Fakten zur gewählten Währung.", allAssets: "Alle verfügbaren Vermögenswerte", histChart: "Historisches Diagramm", sp500: "S&P 500 Heatmap", marketAnalytics: "Marktanalyse", moexStocks: "MOEX Aktien", globalIndexes: "Globale Marktindizes", fearGreed: "Angst & Gier", altSeason: "Altcoin-Saison-Index", cryptoBinance: "Kryptowährungen (Binance)", updated: "aktualisiert:", news: "Finanznachrichten", majorCurrencies: "Wichtigste Weltwährungen", otherCurrencies: "Andere wichtige Währungen", asiaCurrencies: "Währungen Asiens und des Nahen Ostens", middleEast: "Naher Osten und andere", cis: "GUS und Nachbarländer", loading: "wird geladen...", noData: "Keine Daten", chartHist: "Historisches Diagramm", chartPro: "Professionelles Diagramm", chartLoading: "Daten werden geladen...", chartError: "Fehler beim Laden des Diagramms", date: "Datum", price: "Preis", fiatCategory: "Fiat-Währungen", cryptoCategory: "Kryptowährungen", fiatCurrency: "nationale Währung", cryptoCurrency: "Kryptowährung", noInfo: "Informationen zu dieser Währung erscheinen in Kürze.", moexClosed: "MOEX-Handel ist geschlossen.", rateFor: "Kurs für", update: "Aktualisierung", fngExtremeFear: "Extreme Angst", fngFear: "Angst", fngNeutral: "Neutral", fngGreed: "Gier", fngExtremeGreed: "Extreme Gier", altBtcSeason: "Bitcoin-Saison", altBtcLean: "Neigung zu BTC", altNeutral: "Neutral", altAltLean: "Neigung zu Alts", altSeasonText: "Altcoin-Saison!",
+        dragHandle: "Ziehen", cisTitle: "GUS & Nachbarn", europeTitle: "Europa & Westen", asiaTitle: "Asien & Andere", financeNews: "Finanznachrichten", pulpFiction: "Pulp Fiction Fed", project: "Über das Projekt", thanks: "Dankbarkeit", docs: "Dokumente", apiSources: "API-Quellen", up: "↑ Nach oben", disclaimer: "Daten von CBR, MOEX, NYSE, Binance, ByBit und anderen Quellen • Preise sind annähernd • Für genaue Informationen wenden Sie sich an die offiziellen Quellen."
     },
-
-    kz: { 
-        siteTitle: "Pulp Fiction Fed",
-        exchangeRates: "Валюта бағамдары",
-        majorCurrencies: "Негізгі әлемдік валюталар",
-        otherCurrencies: "Басқа маңызды валюталар",
-        asiaCurrencies: "Азия және Таяу Шығыс валюталары",
-        middleEast: "Таяу Шығыс және басқа",
-        cis: "ТМД және көрші елдер",
-        strategicMetals: "Қымбат және стратегиялық металдар",
-        oil: "Мұнай",
-        naturalGas: "Табиғи газ (ірі өндірушілер)",
-        cryptocurrencies: "Криптовалюталар",
-        stocks: "Үлкен компаниялардың акциялары",
-
-        updated: "жаңартылған:",
-        loading : "жүктелуде...",
-        officialRates: "Ресей Федерациясының Орталық банкінің ресми бағамдары",
-
-        sidebarTitle: "Стратегиялық металдар, мұнай, газ және акциялар",
-        barrelInfo: "1 баррель = 158.99 литр | 1 американ галлоны = 3.785 литр",
-        companiesFrom: "АҚШ • ЕС • Қытай • Ресей",
-        dataDisclaimer: "Ресей Федерациясының Орталық Банкі, MOEX, NYSE, Binance, ByBit және басқа көздерден алынған мәліметтер • бағалар шамамен алынған және нақты ақпараттан өзгеше болуы мүмкін • дәлірек ақпарат алу үшін ресми дереккөздерге жүгініңіз.", } , 
-
-        newsRIA: "РИА Новости",
-        newsRBK: "РБК",
-        newsKommersant: "Коммерсантъ",
-        newsIz: "Известия",
-
-    by: { 
-        siteTitle: "Pulp Fiction Fed",
-        exchangeRates: "Курсы валют",
-        majorCurrencies: "Асноўныя сусветныя валюты",
-        otherCurrencies: "Іншыя важныя валюты",
-        asiaCurrencies: "Азіяцкія і блізкаўсходнія валюты",
-        middleEast: "Блізкі Усход і іншыя",
-        cis: "СНД і суседнія краіны",
-        strategicMetals: "Дарагія і стратэгічныя металы",
-        oil: "Нафта",
-        naturalGas: "Прыродны газ (крупныя вытворцы)",
-        cryptocurrencies: "Криптовалюты",
-        stocks: "Акцыі найбуйнейшых кампаній",
-
-        updated: "абноўлены:",
-        loading : "загружаць...",
-        officialRates: "Афіцыйныя курсы ЦБ РФ",
-
-        sidebarTitle: "Стратэгічныя металы, нафту, газ і акцыі",
-        barrelInfo: "1 барэль = 158.99 літраў / 1 амерыканскі галон = 3.785 літраў",
-        companiesFrom: "ЗША • ЕС • Кітай • РФ",
-        dataDisclaimer: "Дадзеныя з ЦБ РФ, MOEX, NYSE, Binance, ByBit і іншых крыніц • цэны прыблізныя і могуць адрознівацца ад рэальных • для атрымання больш дакладнай інфармацыі звяртайцеся да афіцыйных крыніц.",
-
-        newsRIA: "РІА Навіны",
-        newsRBK: "РБК",
-        newsKommersant: "Камерсантъ",
-        newsIz: "Вестка",
-},  
-
-    uc:{
-        siteTitle: "Pulp Fiction Fed",
-        exchangeRates: "Курси валют",
-        majorCurrencies: "Основні світові валюти",
-        otherCurrencies: "Інші важливі валюти",
-        asiaCurrencies: "Азіатські та близькосхідні валюти",
-        middleEast: "Близький Схід та інші",
-        cis: "СНД і сусідні країни",
-        strategicMetals: "Дорогоцінні та стратегічні метали",
-        oil: "Нафта",
-        naturalGas: "Природний газ (великі виробники)",
-        cryptocurrencies: "Криптовалюти",
-        stocks: "Акції найбільших компаній",
-
-        updated: "оновлений:",
-        loading : "завантажувати...",
-        officialRates: "офіційні курси ЦБ РФ",
-
-        sidebarTitle: "Стратегічні метали, нафта, газ і акції",
-        barrelInfo: "1 барель = 158.99 літрів / 1 американський галон = 3.785 літрів",
-        companiesFrom: "США • ЕС • Китай • РФ",
-        dataDisclaimer: "Дані з ЦБ РФ, MOEX, NYSE, Binance, ByBit та інших джерел • ціни приблизні і можуть відрізнятися від реальних • для отримання більш точної інформації звертайтеся до офіційних джерел.", 
-    
-        newsRIA: "РИА Новини",
-        newsRBK: "РБК",
-        newsKommersant: "Коммерсантъ",
-        newsIz: "Вісті",
-    },
-
-
-    zh: { siteTitle: "Pulp Fiction Fed",
-        exchangeRates: "汇率",
-        majorCurrencies: "世界主要货币",
-        otherCurrencies: "其他重要货币",
-        asiaCurrencies: "亚洲及中东货币",
-        middleEast: "中东和其他国家",
-        cis: "独联体及周边国家",
-        strategicMetals: "贵金属和战略金属",
-        oil: "石油",
-        naturalGas: "天然气（主要生产商）",
-        cryptocurrencies: "加密货币",
-        stocks: "最大公司的股份",
-        
-        updated: "更新后的:",
-        loading : "装货了。..",
-        officialRates: "俄罗斯联邦中央银行的官方汇率",
-
-        sidebarTitle: "战略金属、石油、天然气和股票",
-        barrelInfo: "1桶=158.99升/1美国加仑=3.785升",
-        companiesFrom: "美国•欧盟•中国•俄罗斯联邦",
-        dataDisclaimer: "来自俄罗斯联邦中央银行，MOEX，NYSE，Binance，ByBit和其他来源的数据*价格是近似的，可能与真实的不同•有关更准确的信息，请联系官方消息来源。",
-        
-        newsRIA: "RIA新闻",
-        newsRBK: "加拿大皇家银行",
-        newsKommersant: "生意人报",
-        newsIz: "消息报",  
-    },
-
-    jp: { siteTitle: "Pulp Fiction Fed",
-        exchangeRates: "為替レート",
-        majorCurrencies: "世界の主要通貨",
-        otherCurrencies: "その他の重要通貨",
-        asiaCurrencies: "アジア-中東通貨",
-        middleEast: "中東その他",
-        cis: "CISおよび近隣諸国",
-        strategicMetals: "貴金属および戦略的金属",
-        oil: "オイル",
-        naturalGas: "天然ガス（主要生産者）",
-        cryptocurrencies: "",
-        stocks: "大手企業の株式",
-
-        updated: "更新しました:",
-        loading : "荷を積んでる..",
-        officialRates: "ロシア連邦中央銀行の公式為替レート",
-
-        sidebarTitle: "戦略的な金属、石油、ガスおよび株式",
-        barrelInfo: "1バレル=158.99リットル|1米国ガロン=3.785リットル",
-        companiesFrom: "米国•EU•中国•ロシア連邦",
-        dataDisclaimer: "ロシア連邦中央銀行、MOEX、NYSE、Binance、ByBitおよびその他の情報源からのデータ•価格は概算であり、実際のものとは異なる場合があります•より正確な情報については、公式",
-    
-        newsRIA: "RIAニュース",
-        newsRBK: "RBC",
-        newsKommersant: "コメルサント",
-        newsIz: "イズベスチヤ",
-    },
-    
-    kr: { siteTitle: "Pulp Fiction Fed",
-        exchangeRates: "환율",
-        majorCurrencies: "주요 세계 통화",
-        otherCurrencies: "기타 중요한 통화",
-        asiaCurrencies: "아시아 및 중동 통화",
-        middleEast: "중동 및 기타",
-        cis: " CIS 및 인근 국가",
-        strategicMetals: "드래곤 및 전략적 금속",
-        oil: "석유",
-        naturalGas: "천연 가스 (대형 생산자)",
-        cryptocurrencies: "암호화폐",
-        stocks: "최대 기업 주식",
-        
-        updated: "업데이트됨:",
-        loading : "로드 중...",
-        officialRates: "공식 환율",
-
-        sidebarTitle: "전략적 금속, 석유, 가스 및 주식",
-        barrelInfo: "1 바rell = 158.99 리터 | 1 미국 갤런 = 3.785 리터",
-        companiesFrom: "USA • EU • 중국 • 러시아 연방",
-        dataDisclaimer: "러시아 연방 중앙은행, MOEX, NYSE, Binance, ByBit 및 기타 출처의 데이터 • 가격은 근사치이며 실제와 다를 수 있습니다 • 보다 정확한 정보를 얻으려면 공식 출처에 문의하세요.",
-
-        newsRIA: "RIA 뉴스",
-        newsRBK: "RBC",
-        newsKommersant: "코메르산트",
-        newsIz: "이즈베스티야",
-    },
-    
-    sr: { siteTitle: "Pulp Fiction Fed",
-        exchangeRates: "Курсеви валута",
-        majorCurrencies: "Главне светске валуте",
-        otherCurrencies: "Остале важне валуте",
-        asiaCurrencies: "Азијске и блискоисточне валуте",
-        middleEast: "Блиски Исток и други",
-        cis: "ЗНД и суседне земље",
-        strategicMetals: "Племенити и стратешки метали",
-        oil: "Нафта",
-        naturalGas: "Природни гас (велики произвођачи)",
-        cryptocurrencies: "Цриптоцурренци",
-        stocks: "Акције највећих компанија",
-
-        updated: "ажурирано:",
-        loading : "учитава се...",
-        officialRates: "званични курсеви централне банке РФ",
-
-        sidebarTitle: "Стратешки метали, нафта, гас и акције",
-        barrelInfo: "1 барел = 158.99 литара | 1 амерички галон = 3.785 литара",
-        companiesFrom: "САД • ЕУ • Кина • Русија",
-        dataDisclaimer: "Подаци из централне банке РФ, МОЕКС, НИСЕ, Бинанце, бибит и других извора • цене су приближне и могу се разликовати од стварних • за прецизније информације обратите се званичним изворима.", 
-
-        newsRIA: "РИА Новости",
-        newsRBK: "РБК",
-        newsKommersant: "Коммерсант",
-        newsIz: "Вести",
-    },
-
-    sk : { 
-        siteTitle: "Pulp Fiction Fed",
-        exchangeRates: "Kurz",
-        majorCurrencies: "Hlavné svetové meny",
-        otherCurrencies: "Ostatné dôležité meny",
-        asiaCurrencies: "Ázijské a Stredovýchodné meny",
-        middleEast: "Blízky východ a iné",
-        cis: "SNŠ a susedné krajiny",
-        strategicMetals: "Drahé a strategické kovy",
-        oil: "Olej",
-        naturalGas: "Zemný plyn (Hlavní producenti)",
-        cryptocurrencies: "Kryptomeny",
-        stocks: "Akcie najväčších spoločností",
-        
-        updated: "aktualizovaný:",
-        loading : "Nabíja sa...",
-        officialRates: "oficiálne výmenné kurzy centrálnej banky Ruskej federácie",
-
-        sidebarTitle: "Strategické kovy, ropa, plyn a zásoby",
-        barrelInfo: "1 barel = 158,99 litra / 1 americký galón = 3,785 litra",
-        companiesFrom: "USA • EÚ • Čína • Ruská federácia",
-        dataDisclaimer: "Údaje z centrálnej banky Ruskej federácie, MOEX, NYSE, Binance, ByBit a ďalších zdrojov • ceny sú približné a môžu sa líšiť od skutočných • pre presnejšie informácie kontaktujte oficiálne zdroje.",
-
-        newsRIA: "RIA News",
-        newsRBK: "RBC",
-        newsKommersant: "Kommersant",
-        newsIz: "Izvestija",
-    },
-
-    sl: {  
-        siteTitle: "Pulp Fiction Fed",
-        exchangeRates: "Menjalni tečaji",
-        majorCurrencies: "Glavne svetovne valute",
-        otherCurrencies: "Druge pomembne valute",
-        asiaCurrencies: "Azijske in bližnjevzhodne valute",
-        middleEast: "Bližnji vzhod in drugi",
-        cis: "CIS in sosednje države",
-        strategicMetals: "Plemenite in strateške kovine",
-        oil: "Olje",
-        naturalGas: "Zemeljski plin (glavni proizvajalci)",
-        cryptocurrencies: "Kriptovalute",
-        stocks: "Delnice največjih podjetij",
-
-        updated: "posodobljeno:",
-        loading : "Naklada se...",
-        officialRates: "uradni deviznih tečajev od Centralne Banke ruske Federacije",
-
-        sidebarTitle: "Strateške kovine, nafta, plin in zaloge",
-        barrelInfo: "1 sodček = 158.99 litrov | 1 NAM galono = 3.785 litrov",
-        companiesFrom: "ZDA • EU • Kitajska • Ruska federacija",
-        dataDisclaimer: "Podatki iz Centralne Banke Ruske Federacije, MOEX, NYSE, Binance, ByBit in drugih virov • cene so približne in se lahko razlikujejo od dejanskih • za natančnejše informacije se obrnite na uradne vire.", 
-
-        newsRIA: "RIA Novice",
-        newsRBK: "RBC",
-        newsKommersant: "Kommersant",
-        newsIz: "Izvestija",
-    },     
-
-    pl: { siteTitle: "Pulp Fiction Fed",
-        exchangeRates: "Kursy walut",
-        majorCurrencies: "Główne waluty świata",
-        otherCurrencies: "Inne ważne waluty",
-        asiaCurrencies: "Waluty azjatyckie i Bliskiego Wschodu",
-        middleEast: "Bliski Wschód i inne",
-        cis: "WNP i kraje sąsiednie",
-        strategicMetals: "Metale szlachetne i strategiczne",
-        oil: "Ropa",
-        naturalGas: "Gaz ziemny (główni producenci)",
-        cryptocurrencies: "Kryptowaluty",
-        stocks: "Akcje największych przedsiębiorstw",
-
-        updated: "zaktualizowano:",
-        loading : "ładowanie...",
-        officialRates: "oficjalne kursy walut Banku Centralnego Federacji Rosyjskiej",
-
-        sidebarTitle: "Metale strategiczne, ropa, gaz i akcje",
-        barrelInfo: "1 baryłka = 158.99 litrów | 1 galon amerykański = 3.785 litrów",
-        companiesFrom: "USA • UE • Chiny • Rosja",
-        dataDisclaimer: "Dane z Banku Centralnego Federacji Rosyjskiej, MOEX, NYSE, Binance, ByBit i innych źródeł • ceny są przybliżone i mogą różnić się od rzeczywistych • dla dokładniejszych informacji skontaktuj się z oficjalnymi źródłami.",
-
-        newsRIA: "RIA Novosti",
-        newsRBK: "RBC",
-        newsKommersant: "Kommersant",
-        newsIz: "Izvestija",
-    },
-
-    fi: {        
-        siteTitle: "Pulp Fiction Fed",
-        exchangeRates: "Valuuttakurssi",
-        majorCurrencies: "Tärkeimmät maailman valuutat",
-        otherCurrencies: "Muut tärkeät valuutat",
-        asiaCurrencies: "Aasian ja Lähi-idän valuutat",
-        middleEast: "Lähi-itä ja muut",
-        cis: "IVY-maat ja naapurimaat",
-        strategicMetals: "Jalometallit ja strategiset metallit",
-        oil: "Öljy",
-        naturalGas: "Maakaasu (suuret tuottajat)",
-        cryptocurrencies: "Kryptovaluutat",
-        stocks: "Suurimpien yhtiöiden osakkeet",
-
-        updated: "päivittää:",
-        loading : "Se latautuu...",
-        officialRates: "Venäjän federaation keskuspankin viralliset valuuttakurssit",
-
-        sidebarTitle: "Strategiset metallit, öljy, kaasu ja varastot",
-        barrelInfo: "1 tynnyri = 158,99 litraa | 1 Yhdysvaltain gallona = 3,785 litraa",
-        companiesFrom: "USA • EU • Kiina • Venäjän federaatio",
-        dataDisclaimer: "Tiedot Venäjän federaation keskuspankin, MOEX, NYSE, Binance, ByBit ja muiden lähteiden • hinnat ovat arviota ja voivat poiketa todellisista • tarkempiin tietoihin voi hakea virallisia lähteitä.",
-
-        newsRIA: "RIA News",
-        newsRBK: "RBC",
-        newsKommersant: "Kommersant",
-        newsIz: "Izvestija",
-    },
-    
     fr: { 
-        siteTitle: "Pulp Fiction Fed",
-        exchangeRates: "Taux de change",
-        majorCurrencies: "Principales monnaies mondiales",
-        otherCurrencies: "Autres devises importantes",
-        asiaCurrencies: "Monnaies asiatiques et du moyen-Orient",
-        middleEast: "Moyen-Orient et autres",
-        cis: "CEI et pays voisins",
-        strategicMetals: "Métaux précieux et stratégiques",
-        oil: "Pétrole",
-        naturalGas: "Gaz naturel (grands producteurs)",
-        cryptocurrencies: "Cryptomonnaies",
-        stocks: "Actions des grandes entreprises",
-
-        updated: "mis à jour :",
-        loading : "en cours de chargement...",
-        officialRates: "taux de change officiels de la Banque centrale de la Fédération de Russie",
-
-        sidebarTitle: "Stratégiques métaux, pétrole, gaz et actions",
-        barrelInfo: "1 baril = 158.99 litres | 1 gallon américain = 3.785 litres",
-        companiesFrom: "USA • EU • Chine • Russie",
-        dataDisclaimer: "Données de la Banque centrale de la Fédération de Russie, MOEX, NYSE, Binance, ByBit et autres sources • les prix sont approximatifs et peuvent différer des prix réels • pour obtenir des informations plus précises, veuillez vous reporter aux sources officielles.", 
-
-        newsRIA: "RIA Novosti",
-        newsRBK: "RBC",
-        newsKommersant: "Kommersant",
-        newsIz: "Izvestija",    
+        siteTitle: "Victoria Falls", exchangeRates: "Taux de change", iGive: "Je donne", iGet: "Je reçois", selectCurrency: "Sélectionner la devise", currencyHistory: "Bref historique et faits intéressants sur la devise sélectionnée.", allAssets: "Tous les actifs", histChart: "Graphique historique", sp500: "Carte thermique S&P 500", marketAnalytics: "Analyse de marché", moexStocks: "Actions MOEX", globalIndexes: "Indices boursiers mondiaux", fearGreed: "Peur & Cupidité", altSeason: "Indice de la saison des Altcoins", cryptoBinance: "Cryptomonnaies (Binance)", updated: "mis à jour:", news: "Actualités Financières", majorCurrencies: "Principales devises mondiales", otherCurrencies: "Autres devises importantes", asiaCurrencies: "Devises asiatiques et du Moyen-Orient", middleEast: "Moyen-Orient et autres", cis: "CEI et pays voisins", loading: "chargement...", noData: "Pas de données", chartHist: "Graphique historique", chartPro: "Graphique professionnel", chartLoading: "Chargement des données...", chartError: "Erreur de chargement du graphique", date: "Date", price: "Prix", fiatCategory: "Monnaies Fiat", cryptoCategory: "Cryptomonnaies", fiatCurrency: "monnaie nationale", cryptoCurrency: "cryptomonnaie", noInfo: "Les informations sur cette devise apparaîtront bientôt.", moexClosed: "Les échanges MOEX sont fermés.", rateFor: "Taux du", update: "mise à jour", fngExtremeFear: "Peur Extrême", fngFear: "Peur", fngNeutral: "Neutre", fngGreed: "Cupidité", fngExtremeGreed: "Cupidité Extrême", altBtcSeason: "Saison Bitcoin", altBtcLean: "Tendance BTC", altNeutral: "Neutre", altAltLean: "Tendance Alts", altSeasonText: "Saison Altcoin !",
+        dragHandle: "Glisser", cisTitle: "CEI & Voisins", europeTitle: "Europe & Ouest", asiaTitle: "Asie & Autres", financeNews: "Actualités Financières", pulpFiction: "Pulp Fiction Fed", project: "À propos", thanks: "Remerciements", docs: "Documents", apiSources: "Sources API", up: "↑ Haut", disclaimer: "Données de la CBR, MOEX, NYSE, Binance, ByBit et autres sources • prix approximatifs • consultez les sources officielles pour des infos précises."
     },
-
+    zh: { 
+        siteTitle: "Victoria Falls", exchangeRates: "汇率", iGive: "我给", iGet: "我得到", selectCurrency: "选择货币", currencyHistory: "所选货币的简史和有趣事实将在这里显示。", allAssets: "所有可用资产", histChart: "历史图表", sp500: "S&P 500 热力图", marketAnalytics: "市场分析", moexStocks: "莫斯科交易所股票", globalIndexes: "全球市场指数", fearGreed: "恐惧与贪婪", altSeason: "山寨币季节指数", cryptoBinance: "加密货币 (币安)", updated: "更新时间:", news: "财经新闻", majorCurrencies: "世界主要货币", otherCurrencies: "其他重要货币", asiaCurrencies: "亚洲和中东货币", middleEast: "中东及其他", cis: "独联体及邻国", loading: "加载中...", noData: "没有数据", chartHist: "历史图表", chartPro: "专业图表", chartLoading: "正在加载数据...", chartError: "图表加载错误", date: "日期", price: "价格", fiatCategory: "法定货币", cryptoCategory: "加密货币", fiatCurrency: "本国货币", cryptoCurrency: "加密货币", noInfo: "关于此货币的信息将很快出现。", moexClosed: "MOEX交易已关闭。", rateFor: "汇率日期", update: "更新", fngExtremeFear: "极度恐惧", fngFear: "恐惧", fngNeutral: "中立", fngGreed: "贪婪", fngExtremeGreed: "极度贪婪", altBtcSeason: "比特币季节", altBtcLean: "倾向比特币", altNeutral: "中立", altAltLean: "倾向山寨币", altSeasonText: "山寨币季节！",
+        dragHandle: "拖动", cisTitle: "独联体及邻国", europeTitle: "欧洲与西方", asiaTitle: "亚洲及其他", financeNews: "财经新闻", pulpFiction: "Pulp Fiction Fed", project: "关于项目", thanks: "鸣谢", docs: "文档", apiSources: "API 来源", up: "↑ 顶部", disclaimer: "数据来自俄罗斯央行、MOEX、NYSE、币安、ByBit等来源 • 价格仅供参考 • 如需准确信息请咨询官方来源。"
+    },
+    jp: { 
+        siteTitle: "Victoria Falls", exchangeRates: "為替レート", iGive: "支払う", iGet: "受け取る", selectCurrency: "通貨を選択", currencyHistory: "選択した通貨の簡単な歴史と興味深い事実がここに表示されます。", allAssets: "利用可能なすべての資産", histChart: "履歴チャート", sp500: "S&P 500 ヒートマップ", marketAnalytics: "市場分析", moexStocks: "MOEX株式", globalIndexes: "世界市場指数", fearGreed: "恐怖と強欲", altSeason: "アルトコインシーズン指数", cryptoBinance: "暗号通貨 (Binance)", updated: "更新日:", news: "金融ニュース", majorCurrencies: "世界の主要通貨", otherCurrencies: "その他の重要通貨", asiaCurrencies: "アジアと中東の通貨", middleEast: "中東その他", cis: "CISと近隣諸国", loading: "読み込み中...", noData: "データなし", chartHist: "履歴チャート", chartPro: "プロフェッショナルチャート", chartLoading: "データを読み込んでいます...", chartError: "チャートの読み込みエラー", date: "日付", price: "価格", fiatCategory: "法定通貨", cryptoCategory: "暗号通貨", fiatCurrency: "自国通貨", cryptoCurrency: "暗号通貨", noInfo: "この通貨に関する情報はすぐに表示されます。", moexClosed: "MOEXの取引は終了しました。", rateFor: "レートの日付", update: "更新", fngExtremeFear: "極度の恐怖", fngFear: "恐怖", fngNeutral: "中立", fngGreed: "強欲", fngExtremeGreed: "極度の強欲", altBtcSeason: "ビットコインシーズン", altBtcLean: "BTC寄り", altNeutral: "中立", altAltLean: "アルト寄り", altSeasonText: "アルトコインシーズン！",
+        dragHandle: "ドラッグ", cisTitle: "CIS諸国", europeTitle: "欧州・西側", asiaTitle: "アジアその他", financeNews: "金融ニュース", pulpFiction: "Pulp Fiction Fed", project: "プロジェクト概要", thanks: "謝辞", docs: "ドキュメント", apiSources: "APIソース", up: "↑ トップ", disclaimer: "ロシア中央銀行、MOEX、NYSE、Binance、ByBit等からのデータ • 価格は概算 • 正確な情報は公式ソースを確認してください。"
+    },
+    kr: { 
+        siteTitle: "Victoria Falls", exchangeRates: "환율", iGive: "지불", iGet: "수취", selectCurrency: "통화 선택", currencyHistory: "선택한 통화의 간단한 역사와 흥미로운 사실이 여기에 표시됩니다.", allAssets: "사용 가능한 모든 자산", histChart: "과거 차트", sp500: "S&P 500 히트맵", marketAnalytics: "시장 분석", moexStocks: "MOEX 주식", globalIndexes: "글로벌 시장 지수", fearGreed: "공포와 탐욕", altSeason: "알트코인 시즌 지수", cryptoBinance: "암호화폐 (Binance)", updated: "업데이트됨:", news: "금융 뉴스", majorCurrencies: "주요 세계 통화", otherCurrencies: "기타 중요 통화", asiaCurrencies: "아시아 및 중동 통화", middleEast: "중동 및 기타", cis: "CIS 및 인근 국가", loading: "로딩 중...", noData: "데이터 없음", chartHist: "과거 차트", chartPro: "전문 차트", chartLoading: "데이터를 불러오는 중...", chartError: "차트 로딩 오류", date: "날짜", price: "가격", fiatCategory: "법정화폐", cryptoCategory: "암호화폐", fiatCurrency: "국가 통화", cryptoCurrency: "암호화폐", noInfo: "이 통화에 대한 정보가 곧 제공됩니다.", moexClosed: "MOEX 거래가 종료되었습니다.", rateFor: "환율 기준일", update: "업데이트", fngExtremeFear: "극도의 공포", fngFear: "공포", fngNeutral: "중립", fngGreed: "탐욕", fngExtremeGreed: "극도의 탐욕", altBtcSeason: "비트코인 시즌", altBtcLean: "BTC 편향", altNeutral: "중립", altAltLean: "알트 편향", altSeasonText: "알트코인 시즌!",
+        dragHandle: "드래그", cisTitle: "CIS 및 이웃", europeTitle: "유럽 및 서방", asiaTitle: "아시아 및 기타", financeNews: "금융 뉴스", pulpFiction: "Pulp Fiction Fed", project: "프로젝트 소개", thanks: "감사의 말", docs: "문서", apiSources: "API 소스", up: "↑ 맨 위로", disclaimer: "러시아 중앙은행, MOEX, NYSE, Binance, ByBit 등 데이터 • 가격은 근사치 • 정확한 정보는 공식 소스를 참조하세요."
+    },
+    kz: { 
+        siteTitle: "Victoria Falls", exchangeRates: "Валюта бағамдары", iGive: "Беремін", iGet: "Аламын", selectCurrency: "Валютаны таңдаңыз", currencyHistory: "Мұнда таңдалған валюта туралы қысқаша тарих және қызықты деректер болады.", allAssets: "Барлық қолжетімді активтер", histChart: "Тарихи график", sp500: "S&P 500 Жылу картасы", marketAnalytics: "Нарық аналитикасы", moexStocks: "MOEX Акциялары", globalIndexes: "Жаһандық нарық индекстері", fearGreed: "Қорқыныш пен Ашкөздік", altSeason: "Альткоин маусымы индексі", cryptoBinance: "Криптовалюталар (Binance)", updated: "жаңартылды:", news: "Қаржы жаңалықтары", majorCurrencies: "Негізгі әлемдік валюталар", otherCurrencies: "Басқа маңызды валюталар", asiaCurrencies: "Азия және Таяу Шығыс валюталары", middleEast: "Таяу Шығыс және басқа", cis: "ТМД және көрші елдер", loading: "жүктелуде...", noData: "Деректер жоқ", chartHist: "Тарихи график", chartPro: "Кәсіби график", chartLoading: "Деректер жүктелуде...", chartError: "Графикті жүктеу қатесі", date: "Күн", price: "Баға", fiatCategory: "Фиат валюталары", cryptoCategory: "Криптовалюталар", fiatCurrency: "ұлттық валюта", cryptoCurrency: "криптовалюта", noInfo: "Бұл валюта туралы ақпарат жақында пайда болады.", moexClosed: "MOEX саудасы жабық.", rateFor: "Бағам күні", update: "жаңарту", fngExtremeFear: "Қатты қорқыныш", fngFear: "Қорқыныш", fngNeutral: "Бейтарап", fngGreed: "Ашкөздік", fngExtremeGreed: "Қатты ашкөздік", altBtcSeason: "Биткоин маусымы", altBtcLean: "BTC-ге бейім", altNeutral: "Бейтарап", altAltLean: "Альттарға бейім", altSeasonText: "Альтсезон!",
+        dragHandle: "Сүйреу", cisTitle: "ТМД және көршілер", europeTitle: "Еуропа және Батыс", asiaTitle: "Азия және басқалар", financeNews: "Қаржы жаңалықтары", pulpFiction: "Pulp Fiction Fed", project: "Жоба туралы", thanks: "Алғыс", docs: "Құжаттар", apiSources: "API дереккөздері", up: "↑ Жоғары", disclaimer: "Дереккөздер: Ресей Орталық банкі, MOEX, NYSE, Binance, ByBit • бағалар шамамен алынған • нақты ақпарат алу үшін ресми дереккөздерге жүгініңіз."
+    },
+    by: { 
+        siteTitle: "Victoria Falls", exchangeRates: "Курсы валют", iGive: "Аддаю", iGet: "Атрымліваю", selectCurrency: "Выберыце валюту", currencyHistory: "Тут будзе кароткая гісторыя і цікавыя факты пра выбраную валюту.", allAssets: "Усе даступныя актывы", histChart: "Гістарычны графік", sp500: "Цеплавая карта S&P 500", marketAnalytics: "Рыначная аналітыка", moexStocks: "Акцыі MOEX", globalIndexes: "Глабальныя рыначныя індэксы", fearGreed: "Страх і Прагнасць", altSeason: "Індэкс Альтсезона", cryptoBinance: "Крыптавалюты (Binance)", updated: "абноўлена:", news: "Фінансавыя навіны", majorCurrencies: "Асноўныя сусветныя валюты", otherCurrencies: "Іншыя важныя валюты", asiaCurrencies: "Азіяцкія і блізкаўсходнія валюты", middleEast: "Блізкі Усход і іншыя", cis: "СНД і суседнія краіны", loading: "загрузка...", noData: "Няма дадзеных", chartHist: "Гістарычны графік", chartPro: "Прафесійны графік", chartLoading: "Загрузка дадзеных...", chartError: "Памылка загрузкі графіка", date: "Дата", price: "Цана", fiatCategory: "Фіятныя валюты", cryptoCategory: "Крыптавалюты", fiatCurrency: "нацыянальная валюта", cryptoCurrency: "крыптавалюта", noInfo: "Інфармацыя пра гэтую валюту хутка з'явіцца.", moexClosed: "Таргі на MOEX закрытыя.", rateFor: "Курс за", update: "абнаўленне", fngExtremeFear: "Жорсткі страх", fngFear: "Страх", fngNeutral: "Нейтральна", fngGreed: "Прагнасць", fngExtremeGreed: "Дзікая прагнасць", altBtcSeason: "Сезон Біткоіна", altBtcLean: "Схільнасць да BTC", altNeutral: "Нейтральна", altAltLean: "Схільнасць да Альтаў", altSeasonText: "Альтсезон!",
+        dragHandle: "Перацягнуць", cisTitle: "СНД і суседзі", europeTitle: "Еўропа і Захад", asiaTitle: "Азія і іншыя", financeNews: "Фінансавыя навіны", pulpFiction: "Pulp Fiction Fed", project: "Пра праект", thanks: "Падзякі", docs: "Дакументы", apiSources: "Крыніцы API", up: "↑ Наверх", disclaimer: "Дадзеныя ЦБ РФ, MOEX, NYSE, Binance, ByBit і іншых крыніц • цэны прыблізныя • для атрымання дакладнай інфармацыі звяртайцеся да афіцыйных крыніц."
+    },
+    uc: { 
+        siteTitle: "Victoria Falls", exchangeRates: "Курси валют", iGive: "Віддаю", iGet: "Отримую", selectCurrency: "Виберіть валюту", currencyHistory: "Тут буде коротка історія та цікаві факти про обрану валюту.", allAssets: "Всі доступні активи", histChart: "Історичний графік", sp500: "Теплова карта S&P 500", marketAnalytics: "Ринкова аналітика", moexStocks: "Акції MOEX", globalIndexes: "Глобальні ринкові індекси", fearGreed: "Страх і Жадібність", altSeason: "Індекс Альтсезону", cryptoBinance: "Криптовалюти (Binance)", updated: "оновлено:", news: "Фінансові новини", majorCurrencies: "Основні світові валюти", otherCurrencies: "Інші важливі валюти", asiaCurrencies: "Азіатські та близькосхідні валюти", middleEast: "Близький Схід та інші", cis: "СНД і сусідні країни", loading: "завантаження...", noData: "Немає даних", chartHist: "Історичний графік", chartPro: "Професійний графік", chartLoading: "Завантаження даних...", chartError: "Помилка завантаження графіка", date: "Дата", price: "Ціна", fiatCategory: "Фіатні валюти", cryptoCategory: "Криптовалюти", fiatCurrency: "національна валюта", cryptoCurrency: "криптовалюта", noInfo: "Інформація про цю валюту скоро з'явиться.", moexClosed: "Торги на MOEX закриті.", rateFor: "Курс за", update: "оновлення", fngExtremeFear: "Сильний страх", fngFear: "Страх", fngNeutral: "Нейтрально", fngGreed: "Жадібність", fngExtremeGreed: "Сильна жадібність", altBtcSeason: "Сезон Біткоїна", altBtcLean: "Схильність до BTC", altNeutral: "Нейтрально", altAltLean: "Схильність до Альтів", altSeasonText: "Альтсезон!",
+        dragHandle: "Перетягнути", cisTitle: "СНД та сусіди", europeTitle: "Європа та Захід", asiaTitle: "Азія та інші", financeNews: "Фінансові новини", pulpFiction: "Pulp Fiction Fed", project: "Про проект", thanks: "Подяки", docs: "Документи", apiSources: "Джерела API", up: "↑ Нагору", disclaimer: "Дані ЦБ РФ, MOEX, NYSE, Binance, ByBit та інших джерел • ціни приблизні • для отримання точної інформації звертайтеся до офіційних джерел."
+    },
+    pl: { 
+        siteTitle: "Victoria Falls", exchangeRates: "Kursy walut", iGive: "Oddaję", iGet: "Otrzymuję", selectCurrency: "Wybierz walutę", currencyHistory: "Tutaj znajdzie się krótka historia i ciekawostki o wybranej walucie.", allAssets: "Wszystkie dostępne aktywa", histChart: "Wykres historyczny", sp500: "Mapa cieplna S&P 500", marketAnalytics: "Analityka rynkowa", moexStocks: "Akcje MOEX", globalIndexes: "Globalne indeksy rynkowe", fearGreed: "Strach i Chciwość", altSeason: "Indeks Sezonu Altcoinów", cryptoBinance: "Kryptowaluty (Binance)", updated: "zaktualizowano:", news: "Wiadomości Finansowe", majorCurrencies: "Główne waluty świata", otherCurrencies: "Inne ważne waluty", asiaCurrencies: "Waluty azjatyckie i bliskowschodnie", middleEast: "Bliski Wschód i inne", cis: "WNP i kraje sąsiadujące", loading: "ładowanie...", noData: "Brak danych", chartHist: "Wykres historyczny", chartPro: "Wykres profesjonalny", chartLoading: "Ładowanie danych...", chartError: "Błąd ładowania wykresu", date: "Data", price: "Cena", fiatCategory: "Waluty FIAT", cryptoCategory: "Kryptowaluty", fiatCurrency: "waluta narodowa", cryptoCurrency: "kryptowaluta", noInfo: "Informacje o tej walucie pojawią się wkrótce.", moexClosed: "Handel na MOEX jest zamknięty.", rateFor: "Kurs za", update: "aktualizacja", fngExtremeFear: "Ekstremalny strach", fngFear: "Strach", fngNeutral: "Neutralnie", fngGreed: "Chciwość", fngExtremeGreed: "Ekstremalna chciwość", altBtcSeason: "Sezon Bitcoina", altBtcLean: "Skłonność do BTC", altNeutral: "Neutralnie", altAltLean: "Skłonność do Altów", altSeasonText: "Sezon Altcoinów!",
+        dragHandle: "Przeciągnij", cisTitle: "WNP i sąsiedzi", europeTitle: "Europa i Zachód", asiaTitle: "Azja i inne", financeNews: "Wiadomości Finansowe", pulpFiction: "Pulp Fiction Fed", project: "O projekcie", thanks: "Podziękowania", docs: "Dokumenty", apiSources: "Źródła API", up: "↑ W górę", disclaimer: "Dane z CBR, MOEX, NYSE, Binance, ByBit i innych źródeł • ceny są przybliżone • aby uzyskać dokładne informacje, sprawdź oficjalne źródła."
+    },
+    fi: { 
+        siteTitle: "Victoria Falls", exchangeRates: "Valuuttakurssit", iGive: "Annan", iGet: "Saan", selectCurrency: "Valitse valuutta", currencyHistory: "Tässä on lyhyt historia ja mielenkiintoisia faktoja valitusta valuutasta.", allAssets: "Kaikki varat", histChart: "Historiallinen kaavio", sp500: "S&P 500 Lämpökartta", marketAnalytics: "Markkina-analyysi", moexStocks: "MOEX Osakkeet", globalIndexes: "Globaalit markkinaindeksit", fearGreed: "Pelko ja Ahneus", altSeason: "Altcoin-kausi Indeksi", cryptoBinance: "Kryptovaluutat (Binance)", updated: "päivitetty:", news: "Talousuutiset", majorCurrencies: "Tärkeimmät maailman valuutat", otherCurrencies: "Muut tärkeät valuutat", asiaCurrencies: "Aasian ja Lähi-idän valuutat", middleEast: "Lähi-itä ja muut", cis: "IVY-maat ja naapurit", loading: "ladataan...", noData: "Ei tietoja", chartHist: "Historiallinen kaavio", chartPro: "Ammattimainen kaavio", chartLoading: "Ladataan tietoja...", chartError: "Virhe kaavion latauksessa", date: "Päivämäärä", price: "Hinta", fiatCategory: "Fiat-valuutat", cryptoCategory: "Kryptovaluutat", fiatCurrency: "kansallinen valuutta", cryptoCurrency: "kryptovaluutta", noInfo: "Tietoa tästä valuutasta ilmestyy pian.", moexClosed: "MOEX-kaupankäynti on suljettu.", rateFor: "Kurssi", update: "päivitys", fngExtremeFear: "Äärimmäinen pelko", fngFear: "Pelko", fngNeutral: "Neutraali", fngGreed: "Ahneus", fngExtremeGreed: "Äärimmäinen ahneus", altBtcSeason: "Bitcoin-kausi", altBtcLean: "Taipumus BTC", altNeutral: "Neutraali", altAltLean: "Taipumus Alt", altSeasonText: "Altcoin-kausi!",
+        dragHandle: "Vedä", cisTitle: "IVY ja naapurit", europeTitle: "Eurooppa ja Länsi", asiaTitle: "Aasia ja muut", financeNews: "Talousuutiset", pulpFiction: "Pulp Fiction Fed", project: "Tietoa projektista", thanks: "Kiitokset", docs: "Asiakirjat", apiSources: "API-lähteet", up: "↑ Ylös", disclaimer: "Tiedot lähteistä: CBR, MOEX, NYSE, Binance, ByBit • hinnat ovat suuntaa-antavia • tarkista viralliset lähteet."
+    },
+    sl: { 
+        siteTitle: "Victoria Falls", exchangeRates: "Menjalni tečaji", iGive: "Dam", iGet: "Dobim", selectCurrency: "Izberite valuto", currencyHistory: "Tu bo kratka zgodovina in zanimivosti o izbrani valuti.", allAssets: "Vsa razpoložljiva sredstva", histChart: "Zgodovinski grafikon", sp500: "Toplotna karta S&P 500", marketAnalytics: "Tržna analitika", moexStocks: "Delnice MOEX", globalIndexes: "Globalni tržni indeksi", fearGreed: "Strah in Poha", altSeason: "Indeks Altcoin Sezone", cryptoBinance: "Kriptovalute (Binance)", updated: "posodobljeno:", news: "Finančne novice", majorCurrencies: "Glavne svetovne valute", otherCurrencies: "Druge pomembne valute", asiaCurrencies: "Azijske in bližnjevzhodne valute", middleEast: "Bližnji vzhod in drugi", cis: "CIS in sosednje države", loading: "nalaganje...", noData: "Ni podatkov", chartHist: "Zgodovinski grafikon", chartPro: "Profesionalni grafikon", chartLoading: "Nalaganje podatkov...", chartError: "Napaka pri nalaganju grafikona", date: "Datum", price: "Cena", fiatCategory: "Fiat valute", cryptoCategory: "Kriptovalute", fiatCurrency: "nacionalna valuta", cryptoCurrency: "kriptovaluta", noInfo: "Informacije o tej valuti se bodo kmalu pojavile.", moexClosed: "Trgovanje na MOEX je zaprto.", rateFor: "Tečaj za", update: "posodobitev", fngExtremeFear: "Skrajni strah", fngFear: "Strah", fngNeutral: "Nevtralno", fngGreed: "Pohlep", fngExtremeGreed: "Skrajni pohlep", altBtcSeason: "Sezona Bitcoina", altBtcLean: "Nagnjenost k BTC", altNeutral: "Nevtralno", altAltLean: "Nagnjenost k Alt", altSeasonText: "Altcoin Sezona!",
+        dragHandle: "Povlecite", cisTitle: "CIS in sosedi", europeTitle: "Evropa in Zahod", asiaTitle: "Azija in drugo", financeNews: "Finančne novice", pulpFiction: "Pulp Fiction Fed", project: "O projektu", thanks: "Zahvala", docs: "Dokumenti", apiSources: "Viri API", up: "↑ Gor", disclaimer: "Podatki od CBR, MOEX, NYSE, Binance, ByBit in drugih virov • cene so približne • za točne informacije preverite uradne vire."
+    },
+    sk: { 
+        siteTitle: "Victoria Falls", exchangeRates: "Výmenné kurzy", iGive: "Dávam", iGet: "Dostávam", selectCurrency: "Vyberte menu", currencyHistory: "Tu bude krátka história a zaujímavosti o vybranej mene.", allAssets: "Všetky dostupné aktíva", histChart: "Historický graf", sp500: "Teplotná mapa S&P 500", marketAnalytics: "Trhová analytika", moexStocks: "Akcie MOEX", globalIndexes: "Globálne trhové indexy", fearGreed: "Strach a Chamtivosť", altSeason: "Index Altcoinovej Sezóny", cryptoBinance: "Kryptomeny (Binance)", updated: "aktualizované:", news: "Finančné správy", majorCurrencies: "Hlavné svetové meny", otherCurrencies: "Ostatné dôležité meny", asiaCurrencies: "Ázijské a stredovýchodné meny", middleEast: "Blízky východ a iné", cis: "SNŠ a susedné krajiny", loading: "načítava sa...", noData: "Žiadne dáta", chartHist: "Historický graf", chartPro: "Profesionálny graf", chartLoading: "Načítavajú sa dáta...", chartError: "Chyba pri načítaní grafu", date: "Dátum", price: "Cena", fiatCategory: "Fiat meny", cryptoCategory: "Kryptomeny", fiatCurrency: "národná mena", cryptoCurrency: "kryptomena", noInfo: "Informácie o tejto mene sa čoskoro objavia.", moexClosed: "Obchodovanie na MOEX je uzavreté.", rateFor: "Kurz za", update: "aktualizácia", fngExtremeFear: "Extrémny strach", fngFear: "Strach", fngNeutral: "Neutrálne", fngGreed: "Chamtivosť", fngExtremeGreed: "Extrémna chamtivosť", altBtcSeason: "Sezóna Bitcoinu", altBtcLean: "Sklon k BTC", altNeutral: "Neutrálne", altAltLean: "Sklon k Alt", altSeasonText: "Altcoinová Sezóna!",
+        dragHandle: "Potiahnuť", cisTitle: "SNŠ a susedia", europeTitle: "Európa a Západ", asiaTitle: "Ázia a iné", financeNews: "Finančné správy", pulpFiction: "Pulp Fiction Fed", project: "O projekte", thanks: "Poďakovania", docs: "Dokumenty", apiSources: "Zdroje API", up: "↑ Hore", disclaimer: "Dáta z CBR, MOEX, NYSE, Binance, ByBit a iných zdrojov • ceny sú približné • pre presné informácie kontaktujte oficiálne zdroje."
+    },
+    sr: { 
+        siteTitle: "Victoria Falls", exchangeRates: "Курсеви валута", iGive: "Дајем", iGet: "Добијам", selectCurrency: "Изаберите валуту", currencyHistory: "Овде ће бити кратка историја и занимљивости о изабраној валути.", allAssets: "Сва доступна средства", histChart: "Историјски графикон", sp500: "S&P 500 Топлотна мапа", marketAnalytics: "Тржишна аналитика", moexStocks: "Акције MOEX", globalIndexes: "Глобални тржишни индекси", fearGreed: "Страх и Похлепа", altSeason: "Индекс Алтцоин Сезоне", cryptoBinance: "Криптовалуте (Binance)", updated: "ажурирано:", news: "Финансијске вести", majorCurrencies: "Главне светске валуте", otherCurrencies: "Остале важне валуте", asiaCurrencies: "Азијске и блискоисточне валуте", middleEast: "Блиски Исток и други", cis: "ЗНД и суседне земље", loading: "учитавање...", noData: "Нема података", chartHist: "Историјски графикон", chartPro: "Професионални графикон", chartLoading: "Учитавање података...", chartError: "Грешка при учитавању", date: "Датум", price: "Цена", fiatCategory: "Фиат валуте", cryptoCategory: "Криптовалуте", fiatCurrency: "национална валута", cryptoCurrency: "криптовалута", noInfo: "Информације о овој валути ће се ускоро појавити.", moexClosed: "Трговање на MOEX је затворено.", rateFor: "Курс за", update: "ажурирање", fngExtremeFear: "Екстремни страх", fngFear: "Страх", fngNeutral: "Неутрално", fngGreed: "Похлепа", fngExtremeGreed: "Екстремна похлепа", altBtcSeason: "Сезона Биткоина", altBtcLean: "Склоност ка BTC", altNeutral: "Неутрално", altAltLean: "Склоност ка Алт", altSeasonText: "Алтцоин Сезона!",
+        dragHandle: "Превуците", cisTitle: "ЗНД и суседи", europeTitle: "Европа и Запад", asiaTitle: "Азија и остали", financeNews: "Финансијске вести", pulpFiction: "Pulp Fiction Fed", project: "О пројекту", thanks: "Захвалност", docs: "Документи", apiSources: "Извори API", up: "↑ На врх", disclaimer: "Подаци из CBR, MOEX, NYSE, Binance, ByBit и других извора • цене су приближне • за тачне информације проверите званичне изворе."
+    },
     hu: { 
-        siteTitle: "Pulp Fiction Fed",
-        exchangeRates: "Árfolyamok",
-        majorCurrencies: "Főbb világ valuták",
-        otherCurrencies: "Egyéb fontos valuták",
-        asiaCurrencies: "Ázsiai és Közel-Keleti valuták",
-        middleEast: "Bližnji Východ a ostatné",
-        cis: "SNB a susedné krajiny",
-        strategicMetals: "Drahé a stratégiuľné kovy",
-        oil: "Nafta",
-        naturalGas: "Prirodzený plyn (veľkí výrobcovia)",
-        cryptocurrencies: "Kriptovaluty",
-        stocks: "Акции крупнейших компаний",
-        
-        updated: "obnovleno:",
-        loading : "zagruzhaetsya...",
-        officialRates: "oficiálne kurzy CB RF",
-
-        sidebarTitle: "Stratégiai fémek, olaj, gáz és készletek",
-        barrelInfo: "1 hordó = 158,99 liter | 1 amerikai gallon = 3,785 liter",
-        companiesFrom: "USA • EU • Kína • Oroszország",
-        dataDisclaimer: "Adatok a CB RF, MOEX, NYSE, Binance, ByBit és más forrásokból • az árak hozzávetőlegesek és eltérhetnek a valóságtól • pontosabb információkért forduljon hivatalos forrásokhoz.",
-
-        newsRIA: "RIA Novosti",
-        newsRBK: "RBC",
-        newsKommersant: "Kommersant",
-        newsIz: "Izvestija",    
+        siteTitle: "Victoria Falls", exchangeRates: "Árfolyamok", iGive: "Adok", iGet: "Kapok", selectCurrency: "Válasszon valutát", currencyHistory: "Itt lesz egy rövid történet és érdekességek a kiválasztott valutáról.", allAssets: "Minden elérhető eszköz", histChart: "Történelmi diagram", sp500: "S&P 500 Hőtérkép", marketAnalytics: "Piaci analitika", moexStocks: "MOEX Részvények", globalIndexes: "Globális Piaci Indexek", fearGreed: "Félelem és Kapzsiság", altSeason: "Altcoin Szezon Index", cryptoBinance: "Kriptovaluták (Binance)", updated: "frissítve:", news: "Pénzügyi Hírek", majorCurrencies: "Főbb világ valuták", otherCurrencies: "Egyéb fontos valuták", asiaCurrencies: "Ázsiai és Közel-Keleti valuták", middleEast: "Közel-Kelet és egyéb", cis: "FÁK és szomszédos országok", loading: "betöltés...", noData: "Nincs adat", chartHist: "Történelmi diagram", chartPro: "Professzionális diagram", chartLoading: "Adatok betöltése...", chartError: "Hiba a diagram betöltésekor", date: "Dátum", price: "Ár", fiatCategory: "Fiat Valuták", cryptoCategory: "Kriptovaluták", fiatCurrency: "nemzeti valuta", cryptoCurrency: "kriptovaluta", noInfo: "Az információ erről a valutáról hamarosan megjelenik.", moexClosed: "A MOEX kereskedés zárva van.", rateFor: "Árfolyam:", update: "frissítés", fngExtremeFear: "Extrém Félelem", fngFear: "Félelem", fngNeutral: "Semleges", fngGreed: "Kapzsiság", fngExtremeGreed: "Extrém Kapzsiság", altBtcSeason: "Bitcoin Szezon", altBtcLean: "Hajlam BTC felé", altNeutral: "Semleges", altAltLean: "Hajlam Altok felé", altSeasonText: "Altcoin Szezon!",
+        dragHandle: "Húzás", cisTitle: "FÁK és szomszédok", europeTitle: "Európa és Nyugat", asiaTitle: "Ázsia és mások", financeNews: "Pénzügyi Hírek", pulpFiction: "Pulp Fiction Fed", project: "A projektről", thanks: "Köszönet", docs: "Dokumentumok", apiSources: "API Források", up: "↑ Felfelé", disclaimer: "Adatok: CBR, MOEX, NYSE, Binance, ByBit és más források • az árak hozzávetőlegesek • pontos információkért forduljon hivatalos forrásokhoz."
     },
-
     am: { 
-        siteTitle: "Pulp Fiction Fed",
-        exchangeRates: "Փոխարժեքներ",
-        majorCurrencies: "Համաշխարհային հիմնական արժույթները",
-        otherCurrencies: "Այլ կարևոր արժույթներ",
-        asiaCurrencies: "Ազիական և Կենտրոնական Արևելյան արժույթներ",
-        middleEast: "Կենտրոնական Արևելյան և այլ երկրներ",
-        cis: "ՍՆΓ և հարևած երկրներ",
-        strategicMetals: "Նշանակություն ունեցող և ստراتيجիկ մետաղներ",
-        oil: "Նվիճը",
-        naturalGas: "Բնական գազ (հիմնական արտադրողներ)",
-        cryptocurrencies: "Կրիպտոարժույթներ",
-        stocks: "Մեծ ընկերությունների բաժնետոմսեր",
-
-        updated: "Թարմացված է:",
-        loading : "Բեռնվում է...",
-        officialRates: "ՌԴ Կենտրոնական բանկի պաշտոնական փոխարժեքներ",
-
-        sidebarTitle: "Ստրատեգիկ մետաղներ, նվիճ, գազ և բաժնետոմսեր",
-        barrelInfo: "1 բարել = 158.99 լիտր | 1 ամերիկյան գալոն = 3.785 լիտր",
-        companiesFrom: "ԱՄՆ • ԵՄ • Չինաստան • ՌԴ",
-        dataDisclaimer: "Տվյալներ ՌԴ Կենտրոնական բանկից, MOEX, NYSE, Binance, ByBit և այլ աղբյուրներից • գները մոտավոր են և կարող են տարբերվել իրականից • ավելի ճշգրիտ տեղեկությունների համար դիմեք պաշտոնական աղբյուրներին.",
-
-        newsRIA: "ՐԻԱ Նովոստի",
-        newsRBK: "ՐԲԿ",
-        newsKommersant: "Կոմմերսանտъ",
-        newsIz: "Իզվեստիա", 
-    }  
-
+        siteTitle: "Victoria Falls", exchangeRates: "Փոխարժեքներ", iGive: "Տալիս եմ", iGet: "Ստանում եմ", selectCurrency: "Ընտրեք արժույթը", currencyHistory: "Այստեղ կլինի ընտրված արժույթի համառոտ պատմությունը:", allAssets: "Բոլոր հասանելի ակտիվները", histChart: "Պատմական գրաֆիկ", sp500: "S&P 500 Ջերմային քարտեզ", marketAnalytics: "Շուկայական վերլուծություն", moexStocks: "MOEX Բաժնետոմսեր", globalIndexes: "Համաշխարհային շուկայական ինդեքսներ", fearGreed: "Վախ և ագահություն", altSeason: "Ալթքոին սեզոնի ինդեքս", cryptoBinance: "Կրիպտոարժույթներ (Binance)", updated: "թարմացվել է:", news: "Ֆինանսական նորություններ", majorCurrencies: "Համաշխարհային հիմնական արժույթները", otherCurrencies: "Այլ կարևոր արժույթներ", asiaCurrencies: "Ազիական և մերձավորարևելյան արժույթներ", middleEast: "Մերձավոր Արևելք և այլ", cis: "ԱՊՀ և հարևան երկրներ", loading: "բեռնում...", noData: "Տվյալներ չկան", chartHist: "Պատմական գրաֆիկ", chartPro: "Պրոֆեսիոնալ գրաֆիկ", chartLoading: "Տվյալների բեռնում...", chartError: "Գրաֆիկի բեռնման սխալ", date: "Ամսաթիվ", price: "Գին", fiatCategory: "Ֆիատ արժույթներ", cryptoCategory: "Կրիպտոարժույթներ", fiatCurrency: "ազգային արժույթ", cryptoCurrency: "կրիպտոարժույթ", noInfo: "Այս արժույթի մասին տեղեկատվությունը շուտով կհայտնվի:", moexClosed: "MOEX առևտուրը փակ է:", rateFor: "Փոխարժեքը", update: "թարմացում", fngExtremeFear: "Խիստ վախ", fngFear: "Վախ", fngNeutral: "Չեզոք", fngGreed: "Ագահություն", fngExtremeGreed: "Խիստ ագահություն", altBtcSeason: "Բիթքոինի սեզոն", altBtcLean: "Հակվածություն BTC", altNeutral: "Չեզոք", altAltLean: "Հակվածություն Ալթքոինների", altSeasonText: "Ալթսեզոն!",
+        dragHandle: "Քաշել", cisTitle: "ԱՊՀ և հարևաններ", europeTitle: "Եվրոպա և Արևմուտք", asiaTitle: "Ասիա և այլն", financeNews: "Ֆինանսական նորություններ", pulpFiction: "Pulp Fiction Fed", project: "Նախագծի մասին", thanks: "Շնորհակալություն", docs: "Փաստաթղթեր", apiSources: "API աղբյուրներ", up: "↑ Վերև", disclaimer: "Տվյալները՝ CBR, MOEX, NYSE, Binance, ByBit և այլ աղբյուրներից • գները մոտավոր են • ճշգրիտ տեղեկատվության համար դիմեք պաշտոնական աղբյուրներին։"
+    }
 };

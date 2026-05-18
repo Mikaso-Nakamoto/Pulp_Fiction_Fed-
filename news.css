@@ -1,4 +1,4 @@
-/* ==================== БАЗОВЫЕ НАСТРОЙКИ (RESET) ==================== */
+/* ==================== 1. БАЗОВЫЕ НАСТРОЙКИ (RESET) ==================== */
 *, *::before, *::after {
     box-sizing: border-box;
 }
@@ -7,9 +7,11 @@
     margin: 0;                        
 }
 
-body {
+html, body {
     margin: 0;                       
     padding: 0;
+    width: 100%;
+    overflow-x: hidden;
     line-height: 1.5;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     background-image: url("https://images.wallpaperscraft.com/image/single/stairs_down_railing_201608_2048x1152.jpg");
@@ -20,37 +22,17 @@ body {
     min-height: 100vh;
 }
 
-h1, h2, h3, h4, h5, h6,
-p, ul, ol, li,
-blockquote, figure, hr {
+h1, h2, h3, h4, h5, h6, p, ul, ol, li, blockquote, figure, hr {
     margin: 0;
     padding: 0;
 }
 
-ul, ol {
-    list-style: none;
-}
+ul, ol { list-style: none; }
+img, picture, video, canvas, svg { display: block; max-width: 100%; }
+a { color: rgb(168, 168, 168); text-decoration: none; }
+a:hover { color: rgb(201, 201, 201); }
+::selection { background-color: #444444; color: #ffffff; }
 
-img, picture, video, canvas, svg {
-    display: block;
-    max-width: 100%;
-}
-
-a {
-    color: rgb(168, 168, 168);
-    text-decoration: none;
-}
-
-a:hover {
-    color: rgb(201, 201, 201);
-}
-
-::selection {
-    background-color: #444444;
-    color: #ffffff;
-}
-
-/* ЗАПРЕТ ВЫДЕЛЕНИЯ ТЕКСТА ДЛЯ ЭЛЕМЕНТОВ ИНТЕРФЕЙСА */
 .unselectable {
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -58,9 +40,57 @@ a:hover {
     user-select: none;
 }
 
-/* ==================== ШАПКА ==================== */
+/* ==================== 2. ГЛОБАЛЬНАЯ СЕТКА ==================== */
+.three-columns {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    width: 100%; /* Занимает всю ширину экрана */
+    max-width: 1800px;
+    margin: 30px auto;
+    padding: 0 20px;
+    box-sizing: border-box; /* Гарантирует, что padding не выталкивает за края */
+    align-items: stretch;
+}
+
+.Main-Content {
+    flex: 1 1 0%; /* КРИТИЧНО: позволяет колонке сжиматься */
+    min-width: 0; /* Обязательное условие для Flexbox */
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sidebar {
+    flex: 0 0 290px;
+    width: 290px;
+    max-width: 290px; /* Защита от расширения */
+    backdrop-filter: blur(12px);
+    background: rgba(63, 63, 63, 0.185);
+    border: 3px solid #bebebe;
+    border-radius: 30px;
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    transition: flex 0.5s cubic-bezier(0.25, 1, 0.5, 1), 
+                padding 0.5s cubic-bezier(0.25, 1, 0.5, 1), 
+                opacity 0.4s ease;
+    overflow: hidden;
+}
+
+.sidebar.collapsed {
+    flex: 0 0 0px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    opacity: 0;
+    pointer-events: none;
+    max-height: 0 !important;
+    overflow: hidden !important;
+}
+
+/* ==================== 3. ШАПКА, ФУТЕР И ПЕРЕКЛЮЧАТЕЛИ ==================== */
 .KUI {
-    max-width: 1080px;
+    max-width: 1400px;
     margin: 50px auto;
     padding: 15px;
     backdrop-filter: blur(12px);
@@ -72,350 +102,24 @@ a:hover {
 .GLZG {
     text-align: center;
     color: #ffffff;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
     user-select: none;
 }
 
-/* ==================== ОСНОВНАЯ СЕТКА (ТРИ КОЛОНКИ) ==================== */
-.three-columns {
-    display: flex;
-    justify-content: center;
-    gap: 25px;
-    max-width: 1450px;
-    margin: 30px auto;
-    padding: 0 20px;
-    align-items: stretch;
-}
-
-/* ИСПРАВЛЕНА ОПЕЧАТКА: было .main-Content, стало .Main-Content как в HTML */
-.main-Content {
-    flex: 1;
-    min-width: 0;
-}
-
-
-/* ==================== БОКОВЫЕ ПАНЕЛИ (САЙДБАРЫ) ==================== */
-.sidebar {
-    flex: 0 0 290px;
-    backdrop-filter: blur(12px);
-    background: rgba(63, 63, 63, 0.185);
-    border: 3px solid #bebebe;
-    border-radius: 30px;
-    padding: 20px;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-}
-
-.sidebar-title {
-    backdrop-filter: blur(10px); 
-    color: #dbdbdb;
-    font-weight: bold;
+#footer {
     text-align: center;
-    padding: 12px 15px;
-    border-radius: 18px;
-    margin-bottom: 18px;
-    border: solid 1.3px #d3d3d3;    
-    transition: transform 0.3s ease;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+    padding: 12px 0;
+    color: #c7c6c6;
+    font-size: 0.9rem;
+    margin-top: 30px;
 }
 
-.sidebar-title:hover {
-    transform: scale(1.05);
-}
-
-.sidebar-content {
-    flex: 1;
-    font-size: 15px;
-    line-height: 1.55;
-    color: #f0f0f0;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}
-
-.sidebar-content h4 {
-    margin: 14px 0 7px 0;
-    color: #eeeeee;
-}
-
-.sidebar-content ul {
-    margin-bottom: 18px;
-}
-
-.left-sidebar-content {
-    backdrop-filter: blur(10px);
-    border: solid 1.2px #d3d3d3;
-    border-radius: 12px;
-    padding: 12px;
-    margin-bottom: 17px;
-    transition: all 0.3s ease;
-}
-
-.left-sidebar-content:hover {
-    transform: translateY(-3px) scale(1.01); 
-}
-
-/* ==================== СПИСКИ ВАЛЮТ (САЙДБАР) ==================== */
-.currency-list {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 20px 0;
-}
-
-.currency-list li {
-    display: flex;
-    flex-wrap: wrap; 
-    align-items: center;
-    justify-content: space-between;
-    padding: 8px 0;
-    border-bottom: 1px solid #eee;
-}
-
-.currency-list li:last-child {
-    border-bottom: none;
-}
-
-.rate {
-    font-weight: 600;
-    text-align: right;
-    margin-right: 10px;
-}
-
-.change-container {
-    width: 100%;
-    padding-left: 36px; 
-    margin-top: 2px;
-}
-
-.change {
-    font-weight: 500;
-}
-
-.change-up { color: #00cc66; font-size: 0.9em; }     
-.change-down { color: #ff4d4d; font-size: 0.9em; }   
-.change-neutral { color: #aaaaaa; font-size: 0.9em; }
-
-.fi {
-    margin-right: 8px;
-    vertical-align: middle;
-    font-size: 1.85em;
-    line-height: 1;
-}
-
-.crypto-icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 24px;
-    height: 24px;
-    margin-right: 10px;
-    vertical-align: middle;
-    flex-shrink: 0;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}
-
-.crypto-icon svg {
-    width: 100%;
-    height: 100%;
-}
-
-/* ==================== ЦЕНТРАЛЬНЫЙ КОНВЕРТЕР ==================== */
-.converter-container {
-    display: grid;
-    grid-template-columns: 290px 480px 290px;
-    gap: 18px;
-    margin: 30px auto;
-    max-width: 1320px;
-}
-
-.currency-selector {
-    background: rgba(73, 73, 73, 0.158);
-    backdrop-filter: blur(8px);
-    border: 3px solid #D3D3D3;
-    border-radius: 20px;
-    padding: 16px;
-    height: 100%;
-    max-height: 720px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}
-
-.currency-selector h3 {
+div.undertrump {
     text-align: center;
-    margin-bottom: 16px;
-    color: #dbdbdb;
-    font-size: 1.4rem;
-    font-weight: 600;  
+    margin-top: 8px;
+    color: #c7c6c6;
+    font-size: 0.85rem;
 }
 
-.currency-list-scroll { 
-    flex: 1;
-    overflow-y: auto;
-    scrollbar-width: none; 
-    -ms-overflow-style: none; 
-}
-
-.currency-list-scroll::-webkit-scrollbar {
-    display: none; 
-}
-
-.currency-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 11px 14px;
-    background: rgba(80, 79, 79, 0.212);
-    backdrop-filter: blur(8px);
-    border-radius: 12px;
-    margin-bottom: 6px;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-
-.currency-item:hover {
-    backdrop-filter: blur(1px);
-    transform: translateY(2px);
-}
-
-.currency-item.active {
-    backdrop-filter: blur(1px);
-    color: #cccccc;
-}
-
-.currency-item .fi {
-    font-size: 1.5rem;
-    width: 32px;
-}
-
-.currency-item .code {
-    font-weight: 700;
-    font-size: 1.15rem;
-}
-
-/* Блок самого калькулятора */
-.converter-main {
-    background: rgba(58, 58, 58, 0.267);
-    backdrop-filter: blur(10px);
-    border: 3px solid #D3D3D3;
-    border-radius: 24px;
-    padding: 28px 24px;
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-}
-
-.exchange-card {
-    background: rgba(7, 4, 4, 0.158);
-    backdrop-filter: blur(10px);
-    border: 2px solid #D3D3D3;
-    border-radius: 16px;
-    padding: 18px 20px;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    min-height: 78px;
-}
-
-.currency-header {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    min-width: 140px;
-    flex-shrink: 0;
-}
-
-.flag {
-    font-size: 24px;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}
-
-.code {
-    font-size: 1.75rem;
-    font-weight: 700;
-    color: #e7e6e6;
-    flex-shrink: 0;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}
-
-#from-amount, #to-amount {
-    flex: 1;
-    font-size: 2rem;
-    font-weight: 600;
-    text-align: right;
-    border: none;
-    background: transparent;
-    outline: none;
-    color: #e0e0e0;
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    padding-right: 8px;
-    max-width: 100%;
-}
-
-.swap-container {
-    text-align: center;
-    font-size: 2.6rem;
-    color: #e0e0e0;
-    padding: 6px 0;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}
-
-.rate-display {
-    text-align: center;
-    font-size: 1.2rem;
-    color: #dbdbdb;
-    font-weight: 500;
-}
-
-/* Информационная панель внизу калькулятора */
-.currency-info-panel {
-    backdrop-filter: blur(10px);
-    border: 3px solid #D3D3D3;
-    border-radius: 20px;
-    padding: 20px 24px;
-    margin-top: 20px;
-    min-height: 140px;
-}
-
-.currency-info-panel h4 {
-    color: #cccccc;
-    margin-bottom: 10px;
-    font-size: 1.35rem;
-}
-
-.currency-info-panel p {
-    color: #cccccc;
-    line-height: 1.6;
-    font-size: 1.02rem;
-}
-
-/* ==================== ПЕРЕКЛЮЧАТЕЛЬ ЯЗЫКОВ ==================== */
 .langToggle {
     position: absolute;
     top: 20px;
@@ -446,9 +150,6 @@ a:hover {
     border-radius: 4px;
     border: 1px solid rgba(255, 255, 255, 0.25); 
     backdrop-filter: blur(14px);
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
     user-select: none;
 }
 
@@ -458,7 +159,6 @@ a:hover {
     color: white;
 }
 
-/* Выпадающее меню языков */
 .lang-dropdown {
     position: absolute;
     background: rgba(0, 0, 0, 0.39);
@@ -475,9 +175,8 @@ a:hover {
     color: #cccccc;
 }
 
-.lang-dropdown.show {
-    display: block;
-}
+.lang-dropdown.show { display: block; }
+.lang-separator { height: 1px; background: #8f8f8f; margin: 8px 0; }
 
 .lang-main-group .lang-option {
     padding: 10px 12px;
@@ -495,12 +194,6 @@ a:hover {
     background: rgba(78, 77, 77, 0.164);
 }
 
-.lang-separator {
-    height: 1px;
-    background: #8f8f8f;
-    margin: 8px 0;
-}
-
 .lang-other small {
     display: block;
     padding: 6px 12px 4px;
@@ -508,301 +201,557 @@ a:hover {
     font-size: 0.85rem;
 }
 
-/* ==================== ФУТЕР ==================== */
-#footer {
-    text-align: center;
-    padding: 12px 0;
-    color: #c7c6c6;
-    font-size: 0.9rem;
-    margin-top: 30px;
+.sidebar-toggle {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(45, 45, 45, 0.8);
+    backdrop-filter: blur(10px);
+    border: 2px solid #666;
+    color: #fff;
+    width: 28px;
+    height: 56px;
+    border-radius: 8px;
+    cursor: pointer;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
-div.undertrump {
+.sidebar-toggle:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: #00ff88;
+    color: #00ff88;
+}
+
+.toggle-left { left: 0; border-top-left-radius: 0; border-bottom-left-radius: 0; border-left: none; }
+.toggle-right { right: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-right: none; }
+
+/* ==================== 4. ВНУТРЕННОСТИ САЙДБАРОВ ==================== */
+.sidebar-title {
+    backdrop-filter: blur(10px); 
+    color: #dbdbdb;
+    font-weight: bold;
     text-align: center;
-    margin-top: 8px;
-    color: #c7c6c6;
+    padding: 12px 15px;
+    border-radius: 18px;
+    margin-bottom: 18px;
+    border: solid 1.3px #d3d3d3;    
+    transition: transform 0.3s ease;
+    user-select: none;
+}
+.sidebar-title:hover { transform: scale(1.05); }
+
+.sidebar-content {
+    flex: 1;
+    font-size: 15px;
+    line-height: 1.55;
+    color: #f0f0f0;
+    user-select: none;
+}
+
+.sidebar-content h4 { margin: 14px 0 7px 0; color: #eeeeee; }
+.sidebar-content ul { margin-bottom: 18px; }
+
+.left-sidebar-content {
+    backdrop-filter: blur(10px);
+    border: solid 1.2px #d3d3d3;
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 17px;
+    transition: all 0.3s ease;
+}
+.left-sidebar-content:hover { transform: translateY(-3px) scale(1.01); }
+
+.currency-list { list-style: none; padding: 0; margin: 0 0 20px 0; }
+.currency-list li {
+    display: flex;
+    flex-wrap: wrap; 
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+}
+.currency-list li:last-child { border-bottom: none; }
+
+.rate { font-weight: 600; text-align: right; margin-right: 10px; }
+.change-container { width: 100%; padding-left: 36px; margin-top: 2px; }
+.change { font-weight: 500; }
+.change-up { color: #00cc66; font-size: 0.9em; }     
+.change-down { color: #ff4d4d; font-size: 0.9em; }   
+.change-neutral { color: #aaaaaa; font-size: 0.9em; }
+
+.fi { margin-right: 8px; vertical-align: middle; font-size: 1.85em; line-height: 1; }
+
+.crypto-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+    vertical-align: middle;
+    flex-shrink: 0;
+    user-select: none;
+}
+
+.market-closed-opacity { opacity: 0.45; transition: opacity 0.3s ease; }
+.moex-status-note {
+    display: none;
     font-size: 0.85rem;
+    color: #999;
+    text-align: center;
+    margin-top: 10px;
+    line-height: 1.4;
+    padding: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    border: 1px dashed rgba(255, 255, 255, 0.1);
+}
+.moex-status-note.show { display: block; animation: fadeIn 0.5s ease; }
+
+/* ==================== 5. DRAG & DROP НАСТРОЙКИ ==================== */
+.draggable-block {
+    position: relative;
+    z-index: 1;
+    background: rgba(58, 58, 58, 0.267);
+    backdrop-filter: blur(10px);
+    border: 3px solid #D3D3D3;
+    border-radius: 24px;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
+.drag-handle {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(45, 45, 45, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #888;
+    padding: 2px 15px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: grab;
+    opacity: 0;
+    transition: opacity 0.2s, color 0.2s;
+    z-index: 10;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
 
-/* =========================================
-   АДАПТИВ ДЛЯ МОБИЛЬНЫХ ТЕЛЕФОНОВ (до 768px)
-   ========================================= */
+.draggable-block:hover .drag-handle { opacity: 1; }
+.drag-handle:hover { color: #00ff88; }
+.drag-handle:active { cursor: grabbing; }
+
+.sortable-ghost {
+    opacity: 0.4;
+    background: rgba(0, 255, 136, 0.1) !important;
+    border: 2px dashed #00ff88 !important;
+}
+
+/* ==================== 6. КОНВЕРТЕР ==================== */
+.converter-wrapper { width: 100%; }
+
+.converter-container {
+    display: grid;
+    /* КРИТИЧЕСКИЙ ФИКС ЗДЕСЬ: minmax(0, ...) заставляет Grid сжиматься */
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr) minmax(0, 1fr);
+    gap: 18px;
+    width: 100%;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.currency-selector {
+    background: rgba(73, 73, 73, 0.158);
+    backdrop-filter: blur(8px);
+    border: 3px solid #D3D3D3;
+    border-radius: 20px;
+    padding: 16px;
+    height: 100%;
+    max-height: 720px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-width: 0; /* Важно */
+    box-sizing: border-box;
+    user-select: none;
+}
+
+.currency-selector h3 { text-align: center; margin-bottom: 16px; color: #dbdbdb; font-size: 1.4rem; font-weight: 600; }
+
+.currency-list-scroll { 
+    flex: 1;
+    overflow-y: auto;
+    scrollbar-width: none; 
+}
+.currency-list-scroll::-webkit-scrollbar { display: none; }
+
+.currency-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 14px;
+    background: rgba(80, 79, 79, 0.212);
+    backdrop-filter: blur(8px);
+    border-radius: 12px;
+    margin-bottom: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.currency-item:hover { transform: translateY(2px); background: rgba(100, 100, 100, 0.3); }
+.currency-item.active { background: rgba(120, 120, 120, 0.4); color: #fff; }
+
+.currency-item .fi { font-size: 1.5rem; width: 32px; }
+.currency-item .code { font-weight: 700; font-size: 1.15rem; }
+
+.converter-main {
+    background: rgba(58, 58, 58, 0.267);
+    backdrop-filter: blur(10px);
+    border: 3px solid #D3D3D3;
+    border-radius: 24px;
+    padding: 28px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    width: 100%; 
+    min-width: 0; /* Важно */
+    box-sizing: border-box;
+}
+
+.exchange-card {
+    background: rgba(7, 4, 4, 0.158);
+    backdrop-filter: blur(10px);
+    border: 2px solid #D3D3D3;
+    border-radius: 16px;
+    padding: 18px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-height: 78px;
+}
+
+.currency-header { 
+    display: flex; 
+    align-items: center; 
+    gap: 14px; 
+    min-width: auto; /* Позволяем сжиматься */
+    flex-shrink: 0; 
+    user-select: none; 
+}
+.flag { font-size: 24px; user-select: none; }
+.code { font-size: 1.75rem; font-weight: 700; color: #e7e6e6; flex-shrink: 0; user-select: none; }
+
+#from-amount, #to-amount {
+    flex: 1; font-size: 2rem; font-weight: 600; text-align: right; border: none; 
+    background: transparent; outline: none; color: #e0e0e0; min-width: 0; 
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding-right: 8px; width: 100%;
+}
+
+.swap-container { text-align: center; font-size: 2.6rem; color: #e0e0e0; padding: 6px 0; user-select: none; }
+.rate-display { text-align: center; font-size: 1.2rem; color: #dbdbdb; font-weight: 500; }
+
+.currency-info-panel {
+    backdrop-filter: blur(10px);
+    border: 3px solid #D3D3D3;
+    border-radius: 20px;
+    padding: 20px 24px;
+    margin-top: 20px;
+    min-height: 140px;
+}
+.currency-info-panel h4 { color: #cccccc; margin-bottom: 10px; font-size: 1.35rem; }
+.currency-info-panel p { color: #cccccc; line-height: 1.6; font-size: 1.02rem; }
+
+
+/* ==================== 7. БЛОК "ВСЕ ВАЛЮТЫ" ==================== */
+.all-currencies-wrapper { height: 400px; padding: 0 !important; }
+
+.grid-scroll-area::-webkit-scrollbar { width: 6px; }
+.grid-scroll-area::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 10px; }
+.grid-scroll-area { scrollbar-width: thin; scrollbar-color: rgba(255, 255, 255, 0.2) transparent; padding: 0 20px 20px 20px; }
+
+.chart-header { padding: 20px 20px 0 20px; }
+
+.currencies-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 15px;
+}
+
+.currency-card {
+    background: rgba(30, 30, 30, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 15px 10px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+    transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s;
+    cursor: pointer;
+}
+
+.currency-card:hover { 
+    transform: translateY(-4px); 
+    background: rgba(255, 255, 255, 0.1); 
+}
+.currency-card .icon-wrapper { font-size: 2rem; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; height: 40px; }
+.currency-card .icon-wrapper img { width: 32px; height: 32px; border-radius: 50%; }
+.currency-card .card-code { font-size: 1.1rem; font-weight: bold; color: #e7e6e6; margin-bottom: 4px; }
+.currency-card .card-rate { 
+    font-size: 0.95rem; 
+    color: #fff; 
+    font-weight: 600; 
+    transition: color 0.2s;
+}
+
+.grid-category-title {
+    grid-column: 1 / -1;
+    color: #888;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    margin: 15px 0 5px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 5px;
+}
+
+.currency-card.trend-up:hover { border-color: #00cc66; }
+.currency-card.trend-up:hover .card-rate { color: #00cc66; }
+.currency-card.trend-down:hover { border-color: #ff4d4d; }
+.currency-card.trend-down:hover .card-rate { color: #ff4d4d; }
+
+.currencies-grid.list-view { display: flex; flex-direction: column; gap: 8px; }
+.currencies-grid.list-view .currency-card { flex-direction: row; justify-content: flex-start; padding: 10px 15px; text-align: left; }
+.currencies-grid.list-view .icon-wrapper { margin-bottom: 0; margin-right: 15px; height: auto; }
+.currencies-grid.list-view .card-code { margin-bottom: 0; flex: 1; }
+
+/* ==================== 8. ГРАФИК КРИПТЫ ==================== */
+.chart-wrapper { padding: 0 !important; }
+.chart-wrapper .chart-header { margin-bottom: 15px; }
+
+.chart-tabs { font-size: 1.2rem; font-weight: bold; color: #888; user-select: none; }
+.chart-tab { cursor: pointer; transition: color 0.3s; }
+.chart-tab:hover { color: #ccc; }
+.chart-tab.active { color: #fff; }
+.chart-title { color: #aaa; font-size: 0.9rem; }
+
+.canvas-container { position: relative; width: 100%; height: 350px; padding: 0 20px 20px 20px;}
+
+.history-tooltip {
+    position: absolute;
+    background: rgba(20, 20, 20, 0.95);
+    backdrop-filter: blur(5px);
+    border: 1px solid #f7931a;
+    color: #fff;
+    padding: 12px 15px;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    max-width: 250px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    pointer-events: none; 
+    opacity: 0;
+    transition: opacity 0.2s, transform 0.2s;
+    transform: translate(-50%, -10px);
+    z-index: 100;
+    line-height: 1.4;
+}
+
+.history-tooltip.show { opacity: 1; transform: translate(-50%, -20px); }
+.history-tooltip h5 { margin-bottom: 5px; font-size: 1rem; }
+
+.fullscreen-btn { cursor: pointer; font-size: 1.2rem; color: #888; transition: color 0.3s ease; user-select: none; }
+.fullscreen-btn:hover { color: #fff; }
+
+.draggable-block.fullscreen {
+    position: fixed !important;
+    top: 0; left: 0; right: 0; bottom: 0;
+    width: 100vw !important;
+    height: 100vh !important;
+    margin: 0 !important;
+    z-index: 999999 !important; 
+    background: rgba(20, 20, 20, 0.98) !important;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.draggable-block.fullscreen .chart-wrapper { height: 100%; border: none; background: transparent; margin: 0; padding: 0; }
+.draggable-block.fullscreen .canvas-container { height: calc(100vh - 80px) !important; }
+.draggable-block.fullscreen .drag-handle { display: none !important; }
+
+.chart-tabs { display: flex; align-items: center; gap: 20px; }
+.main-tabs { display: flex; gap: 12px; align-items: center; font-size: 1.2rem; font-weight: bold; }
+.alt-tabs { 
+    display: flex; gap: 12px; align-items: center; 
+    font-size: 0.95rem; 
+    border-left: 2px solid rgba(255,255,255,0.1); 
+    padding-left: 15px; 
+}
+
+/* ==================== 9. ТЕПЛОВАЯ КАРТА ==================== */
+.heatmap-wrapper { height: 500px; padding: 0 !important; }
+#tv-heatmap-container { border-radius: 16px; overflow: hidden; background: transparent; }
+.tradingview-widget-container__widget { border-radius: 16px; overflow: hidden; }
+
+/* ==================== 10. МИНИ-ГРАФИКИ (КАРУСЕЛЬ) ==================== */
+.mini-charts-row {
+    display: flex;
+    gap: 15px;
+    width: 100%;
+}
+.mini-charts-row::-webkit-scrollbar { height: 6px; }
+.mini-charts-row::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 10px; }
+#block-mini { background: transparent; backdrop-filter: none; border: none; padding: 15px 0 0 0; }
+
+.mini-chart-box {
+    flex: 1 1 0;
+    min-width: 0;
+    height: 140px;
+    background: rgba(58, 58, 58, 0.267); 
+    backdrop-filter: blur(10px);         
+    border: 2px solid #D3D3D3;           
+    border-radius: 16px;                 
+    overflow: hidden;
+    position: relative;
+    transition: transform 0.2s ease;
+}
+.mini-chart-box:hover { transform: translateY(-3px); }
+
+/* ==================== 11. ГЛОБАЛЬНЫЕ ИНДЕКСЫ ==================== */
+.paragr#global-indexes-container {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    padding: 15px 5px;
+    margin-bottom: 20px;
+    background: rgba(255, 255, 255, 0.03); 
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.index-column { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; width: 48%; }
+.svg-container { width: 100%; max-width: 110px; margin-bottom: 5px; }
+.index-text { text-align: center; }
+.index-val { font-size: 2rem; font-weight: bold; line-height: 1; margin-bottom: 4px; }
+.index-stat { font-size: 0.75rem; text-transform: uppercase; font-weight: 600; }
+.index-separator { width: 2px; background: rgba(255, 255, 255, 0.15); border-radius: 2px; margin: 10px 0; }
+
+.index-subtitle {
+    font-size: 0.85rem;
+    color: #aaaaaa;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+    text-align: center;
+    width: 100%;
+}
+
+/* ==================== 12. АДАПТИВ (ПОДСТРАХОВКА ДЛЯ НОУТБУКОВ И ТЕЛЕФОНОВ) ==================== */
+
+/* Для экранов меньше 1400px (когда 3 колонки конвертера не влезают между сайдбарами) */
+@media screen and (max-width: 1400px) {
+    .converter-container {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+    .currency-selector {
+        height: 250px;
+    }
+    .converter-main {
+        order: -1;
+    }
+}
+
 @media screen and (max-width: 768px) {
-    body {
-        overflow-x: hidden;
-    }
+    body { background-attachment: scroll !important; }
 
-        /* ===================================================
-       🔥 ЖЕСТКАЯ ОПТИМИЗАЦИЯ ПРОИЗВОДИТЕЛЬНОСТИ (60 FPS) 
-       =================================================== */
-    
-    /* 1. Отключаем "приклеенный" фон, из-за которого лагает скролл */
-    body {
-        background-attachment: scroll !important;
-    }
-
-    /* 2. Отключаем тяжелое размытие фона (blur) на мобилках */
-    /* Вместо размытия делаем цвета чуть более плотными */
-    .KUI, 
-    .sidebar, 
-    .converter-main, 
-    .exchange-card, 
-    .sidebar-title, 
-    .left-sidebar-content, 
-    .currency-item {
+    .KUI, .sidebar, .converter-main, .exchange-card, .sidebar-title, .left-sidebar-content, .currency-item, .draggable-block {
         backdrop-filter: none !important;
         background-color: rgba(45, 45, 45, 0.95) !important; 
     }
 
-    /* Всплывающее меню делаем полностью непрозрачным, чтобы оно не тормозило анимацию */
     .currency-selector {
-        backdrop-filter: none !important;
-        background-color: rgb(30, 30, 30) !important;
-        /* Включаем плавный скролл для iOS и переносим блок на GPU */
-        -webkit-overflow-scrolling: touch;
-        transform: translateZ(0); 
+        backdrop-filter: none !important; background-color: rgb(30, 30, 30) !important;
+        -webkit-overflow-scrolling: touch; transform: translateZ(0); 
     }
+    .currency-list-scroll { -webkit-overflow-scrolling: touch; will-change: transform; }
+    body.modal-open::before { backdrop-filter: none !important; background: rgba(0, 0, 0, 0.85) !important; }
 
-    /* 3. Аппаратное ускорение для списков, чтобы они летали */
-    .currency-list-scroll {
-        -webkit-overflow-scrolling: touch;
-        will-change: transform;
-    }
-
-    /* Затемнение фона при открытом меню тоже делаем без blur */
-    body.modal-open::before {
-        backdrop-filter: none !important;
-        background: rgba(0, 0, 0, 0.85) !important;
-    }
-
-    .KUI {
-        margin: 70px 15px 20px 15px; 
-    }
-
-    .three-columns {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-        padding: 10px;
-        margin: 10px auto;
-    }
-
-    .Main-Content { order: 1; width: 100%; margin: 0; }
+    .KUI { margin: 70px 15px 20px 15px; }
+    .three-columns { display: flex; flex-direction: column; gap: 20px; padding: 10px; margin: 10px auto; }
+    .Main-Content { order: 1; width: 100%; margin: 0; padding-top: 0 !important;}
     .sidebar:first-of-type { order: 2; width: 100%; }
     .sidebar:last-of-type { order: 3; width: 100%; }
 
-    /* --- АДАПТИВ КОНВЕРТЕРА (ВСПЛЫВАЮЩИЕ ОКНА) --- */
-    .converter-container {
-        display: flex;
-        flex-direction: column; 
-        gap: 15px;
-    }
-
-    .converter-main {
-        width: 100%;
-        padding: 20px 15px;
-        order: 1;
-    }
-
-    .exchange-card {
-        padding: 15px 10px;
-        gap: 10px;
-    }
-
-    /* Кнопки вызова меню валют */
+    .converter-container { display: flex; flex-direction: column; gap: 15px; }
+    .converter-main { width: 100%; padding: 20px 15px; order: 1; }
+    .exchange-card { padding: 15px 10px; gap: 10px; }
     .currency-header {
-        min-width: auto;
-        cursor: pointer;
-        background: rgba(255, 255, 255, 0.1);
-        padding: 8px 12px;
-        border-radius: 12px;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        transition: background 0.2s;
+        min-width: auto; cursor: pointer; background: rgba(255, 255, 255, 0.1);
+        padding: 8px 12px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.2);
         -webkit-tap-highlight-color: transparent;
     }
+    .currency-header::after { content: '▼'; font-size: 0.6em; margin-left: 8px; color: #aaa; }
+    #from-amount, #to-amount { font-size: 1.5rem; }
 
-    .currency-header:active {
-        background: rgba(255, 255, 255, 0.2);
-    }
-
-    .currency-header::after {
-        content: '▼';
-        font-size: 0.6em;
-        margin-left: 8px;
-        color: #aaa;
-    }
-
-    #from-amount, #to-amount { 
-        font-size: 1.5rem; 
-    }
-
-    /* Сами списки валют превращаем в модальные окна */
     .currency-selector {
-        display: none; /* Прячем по умолчанию */
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 90% !important;
-        max-height: 70vh;
-        z-index: 9999;
-        background: rgba(30, 30, 30, 0.95);
-        backdrop-filter: blur(15px);
-        border: 2px solid #666;
-        box-shadow: 0 10px 50px rgba(0,0,0,0.8);
-        border-radius: 20px;
+        display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+        width: 90% !important; max-height: 70vh; z-index: 9999;
+        border: 2px solid #666; box-shadow: 0 10px 50px rgba(0,0,0,0.8); border-radius: 20px;
     }
+    .currency-selector.show-modal { display: flex !important; animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+    .currency-selector h3 { display: none; }
+    .currency-item { justify-content: center; }
 
-    /* Класс для показа окна (добавляется через JS) */
-    .currency-selector.show-modal {
-        display: flex !important;
-        animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-    }
-
-    /* Прячем лишние заголовки "Отдаю/Получаю" внутри модалки */
-    .currency-selector h3 {
-        display: none;
-    }
-
-    /* Центрируем иконку и текст внутри всплывающего списка */
-    .currency-item {
-        justify-content: center; 
-    }
-
-    /* Затемнение фона при открытом меню */
     body.modal-open::before {
-        content: '';
-        position: fixed;
-        top: 0; left: 0; right: 0; bottom: 0;
-        background: rgba(0,0,0,0.7);
-        backdrop-filter: blur(3px);
+        content: ''; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
         z-index: 9998; 
     }
 
-       /* --- ТРАМП И ИНДЕКС СТРАХА --- */
-    .paragr {
-        justify-content: center !important; /* Собираем элементы в центре */
-        gap: 25px !important; /* Добавляем ровные отступы между головой, линией и текстом */
-        padding: 10px !important;
-    }
-  
-    /* Настраиваем блок с цифрами */
-    .paragr > div:last-child {
-        flex: 0 0 auto !important; /* Запрещаем блоку растягиваться вправо */
-        text-align: left !important; /* Выравниваем цифры по левому краю (ближе к линии) */
-        padding-left: 0 !important; 
-    }
+    .drag-handle { opacity: 0.6; top: -10px; }
+    .currencies-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); }
+    .heatmap-wrapper { height: 400px; border-radius: 16px; }
+    .mini-charts-row { justify-content: flex-start; }
 
-    /* --- СТИЛИ ДЛЯ СВОРАЧИВАЮЩИХСЯ КАТЕГОРИЙ (АККОРДЕОН) --- */
     .accordion-header {
-        cursor: pointer;
-        background: rgba(255, 255, 255, 0.1);
-        padding: 12px 15px;
-        border-radius: 12px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 15px;
-        border: 1px solid rgba(255,255,255,0.2);
-        -webkit-tap-highlight-color: transparent;
+        cursor: pointer; background: rgba(255, 255, 255, 0.1); padding: 12px 15px; border-radius: 12px;
+        display: flex; justify-content: space-between; align-items: center;
+        margin-top: 15px; border: 1px solid rgba(255,255,255,0.2); -webkit-tap-highlight-color: transparent;
     }
+    .accordion-header::after { content: '▼'; font-size: 0.7em; transition: transform 0.3s ease; color: #aaa; }
+    .accordion-header.active::after { transform: rotate(180deg); }
 
-    .accordion-header::after {
-        content: '▼';
-        font-size: 0.7em;
-        transition: transform 0.3s ease;
-        color: #aaa;
-    }
+    .left-sidebar-content, #moex-list, .Crypto-i { display: none; }
+    .left-sidebar-content.show, #moex-list.show, .Crypto-i.show { display: block; animation: fadeIn 0.3s ease forwards; }
 
-    .accordion-header.active::after {
-        transform: rotate(180deg);
-    }
-
-    .left-sidebar-content, 
-    #moex-list, 
-    .Crypto-i {
-        display: none; 
-    }
-
-    .left-sidebar-content.show,
-    #moex-list.show,
-    .Crypto-i.show {
-        display: block;
-        animation: fadeIn 0.3s ease forwards;
-    }
-
-        /* --- МЕНЯЕМ МЕСТАМИ КУРС И ИСТОРИЮ (АДАПТИВ) --- */
-    
-    /* 1. Делаем блок с курсом красивым и заметным (как бы ставим его на место инфо-панели) */
     .rate-display {
-        background: rgba(45, 45, 45, 0.95) !important;
-        padding: 15px;
-        border-radius: 16px;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        font-size: 1.3rem; 
-        margin-top: 5px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        background: rgba(45, 45, 45, 0.95) !important; padding: 15px; border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.2); font-size: 1.3rem; margin-top: 5px;
     }
-
-    /* 2. Убираем рамки у инфо-панели, так как теперь это будет просто кнопка */
-    .currency-info-panel {
-        padding: 0 !important; 
-        border: none !important;
-        background: transparent !important;
-        min-height: auto !important;
-        margin-top: 10px;
-    }
-
-    /* 3. Превращаем заголовок истории в кнопку (как в боковом меню) */
+    .currency-info-panel { padding: 0 !important; border: none !important; background: transparent !important; min-height: auto !important; margin-top: 10px; }
     .currency-info-panel h4 {
-        cursor: pointer;
-        background: rgba(255, 255, 255, 0.1);
-        padding: 12px 15px;
-        border-radius: 12px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border: 1px solid rgba(255,255,255,0.2);
-        -webkit-tap-highlight-color: transparent;
-        font-size: 1rem;
-        margin-bottom: 0 !important;
+        cursor: pointer; background: rgba(255, 255, 255, 0.1); padding: 12px 15px; border-radius: 12px;
+        display: flex; justify-content: space-between; align-items: center; border: 1px solid rgba(255,255,255,0.2);
+        font-size: 1rem; margin-bottom: 0 !important; -webkit-tap-highlight-color: transparent;
     }
-
-    /* Добавляем стрелочку */
-    .currency-info-panel h4::after {
-        content: '▼';
-        font-size: 0.7em;
-        transition: transform 0.3s ease;
-        color: #aaa;
-    }
-
-    /* Поворот стрелочки при открытии */
-    .currency-info-panel h4.active::after {
-        transform: rotate(180deg);
-    }
-
-    /* 4. Прячем сам текст истории по умолчанию */
+    .currency-info-panel h4::after { content: '▼'; font-size: 0.7em; transition: transform 0.3s; color: #aaa; }
+    .currency-info-panel h4.active::after { transform: rotate(180deg); }
     .currency-info-panel p {
-        display: none;
-        background: rgba(45, 45, 45, 0.95);
-        padding: 15px;
-        border-radius: 12px;
-        margin-top: 10px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        font-size: 0.95rem;
+        display: none; background: rgba(45, 45, 45, 0.95); padding: 15px; border-radius: 12px;
+        margin-top: 10px; border: 1px solid rgba(255, 255, 255, 0.1); font-size: 0.95rem;
     }
-
-    /* Класс для показа текста с анимацией */
-    .currency-info-panel p.show {
-        display: block;
-        animation: fadeIn 0.3s ease forwards;
-    }
+    .currency-info-panel p.show { display: block; animation: fadeIn 0.3s ease forwards; }
 }
 
-/* =========================================
-   АНИМАЦИИ
-   ========================================= */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(-5px); }
     to { opacity: 1; transform: translateY(0); }
@@ -811,4 +760,166 @@ div.undertrump {
 @keyframes popIn {
     from { opacity: 0; transform: translate(-50%, -45%) scale(0.9); }
     to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+.modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(5px);
+    display: flex; align-items: center; justify-content: center; z-index: 10000;
+}
+.settings-modal-content {
+    background: rgba(45, 45, 45, 0.95); border: 2px solid #666;
+    padding: 20px; border-radius: 16px; width: 90%; max-width: 350px; color: #fff;
+}
+.settings-modal-content h3 { margin-bottom: 15px; text-align: center; font-size: 1.2rem; }
+.settings-option {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); cursor: pointer;
+}
+.settings-option input { transform: scale(1.3); cursor: pointer; }
+.save-btn {
+    background: #00cc66; color: #000; border: none; padding: 10px 20px;
+    border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 1rem;
+}
+.save-btn:hover { background: #00ff88; }
+.sidebar-drag-handle { cursor: grab; color: #888; margin-right: 10px; user-select: none; }
+.sidebar-drag-handle:active { cursor: grabbing; color: #fff; }
+
+.icon-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #ccc;
+    border-radius: 8px;
+    width: 32px; 
+    height: 32px;
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    cursor: pointer; 
+    transition: all 0.3s ease;
+}
+.icon-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    transform: rotate(90deg); 
+}
+
+/* ==================== 13. НОВЫЙ ФУТЕР С ЛЕНТАМИ ==================== */
+.site-footer {
+    margin-top: 50px;
+    padding-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background: transparent; 
+}
+
+.marquee-section {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    padding: 10px 0;
+}
+
+.marquee-title {
+    text-align: center;
+    color: #888;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.marquee-container {
+    position: relative;
+    width: 100%;
+    display: flex;
+    overflow: hidden;
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+.marquee-track {
+    display: flex;
+    gap: 40px; /* Расстояние между логотипами */
+    width: max-content; /* <-- ВОТ ЗДЕСЬ МОЖЕТ БЫТЬ ПРОБЛЕМА! */
+    animation: scroll 30s linear infinite;
+}
+
+@keyframes scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); } 
+}
+
+.marquee-container:hover .marquee-track {
+    animation-play-state: paused;
+}
+
+.marquee-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #fff;
+    white-space: nowrap;
+    cursor: default;
+    filter: grayscale(100%) opacity(0.4);
+    transition: all 0.3s ease;
+}
+
+.marquee-item .icon, .marquee-item .fi { font-size: 1.4rem; display: inline-block; }
+.marquee-item:hover { filter: grayscale(0%) opacity(1); transform: scale(1.1); text-shadow: 0 0 10px rgba(255,255,255,0.5); }
+.footer-bottom { text-align: center; color: #666; font-size: 0.9rem; margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.05); }
+.marquee-logo { width: 24px; height: 24px; object-fit: contain; }
+.marquee-item .si { font-size: 1.4rem; display: inline-block; vertical-align: middle; }
+
+/* ==================== 14. СТРУКТУРНЫЙ ФУТЕР ==================== */
+.footer-structured {
+    max-width: 1400px;
+    margin: 40px auto 0 auto;
+    padding: 0 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.footer-columns { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; margin-bottom: 40px; }
+.footer-col h4 { color: #888; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; font-weight: 700; }
+.footer-col a { display: block; color: #cccccc; text-decoration: none; margin-bottom: 12px; font-size: 0.95rem; transition: color 0.2s, transform 0.2s; }
+.footer-col a:hover { color: #ffffff; transform: translateX(5px); }
+.footer-col a .fi { margin-right: 8px; border-radius: 2px; }
+.footer-divider { height: 1px; background: rgba(255, 255, 255, 0.1); margin: 30px 0; }
+.footer-legal { text-align: left; }
+.footer-logo-text { font-size: 1.5rem; letter-spacing: 5px; color: #fff; margin-bottom: 15px; font-weight: 300; }
+.footer-legal p { color: #777; font-size: 0.85rem; line-height: 1.6; max-width: 1000px; margin-bottom: 20px; }
+.footer-copyright { color: #555; font-size: 0.85rem; }
+.footer-copyright span { font-weight: bold; opacity: 0.8; }
+
+@media screen and (max-width: 768px) {
+    .footer-columns { grid-template-columns: 1fr 1fr; gap: 20px; }
+    .footer-legal { text-align: center; }
+    .footer-logo-text { letter-spacing: 2px; }
+}
+@media screen and (max-width: 480px) {
+    .footer-columns { grid-template-columns: 1fr; text-align: center; }
+    .footer-col a:hover { transform: none; }
+}
+
+/* Скрываем текст "English/Русский" */
+#current-lang {
+    display: none !important;
+}
+
+/* Центрируем флаг и убираем лишнее */
+.langToggle {
+    width: 45px !important; /* Или подбери размер под свой флаг */
+    padding: 0 !important;
+    justify-content: center !important;
+}
+
+/* Если вдруг флаг стал маленьким, увеличь его здесь */
+.langToggle span.fi {
+    margin-right: 0 !important; 
+    font-size: 1.8em !important; 
 }

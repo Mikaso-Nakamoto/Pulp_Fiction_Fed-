@@ -1,307 +1,221 @@
-// js/converter.js
 import { currencyGroups, cryptoList } from './data.js';
+import { updateChartLivePrice } from './chart.js';
+import { t } from './i18n.js'; // ПЕРЕВОД!
 
-let fromCurrency = "USD";
-let toCurrency = "RUB";
-let rates = {}; 
+let fromCurrency = "USD", toCurrency = "RUB", rates = {}; 
 
 async function loadCBRRates() {
     try {
         const cbrRes = await fetch('https://www.cbr-xml-daily.ru/daily_json.js');
         const cbrData = await cbrRes.json();
-
         rates = {};
-        
         Object.keys(cbrData.Valute).forEach(code => {
             const valute = cbrData.Valute[code];
-            rates[code] = {
-                current: parseFloat(valute.Value) / parseFloat(valute.Nominal),
-                previous: parseFloat(valute.Previous) / parseFloat(valute.Nominal)
-            };
+            rates[code] = { current: parseFloat(valute.Value) / parseFloat(valute.Nominal), previous: parseFloat(valute.Previous) / parseFloat(valute.Nominal) };
         });
-
         try {
             const globalRes = await fetch('https://open.er-api.com/v6/latest/USD');
             const globalData = await globalRes.json();
             const usdToRub = rates["USD"] ? rates["USD"].current : globalData.rates["RUB"];
-
             Object.keys(globalData.rates).forEach(code => {
                 if (!rates[code] && code !== "RUB") {
                     const price = usdToRub / globalData.rates[code];
                     rates[code] = { current: price, previous: price };
                 }
             });
-
-            
-        } catch (globalError) {
-            console.error('❌ Ошибка загрузки глобальных курсов', globalError);
-        }
-        
-        updateConversion();
-        updateSidebarRates();
-
-    } catch (error) {
-        console.error('❌ Ошибка загрузки курсов ЦБ:', error);
-    }
+        } catch (e) {}
+        updateConversion(); updateSidebarRates();
+    } catch (e) {}
 }
 
 async function loadCryptoRates() {
     try {
         const res = await fetch('https://api.binance.com/api/v3/ticker/24hr');
         const data = await res.json();
-
         const binanceRates = {};
-        data.forEach(ticker => {
-            binanceRates[ticker.symbol] = {
-                price: parseFloat(ticker.lastPrice),
-                percent: parseFloat(ticker.priceChangePercent)
-            };
-        });
+        data.forEach(ticker => { binanceRates[ticker.symbol] = { price: parseFloat(ticker.lastPrice), percent: parseFloat(ticker.priceChangePercent) }; });
 
         const usdToRub = rates["USD"] ? rates["USD"].current : 90;
 
         document.querySelectorAll('#CriptoVVV li').forEach(li => {
-            const symbol = li.dataset.symbol;
-            if (!symbol) return;
-
+            const symbol = li.dataset.symbol; if (!symbol) return;
             const priceEl = li.querySelector('.crypto-price');
             const changeEl = li.querySelector('.crypto-change');
 
-            let tickerName = symbol + "USDT"; 
             let coinPriceUsd = 0; 
-
-            if (symbol === "USDT" || symbol === "USDC" || symbol === "USDE") {
+            if (["USDT", "USDC", "USDE"].includes(symbol)) {
                 coinPriceUsd = 1;
                 if(priceEl) priceEl.textContent = "1.0000";
                 if(changeEl) changeEl.innerHTML = `<span class="change-neutral">— 0.00%</span>`;
             } else {
-                const coinData = binanceRates[tickerName];
+                const coinData = binanceRates[symbol + "USDT"];
                 if (coinData) {
                     coinPriceUsd = coinData.price;
                     if (priceEl && changeEl) {
-                        let decimals = coinPriceUsd < 1 ? 6 : 2;
-                        priceEl.textContent = coinPriceUsd.toFixed(decimals);
-
-                        let colorClass = "change-neutral";
-                        let arrow = "—"; let sign = "";
-
-                        if (coinData.percent > 0) { colorClass = "change-up"; arrow = "↑"; sign = "+"; } 
-                        else if (coinData.percent < 0) { colorClass = "change-down"; arrow = "↓"; }
-
+                        priceEl.textContent = coinPriceUsd.toFixed(coinPriceUsd < 1 ? 6 : 2);
+                        if (symbol === 'BTC' || symbol === 'ETH') updateChartLivePrice(symbol, coinPriceUsd);
+                        let colorClass = "change-neutral", arrow = "—", sign = "";
+                        if (coinData.percent > 0) { colorClass = "change-up"; arrow = "↑"; sign = "+"; } else if (coinData.percent < 0) { colorClass = "change-down"; arrow = "↓"; }
                         changeEl.innerHTML = `<span class="${colorClass}">${arrow} ${Math.abs(coinData.percent).toFixed(2)}%</span>`;
                     }
-                } else {
-                    if (priceEl) priceEl.textContent = "Нет данных";
-                }
+                } else if (priceEl) priceEl.textContent = t('noData');
             }
+            if (coinPriceUsd > 0) rates[symbol] = { current: coinPriceUsd * usdToRub, previous: coinPriceUsd * usdToRub };
 
-            if (coinPriceUsd > 0) {
-                rates[symbol] = { current: coinPriceUsd * usdToRub, previous: coinPriceUsd * usdToRub };
-            }
+            const gridRateEl = document.getElementById(`grid-rate-${symbol}`);
+            if (gridRateEl && coinPriceUsd > 0) gridRateEl.textContent = coinPriceUsd.toFixed(coinPriceUsd < 1 ? 6 : 2) + " $";
         });
-
         updateConversion();
-    } catch (error) {
-        console.error('❌ Ошибка загрузки криптовалют:', error);
-    }
+    } catch (e) {}
 }
 
-// ==================== АНАЛИТИКА: ИНДЕКС СТРАХА И ЖАДНОСТИ ====================
 async function loadMarketAnalytics() {
     try {
         const res = await fetch('https://api.alternative.me/fng/?limit=1');
         const data = await res.json();
-        
         if (data && data.data && data.data[0]) {
             const value = parseInt(data.data[0].value);
-            
             const valueEl = document.getElementById('fng-value');
             const statusEl = document.getElementById('fng-status');
             const needleEl = document.getElementById('fng-needle');
 
             if (valueEl && statusEl && needleEl) {
                 valueEl.textContent = value;
-                
-                let color = "#888";
-                let ruStatus = "Нейтрально";
+                let color = "#888", statusKey = "fngNeutral";
+                if (value <= 25) { color = "#ff4d4d"; statusKey = "fngExtremeFear"; }
+                else if (value <= 45) { color = "#ffcc00"; statusKey = "fngFear"; }
+                else if (value <= 54) { color = "#dbdbdb"; statusKey = "fngNeutral"; }
+                else if (value <= 74) { color = "#99cc33"; statusKey = "fngGreed"; }
+                else { color = "#00cc66"; statusKey = "fngExtremeGreed"; }
 
-                if (value <= 25) { color = "#ff4d4d"; ruStatus = "Жесткий страх"; }
-                else if (value <= 45) { color = "#ffcc00"; ruStatus = "Страх"; }
-                else if (value <= 54) { color = "#dbdbdb"; ruStatus = "Нейтрально"; }
-                else if (value <= 74) { color = "#99cc33"; ruStatus = "Жадность"; }
-                else { color = "#00cc66"; ruStatus = "Дикая жадность"; }
-
-                valueEl.style.color = color;
-                statusEl.style.color = color;
-                statusEl.textContent = ruStatus;
-
-                // МАТЕМАТИКА ВРАЩЕНИЯ СТРЕЛКИ
-                // Переводим значение от 0-100 в угол от -90 до +90 градусов
-                const angle = (value / 100) * 180 - 90;
-                
-                // Вращаем стрелку! (В CSS уже заложена плавная анимация transition)
-                needleEl.style.transform = `rotate(${angle}deg)`;
+                valueEl.style.color = color; statusEl.style.color = color;
+                statusEl.textContent = t(statusKey);
+                needleEl.style.transform = `rotate(${(value / 100) * 180 - 90}deg)`;
             }
         }
-    } catch (error) {
-        console.error('❌ Ошибка загрузки Индекса:', error);
+    } catch (e) {}
+}
+
+async function loadAltcoinSeason() {
+    try {
+        const res = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=70&page=1&sparkline=false&price_change_percentage=30d');
+        const data = await res.json();
+        if (!Array.isArray(data)) throw new Error("");
+
+        const ignoreList = ['tether', 'usd-coin', 'steth', 'dai', 'wrapped-bitcoin', 'first-digital-usd', 'we-eth', 'usdd'];
+        const top50 = data.filter(c => !ignoreList.includes(c.id)).slice(0, 51); 
+        const btc = top50.find(c => c.symbol === 'btc');
+        if (!btc || btc.price_change_percentage_30d_in_currency === undefined) throw new Error("");
+        
+        let betterCount = 0, totalCount = 0;
+        top50.forEach(coin => {
+            if (coin.symbol !== 'btc' && coin.price_change_percentage_30d_in_currency != null) {
+                totalCount++; if (coin.price_change_percentage_30d_in_currency > btc.price_change_percentage_30d_in_currency) betterCount++;
+            }
+        });
+
+        if (totalCount === 0) throw new Error("");
+        updateAltSeasonDOM(Math.round((betterCount / totalCount) * 100));
+    } catch (e) { updateAltSeasonDOM(35); }
+}
+
+function updateAltSeasonDOM(value) {
+    const valueEl = document.getElementById('alt-value'), statusEl = document.getElementById('alt-status'), needleEl = document.getElementById('alt-needle');
+    if (valueEl && statusEl && needleEl) {
+        valueEl.textContent = value;
+        let color = "#dbdbdb", statusKey = "altNeutral";
+        if (value <= 25) { color = "#f7931a"; statusKey = "altBtcSeason"; }
+        else if (value <= 45) { color = "#ffcc00"; statusKey = "altBtcLean"; }
+        else if (value <= 55) { color = "#dbdbdb"; statusKey = "altNeutral"; }
+        else if (value <= 75) { color = "#99cc33"; statusKey = "altAltLean"; }
+        else { color = "#00cc66"; statusKey = "altSeasonText"; }
+
+        valueEl.style.color = color; statusEl.style.color = color;
+        statusEl.textContent = t(statusKey);
+        needleEl.style.transform = `rotate(${(value / 100) * 180 - 90}deg)`;
     }
 }
 
-function getRate(code) {
-    if (code === "RUB") return 1;
-    return rates[code] ? rates[code].current : null;
-}
-
-function calculateRate(from, to) {
-    if (from === to) return 1;
-    const fromRate = getRate(from);
-    const toRate = getRate(to);
-    if (!fromRate || !toRate) return null;
-    return fromRate / toRate;
-}
+function getRate(code) { return code === "RUB" ? 1 : (rates[code] ? rates[code].current : null); }
+function calculateRate(from, to) { if (from === to) return 1; const f = getRate(from), t = getRate(to); return (!f || !t) ? null : f / t; }
 
 function updateCurrencyDisplay(side, code) {
-    const flagEl = document.getElementById(side + '-flag');
-    const codeEl = document.getElementById(side + '-code');
-
+    const flagEl = document.getElementById(side + '-flag'), codeEl = document.getElementById(side + '-code');
     if (!flagEl || !codeEl) return;
-
-    const data = getCurrencyData(code);
-    if (!data) return;
-
-    if (data.type === 'fiat') {
-        flagEl.innerHTML = `<span class="fi fi-${data.flag}"></span>`;
-    } else {
-        flagEl.innerHTML = `<img src="./iconss/${data.icon}" style="width:38px;height:38px;border-radius:6px;" alt="${data.code}">`;
-    }
+    const data = getCurrencyData(code); if (!data) return;
+    flagEl.innerHTML = data.type === 'fiat' ? `<span class="fi fi-${data.flag}"></span>` : `<img src="./iconss/${data.icon}" style="width:38px;height:38px;border-radius:6px;" alt="${data.code}">`;
     codeEl.textContent = data.code;
 }
 
 function updateConversion(event) {
-    const fromInput = document.getElementById('from-amount');
-    const toInput = document.getElementById('to-amount');
+    const fromInput = document.getElementById('from-amount'), toInput = document.getElementById('to-amount');
     let isReverse = false;
-
     if (event && (event.target.id === 'from-amount' || event.target.id === 'to-amount')) {
-        let target = event.target;
-        isReverse = target.id === 'to-amount';
-        
-        let val = target.value.replace(/,/g, '.');
-        val = val.replace(/[^0-9.]/g, '');
-        let parts = val.split('.');
-        if (parts.length > 2) {
-            val = parts[0] + '.' + parts.slice(1).join('');
-        }
-        if (target.value !== val) target.value = val;
+        let t = event.target; isReverse = t.id === 'to-amount';
+        let val = t.value.replace(/,/g, '.').replace(/[^0-9.]/g, '');
+        let parts = val.split('.'); if (parts.length > 2) val = parts[0] + '.' + parts.slice(1).join('');
+        if (t.value !== val) t.value = val;
     }
-
-    document.getElementById('from-currency-name').textContent = fromCurrency;
-    document.getElementById('to-currency-name').textContent = toCurrency;
-
+    document.getElementById('from-currency-name').textContent = fromCurrency; document.getElementById('to-currency-name').textContent = toCurrency;
     const rate = calculateRate(fromCurrency, toCurrency);
-
-    const formatNumber = (num) => {
-        if (num === 0) return "0.0000";
-        if (Math.abs(num) < 0.0001) return num.toFixed(8);
-        if (Math.abs(num) < 0.01) return num.toFixed(6);
-        return num.toFixed(4);
-    };
+    const format = (num) => { if (num === 0) return "0.0000"; if (Math.abs(num) < 0.0001) return num.toFixed(8); if (Math.abs(num) < 0.01) return num.toFixed(6); return num.toFixed(4); };
 
     if (rate !== null) {
-        document.getElementById('exchange-rate').textContent = formatNumber(rate);
-
-        if (!isReverse) {
-            let amount = parseFloat(fromInput.value); 
-            if (isNaN(amount) || fromInput.value === '') toInput.value = ''; 
-            else toInput.value = formatNumber(amount * rate);
-        } else {
-            let amount = parseFloat(toInput.value);
-            if (isNaN(amount) || toInput.value === '') fromInput.value = ''; 
-            else fromInput.value = formatNumber(amount / rate);
-        }
+        document.getElementById('exchange-rate').textContent = format(rate);
+        if (!isReverse) { let a = parseFloat(fromInput.value); isNaN(a) || fromInput.value === '' ? toInput.value = '' : toInput.value = format(a * rate); }
+        else { let a = parseFloat(toInput.value); isNaN(a) || toInput.value === '' ? fromInput.value = '' : fromInput.value = format(a / rate); }
     } else {
-        if (!isReverse) toInput.value = "—"; else fromInput.value = "—";
-        document.getElementById('exchange-rate').textContent = "—";
+        (!isReverse) ? toInput.value = "—" : fromInput.value = "—"; document.getElementById('exchange-rate').textContent = "—";
     }
 }
 
 function updateInfoPanel(code) {
-    const data = getCurrencyData(code);
-    const nameEl = document.getElementById('info-currency-name');
-    const descEl = document.getElementById('info-description');
-
+    const data = getCurrencyData(code), nameEl = document.getElementById('info-currency-name'), descEl = document.getElementById('info-description');
     if (!data) return;
-    nameEl.textContent = `${code} — ${data.type === 'fiat' ? 'национальная валюта' : 'криптовалюта'}`;
-    descEl.textContent = currencyDescriptions[code] || "Информация о данной валюте скоро появится.";
+    nameEl.textContent = `${code} — ${data.type === 'fiat' ? t('fiatCurrency') : t('cryptoCurrency')}`;
+    descEl.textContent = currencyDescriptions[code] || t('noInfo');
 }
 
-function updateSidebarRates() {
-    document.querySelectorAll('#currencies-major li, #currencies-other li, #currencies-asia li, #currencies-middleeast li, #currencies-cis li').forEach(li => {
-        const code = li.dataset.code;
-        if (!code) return;
-
-        const rateEl = li.querySelector('.rate');
-        const changeEl = li.querySelector('.change'); 
+export function updateSidebarRates() {
+    Object.keys(rates).forEach(code => {
+        const data = rates[code]; if (!data) return;
+        const gridRateEl = document.getElementById(`grid-rate-${code}`);
+        const cardEl = document.querySelector(`.currency-card[data-grid-code="${code}"]`); 
         
-        if (code === "RUB") {
-            if (rateEl) rateEl.textContent = "1 ₽";
-            if (changeEl) changeEl.innerHTML = `<span class="change-neutral">— 0.00 (0.00%)</span>`;
-            return;
+        if (gridRateEl) gridRateEl.textContent = (code === "RUB") ? "1.00 ₽" : data.current.toFixed(2) + " ₽";
+        if (cardEl && code !== "RUB") {
+            const diff = data.current - data.previous;
+            cardEl.classList.remove('trend-up', 'trend-down');
+            if (diff > 0.0001) cardEl.classList.add('trend-up'); else if (diff < -0.0001) cardEl.classList.add('trend-down');
         }
 
-        const data = rates[code];
-        
-        if (data && rateEl && changeEl) {
-            rateEl.textContent = data.current.toFixed(2) + " ₽";
-
-            const diff = data.current - data.previous;
-            const percent = data.previous ? (diff / data.previous) * 100 : 0;
-
-            let colorClass = "change-neutral"; let arrow = "—"; let sign = "";
-
-            if (diff > 0.001) { colorClass = "change-up"; arrow = "↑"; sign = "+"; } 
-            else if (diff < -0.001) { colorClass = "change-down"; arrow = "↓"; }
-
-            const diffStr = Math.abs(diff).toFixed(4); 
-            const percentStr = Math.abs(percent).toFixed(2);
-
-            changeEl.innerHTML = `<span class="${colorClass}">${arrow} ${diffStr} (${sign}${percentStr}%)</span>`;
-        } else if (rateEl && changeEl) {
-            rateEl.textContent = "—"; changeEl.innerHTML = "";
+        const sidebarLi = document.querySelector(`.left-sidebar-content li[data-code="${code}"]`);
+        if (sidebarLi) {
+            const rateEl = sidebarLi.querySelector('.rate'), changeEl = sidebarLi.querySelector('.change');
+            if (code === "RUB") { if (rateEl) rateEl.textContent = "1 ₽"; if (changeEl) changeEl.innerHTML = `<span class="change-neutral">— 0.00 (0.00%)</span>`; return; }
+            if (rateEl && changeEl) {
+                rateEl.textContent = data.current.toFixed(2) + " ₽";
+                const diff = data.current - data.previous, percent = data.previous ? (diff / data.previous) * 100 : 0;
+                let colorClass = "change-neutral", arrow = "—", sign = "";
+                if (diff > 0.001) { colorClass = "change-up"; arrow = "↑"; sign = "+"; } else if (diff < -0.001) { colorClass = "change-down"; arrow = "↓"; }
+                changeEl.innerHTML = `<span class="${colorClass}">${arrow} ${Math.abs(diff).toFixed(4)} (${sign}${Math.abs(percent).toFixed(2)}%)</span>`;
+            }
         }
     });
 }
 
 function renderList(containerId, selectedCode) {
-    const container = document.getElementById(containerId);
-    if (!container) return;
-
+    const container = document.getElementById(containerId); if (!container) return;
     container.innerHTML = '';
+    const all = [...Object.values(currencyGroups).flat().map(i => ({...i, type: 'fiat'})), ...cryptoList.map(i => ({code: i.symbol, type: 'crypto', icon: i.icon}))];
 
-    const allCurrencies = [
-        ...Object.values(currencyGroups).flat().map(item => ({...item, type: 'fiat'})),
-        ...cryptoList.map(item => ({code: item.symbol, type: 'crypto', icon: item.icon}))
-    ];
-
-    allCurrencies.forEach(curr => {
-        const div = document.createElement('div');
-        div.className = `currency-item ${curr.code === selectedCode ? 'active' : ''}`;
-
-        if (curr.type === 'fiat') div.innerHTML = `<span class="fi fi-${curr.flag}"></span><span class="code">${curr.code}</span>`;
-        else div.innerHTML = `<img src="./iconss/${curr.icon}" style="width:26px;height:26px;border-radius:4px;"> <span class="code">${curr.code}</span>`;
-
+    all.forEach(curr => {
+        const div = document.createElement('div'); div.className = `currency-item ${curr.code === selectedCode ? 'active' : ''}`;
+        div.innerHTML = curr.type === 'fiat' ? `<span class="fi fi-${curr.flag}"></span><span class="code">${curr.code}</span>` : `<img src="./iconss/${curr.icon}" style="width:26px;height:26px;border-radius:4px;"> <span class="code">${curr.code}</span>`;
         div.onclick = () => {
-            if (containerId === 'from-list') fromCurrency = curr.code;
-            else toCurrency = curr.code;
-
-            renderList('from-list', fromCurrency);
-            renderList('to-list', toCurrency);
-
-            updateCurrencyDisplay('from', fromCurrency);
-            updateCurrencyDisplay('to', toCurrency);
-            updateConversion();
-
+            if (containerId === 'from-list') fromCurrency = curr.code; else toCurrency = curr.code;
+            renderList('from-list', fromCurrency); renderList('to-list', toCurrency);
+            updateCurrencyDisplay('from', fromCurrency); updateCurrencyDisplay('to', toCurrency); updateConversion();
             if (containerId === 'to-list') updateInfoPanel(toCurrency);
         };
         container.appendChild(div);
@@ -309,112 +223,74 @@ function renderList(containerId, selectedCode) {
 }
 
 function getCurrencyData(code) {
-    for (let group of Object.values(currencyGroups)) {
-        const found = group.find(item => item.code === code);
-        if (found) return { ...found, type: 'fiat' };
-    }
-    const crypto = cryptoList.find(item => item.symbol === code);
-    if (crypto) return { code: crypto.symbol, type: 'crypto', icon: crypto.icon };
-    return null;
+    for (let group of Object.values(currencyGroups)) { const found = group.find(i => i.code === code); if (found) return { ...found, type: 'fiat' }; }
+    const crypto = cryptoList.find(i => i.symbol === code); return crypto ? { code: crypto.symbol, type: 'crypto', icon: crypto.icon } : null;
 }
 
-export function renderMoex() {
-    const container = document.getElementById(`moex-list`);
-    if (!container) return;
-    container.innerHTML = '';
-
-    moexStocks.forEach(item => {
-        const li = document.createElement(`li`);
-        li.dataset.symbol = item.symbol;
-        li.innerHTML = `
-            <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
-                <span>${item.name} <small style="color: #888;">(${item.symbol})</small></span>
-                <div style="text-align: right;">
-                    <span class="moex-price" style="font-weight: bold;">загрузка...</span>
-                    <span style="font-size: 0.9em; color: #ccc;">₽</span>
-                </div>
-            </div>
-            <div class="change-container" style="padding-left: 0; margin-top: 2px;">
-                <span class="market-change"></span>
-            </div>
-        `;
-        container.appendChild(li);
-    });
-}
-// ==================== АКЦИИ МОСКОВСКОЙ БИРЖИ (MOEX API) ====================
 async function loadMoexStocks() {
     try {
-        const res = await fetch('https://iss.moex.com/iss/engines/stock/markets/shares/boards/TQBR/securities.json?iss.meta=off&iss.only=marketdata');
+        const res = await fetch('https://iss.moex.com/iss/engines/stock/markets/shares/boards/TQBR/securities.json?iss.meta=off');
         const data = await res.json();
-        
-        const columns = data.marketdata.columns;
-        const secidIdx = columns.indexOf('SECID');
-        const priceIdx = columns.indexOf('LAST');
-        const percentIdx = columns.indexOf('LASTTOPREVPRICE');
-
-        const marketData = data.marketdata.data;
+        const md = data.marketdata.data, sec = data.securities.data;
+        const mdI = { secid: data.marketdata.columns.indexOf('SECID'), last: data.marketdata.columns.indexOf('LAST'), pct: data.marketdata.columns.indexOf('LASTTOPREVPRICE') };
+        const secI = { secid: data.securities.columns.indexOf('SECID'), prev: data.securities.columns.indexOf('PREVPRICE') };
 
         document.querySelectorAll('#moex-list li').forEach(li => {
-            const ticker = li.dataset.symbol;
-            if (!ticker) return;
+            const ticker = li.dataset.symbol; if (!ticker) return;
+            const mdRow = md.find(r => r[mdI.secid] === ticker), secRow = sec.find(r => r[secI.secid] === ticker);
+            const priceEl = li.querySelector('.moex-price'), changeEl = li.querySelector('.market-change');
 
-            const row = marketData.find(r => r[secidIdx] === ticker);
-            const priceEl = li.querySelector('.moex-price');
-            const changeEl = li.querySelector('.market-change');
-
-            if (row && priceEl && changeEl) {
-                const price = row[priceIdx];
-                const percent = row[percentIdx];
-
-                if (price) {
-                    priceEl.textContent = price.toFixed(2);
-                } else {
-                    priceEl.textContent = "—"; // Если торги закрыты
-                }
-
-                if (percent !== null) {
-                    let colorClass = "change-neutral";
-                    let arrow = "—"; let sign = "";
-
-                    if (percent > 0) { colorClass = "change-up"; arrow = "↑"; sign = "+"; } 
-                    else if (percent < 0) { colorClass = "change-down"; arrow = "↓"; }
-
-                    changeEl.innerHTML = `<span class="${colorClass}">${arrow} ${Math.abs(percent).toFixed(2)}%</span>`;
-                }
+            if (mdRow && secRow && priceEl && changeEl) {
+                const price = mdRow[mdI.last] !== null ? mdRow[mdI.last] : secRow[secI.prev];
+                priceEl.textContent = price != null ? price.toFixed(2) : "—";
+                const pct = mdRow[mdI.pct];
+                if (pct !== null) {
+                    let c = "change-neutral", a = "—";
+                    if (pct > 0) { c = "change-up"; a = "↑"; } else if (pct < 0) { c = "change-down"; a = "↓"; }
+                    changeEl.innerHTML = `<span class="${c}">${a} ${Math.abs(pct).toFixed(2)}%</span>`;
+                } else changeEl.innerHTML = `<span class="change-neutral">— 0.00%</span>`;
             }
         });
-    } catch (error) {
-        console.error('❌ Ошибка загрузки данных MOEX:', error);
-    }
+    } catch (e) {}
 }
+
 export async function initConverter() {
-    renderList('from-list', fromCurrency);
-    renderList('to-list', toCurrency);
+    renderList('from-list', fromCurrency); renderList('to-list', toCurrency);
+    
+    // Передаем переведенные заголовки категорий!
+    initAllCurrenciesGrid();
 
-    updateCurrencyDisplay('from', fromCurrency);
-    updateCurrencyDisplay('to', toCurrency);
-    updateInfoPanel(toCurrency);
-
-    // Первичная загрузка
-    await loadCBRRates();
-    loadCryptoRates(); 
-    loadMarketAnalytics();
-    loadMoexStocks(); 
-
-    // Таймеры обновления в фоне
-    setInterval(loadCryptoRates, 10000); // Крипта - каждые 10 сек
-    setInterval(loadMoexStocks, 15000);  // Акции РФ - каждые 15 сек
-    setInterval(loadCBRRates, 3600000);  // Валюты - раз в час
-    setInterval(loadMarketAnalytics, 3600000); // Индекс - раз в час
-
-    document.getElementById('from-amount').addEventListener('input', updateConversion);
-    document.getElementById('to-amount').addEventListener('input', updateConversion);
+    updateCurrencyDisplay('from', fromCurrency); updateCurrencyDisplay('to', toCurrency); updateInfoPanel(toCurrency);
+    await loadCBRRates(); loadCryptoRates(); loadMarketAnalytics(); loadMoexStocks(); loadAltcoinSeason();
+    setInterval(loadCryptoRates, 10000); setInterval(loadMoexStocks, 15000); setInterval(loadCBRRates, 3600000); setInterval(loadMarketAnalytics, 3600000);
+    document.getElementById('from-amount').addEventListener('input', updateConversion); document.getElementById('to-amount').addEventListener('input', updateConversion);
 }
 
+// Заглушка для сетки (вызывается при старте)
+function initAllCurrenciesGrid() {
+    const grid = document.getElementById('all-currencies-grid'), toggleBtn = document.getElementById('toggle-grid-view');
+    if (!grid) return; grid.innerHTML = '';
+    if (toggleBtn) toggleBtn.onclick = () => { grid.classList.toggle('list-view'); toggleBtn.textContent = grid.classList.contains('list-view') ? '▤' : '☰'; };
+    const fiats = Object.values(currencyGroups).flat().map(i => ({...i, type: 'fiat'}));
+    const cryptos = cryptoList.map(i => ({code: i.symbol, type: 'crypto', icon: i.icon}));
 
+    const renderCategory = (title, items) => {
+        const titleEl = document.createElement('div'); titleEl.className = 'grid-category-title'; titleEl.textContent = title; grid.appendChild(titleEl);
+        items.forEach(curr => {
+            if (curr.code === 'RUB') return;
+            const card = document.createElement('div'); card.className = 'currency-card'; card.dataset.gridCode = curr.code;
+            let iconHtml = curr.type === 'fiat' ? `<span class="fi fi-${curr.flag}"></span>` : `<img src="./iconss/${curr.icon}" alt="${curr.code}">`;
+            card.innerHTML = `<div class="icon-wrapper">${iconHtml}</div><div class="card-code">${curr.code}</div><div class="card-rate" id="grid-rate-${curr.code}">${t('loading')}</div>`;
+            card.addEventListener('click', () => { toCurrency = curr.code; renderList('to-list', toCurrency); updateCurrencyDisplay('to', toCurrency); updateConversion(); updateInfoPanel(toCurrency); document.querySelector('.converter-wrapper').scrollIntoView({ behavior: 'smooth' }); });
+            grid.appendChild(card);
+        });
+    };
+    renderCategory(t('fiatCategory'), fiats); renderCategory(t('cryptoCategory'), cryptos);
+}
 
-
-
+// ==========================================
+// СЛОВАРЬ (ОСТАВЛЕН НА РУССКОМ - РАБОТАЕТ ВЕЗДЕ)
+// ==========================================
 const currencyDescriptions = {
 USD: "Доллар США — главная резервная валюта мира. Введён в 1792 году. Контролируется Федеральной резервной системой (ФРС).",
 EUR: "Евро — официальная валюта 20 стран Еврозоны. Введена в безналичное обращение в 1999 году, в наличное — в 2002 году. Является второй по значимости резервной валютой на планете.",
@@ -481,5 +357,4 @@ TRX: "Tron — блокчейн-платформа, запущенная в 2017
 LINK: "Chainlink — сеть оракулов, обеспечивающая связь смарт-контрактов с внешними данными. Позволяет блокчейнам безопасно взаимодействовать с реальным миром. Является критически важной инфраструктурой для индустрии DeFi.",
 PAXG: "PAX Gold — стейблкоин, обеспеченный физическим золотом в соотношении один к одному. Каждый токен соответствует одной тройской унции золота в хранилищах Лондона. Позволяет владеть золотом без сложностей с его хранением.",
 XAUT: "Tether Gold — цифровой актив, привязанный к цене физического золота. Обеспечивается слитками, находящимися в швейцарских хранилищах. Сочетает в себе надежность драгметаллов и преимущества блокчейна."
-
 };

@@ -1,36 +1,38 @@
 <!doctype html>
-<html lang="en">
+<html lang="ru">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
       rel="icon"
       type="image/png"
-      href="iconss\vecteezy_isolate-grow-economic-flat-icon_21048252.png"
+      href="iconss/vecteezy_isolate-grow-economic-flat-icon_21048252.png"
     />
     <link rel="stylesheet" href="news.css" />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.3.2/css/flag-icons.min.css"
     />
-
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/simple-icons-font@latest/font/simple-icons.min.css"
     />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
     <title>Victoria Falls</title>
   </head>
   <body>
+    <!-- Переключатель языка -->
     <div class="langToggle" id="langToggle">
-      <img
-        src="https://avatars.mds.yandex.net/get-entity_search/118194/224019704/S600xU_2x"
-        alt="RU"
+      <span
         id="current-flag"
-      />
-      <span id="current-lang"></span>
+        class="fi fi-ru"
+        style="font-size: 1.5em; border-radius: 4px"
+      ></span>
+      <span id="current-lang">Русский</span>
     </div>
 
-    <!-- Выпадающее меню -->
+    <!-- Выпадающее меню языков -->
     <div class="lang-dropdown" id="langDropdown">
       <div class="lang-main-group">
         <div class="lang-option" data-lang="ru">
@@ -55,254 +57,484 @@
           <span class="fi fi-jp"></span> 日本語
         </div>
       </div>
-
       <div class="lang-separator"></div>
-
       <div class="lang-other">
         <small
-          >Не нашли свой язык? посмотрите <a href="#footer">здесь</a>
-        </small>
+          >Не нашли свой язык? посмотрите
+          <a href="#footer-anchor">здесь</a></small
+        >
       </div>
     </div>
 
+    <!-- Шапка -->
     <header class="KUI">
-      <h1 class="GLZG">Pulp Fiction Fed</h1>
+      <h1 class="GLZG" data-key="siteTitle">Victoria Falls</h1>
     </header>
 
     <main class="three-columns">
-      <div class="sidebar">
-        <div class="sidebar-title">
-          <span>Курсы валют</span>
+      <!-- Кнопка левого сайдбара -->
+      <button class="sidebar-toggle toggle-left" id="btn-toggle-left">◀</button>
+
+      <!-- 1. ЛЕВЫЙ САЙДБАР -->
+      <div class="sidebar" id="left-sidebar">
+        <!-- Заголовок с шестеренкой -->
+        <div
+          class="sidebar-title"
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+          "
+        >
+          <span style="margin-left: 8px" data-key="exchangeRates"
+            >Курсы валют</span
+          >
+          <button
+            id="settings-sidebar-btn"
+            class="icon-btn"
+            title="Настроить блоки"
+          >
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="3"></circle>
+              <path
+                d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"
+              ></path>
+            </svg>
+          </button>
         </div>
+
         <div class="sidebar-content">
-          <h4 data-ru="Основные мировые валюты">Основные мировые валюты</h4>
-          <div class="left-sidebar-content">
-            <ul id="currencies-major" class="currency-list"></ul>
-          </div>
+          <div id="left-sidebar-sortable"></div>
 
-          <h4 data-ru="Другие важные валюты">Другие важные валюты</h4>
-          <div class="left-sidebar-content">
-            <ul id="currencies-other" class="currency-list"></ul>
-          </div>
-
-          <h4 data-ru="Азиатские и ближневосточные валюты">
-            Азиатские и ближневосточные валюты
-          </h4>
-          <div class="left-sidebar-content">
-            <ul id="currencies-asia" class="currency-list"></ul>
-          </div>
-
-          <h4 data-ru="Ближний Восток и другие">Ближний Восток и другие</h4>
-          <div class="left-sidebar-content">
-            <ul id="currencies-middleeast" class="currency-list"></ul>
-          </div>
-
-          <h4 data-ru="СНГ и соседние страны">СНГ и соседние страны</h4>
-          <div class="left-sidebar-content">
-            <ul id="currencies-cis" class="currency-list"></ul>
-          </div>
-
-          <small>
-            обновлено:
-            <span id="update-date">загружается...</span>
-            •
-            <a
-              href="https://cbr.ru/currency_base/daily/"
-              target="_blank"
-              data-ru="официальные курсы ЦБ РФ"
-              data-en="official exchange rates of the Central Bank of the Russian Federation"
-              >официальные курсы ЦБ РФ</a
+          <small style="display: block; text-align: center; margin-top: 15px">
+            <span data-key="updated">обновлено:</span>
+            <span id="update-date">загружается...</span> •
+            <a href="https://cbr.ru/currency_base/daily/" target="_blank"
+              >ЦБ РФ</a
             >
           </small>
         </div>
       </div>
 
-      <div class="Main-Content">
-        <div class="converter-wrapper">
-          <div class="converter-container">
-            <!-- Левая колонка -->
-            <div class="currency-selector left">
-              <h3>Отдаю</h3>
-              <div class="currency-list-scroll" id="from-list"></div>
-            </div>
-
-            <!-- Центральный конвертер -->
-            <div class="converter-main">
-              <div class="exchange-card">
-                <div class="currency-header">
-                  <span class="flag" id="from-flag">🇺🇸</span>
-                  <span class="code" id="from-code">USD</span>
+      <!-- 2. ЦЕНТРАЛЬНАЯ ЧАСТЬ -->
+      <div
+        class="Main-Content"
+        id="central-layout"
+        style="
+          display: flex;
+          flex-direction: column;
+          gap: 35px;
+          padding-top: 15px;
+        "
+      >
+        <!-- КОНВЕРТЕР -->
+        <div class="draggable-block" id="block-converter">
+          <div class="drag-handle">⋮⋮ Перетащить</div>
+          <div class="converter-wrapper" style="margin-top: 0">
+            <div class="converter-container">
+              <div class="currency-selector left">
+                <h3 data-key="iGive">Отдаю</h3>
+                <div class="currency-list-scroll" id="from-list"></div>
+              </div>
+              <div class="converter-main">
+                <div class="exchange-card">
+                  <div class="currency-header">
+                    <span class="flag" id="from-flag">🇺🇸</span
+                    ><span class="code" id="from-code">USD</span>
+                  </div>
+                  <input
+                    type="text"
+                    inputmode="decimal"
+                    id="from-amount"
+                    value="100"
+                  />
                 </div>
-                <input
-                  type="text"
-                  inputmode="decimal"
-                  id="from-amount"
-                  value="100"
-                />
-              </div>
-
-              <div class="swap-container">
-                <span class="swap-arrow">↓</span>
-              </div>
-
-              <div class="exchange-card">
-                <div class="currency-header">
-                  <span class="flag" id="to-flag">eu</span>
-                  <span class="code" id="to-code">EUR</span>
+                <div class="swap-container">
+                  <span class="swap-arrow">↓</span>
                 </div>
-                <input type="text" inputmode="decimal" id="to-amount" />
+                <div class="exchange-card">
+                  <div class="currency-header">
+                    <span class="flag" id="to-flag">eu</span
+                    ><span class="code" id="to-code">EUR</span>
+                  </div>
+                  <input type="text" inputmode="decimal" id="to-amount" />
+                </div>
+                <div class="rate-display">
+                  1 <span id="from-currency-name">USD</span> =
+                  <span id="exchange-rate">...</span>
+                  <span id="to-currency-name">RUB</span>
+                </div>
+                <div class="currency-info-panel" id="currency-info-panel">
+                  <h4 id="info-currency-name" data-key="selectCurrency">
+                    Выберите валюту
+                  </h4>
+                  <p id="info-description" data-key="currencyHistory">
+                    Здесь будет краткая история и интересные факты о выбранной
+                    валюте.
+                  </p>
+                </div>
               </div>
-
-              <div class="rate-display">
-                1 <span id="from-currency-name">USD</span> =
-                <span id="exchange-rate">загрузка...</span>
-                <span id="to-currency-name">RUB</span>
-              </div>
-              <div class="currency-info-panel" id="currency-info-panel">
-                <h4 id="info-currency-name">Выберите валюту</h4>
-                <p id="info-description">
-                  Здесь будет краткая история и интересные факты о выбранной
-                  валюте.
-                </p>
+              <div class="currency-selector right">
+                <h3 data-key="iGet">Получаю</h3>
+                <div class="currency-list-scroll" id="to-list"></div>
               </div>
             </div>
+          </div>
+        </div>
 
-            <!-- Правая колонка -->
-            <div class="currency-selector right">
-              <h3>Получаю</h3>
-              <div class="currency-list-scroll" id="to-list"></div>
+        <!-- БЛОК "ВСЕ ВАЛЮТЫ" -->
+        <div class="draggable-block" id="block-grid">
+          <div class="drag-handle">⋮⋮ Перетащить</div>
+          <div
+            class="all-currencies-wrapper"
+            style="
+              margin-top: 0;
+              overflow: hidden;
+              display: flex;
+              flex-direction: column;
+            "
+          >
+            <div
+              class="chart-header"
+              style="
+                flex-shrink: 0;
+                margin-bottom: 10px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+              "
+            >
+              <span
+                class="grid-title"
+                style="color: #fff; font-size: 1.1rem"
+                data-key="allAssets"
+                >Все доступные активы</span
+              >
+              <span
+                id="toggle-grid-view"
+                class="fullscreen-btn"
+                style="font-size: 1.2rem; cursor: pointer; user-select: none"
+                title="Изменить вид"
+                >☰</span
+              >
             </div>
+            <div
+              class="grid-scroll-area"
+              style="overflow-y: auto; padding-right: 10px; flex: 1"
+            >
+              <div
+                class="currencies-grid"
+                id="all-currencies-grid"
+                style="margin-top: 0"
+              ></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ГРАФИК КРИПТОВАЛЮТ -->
+        <div class="draggable-block" id="block-chart">
+          <div class="drag-handle">⋮⋮ Перетащить</div>
+          <div
+            class="chart-wrapper"
+            style="
+              margin-top: 0;
+              display: flex;
+              flex-direction: column;
+              height: 100%;
+            "
+          >
+            <div
+              class="chart-header"
+              style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 15px;
+              "
+            >
+              <div class="chart-tabs">
+                <div class="main-tabs">
+                  <span id="tab-BTC" class="chart-tab active">BTC</span
+                  ><span style="color: #666; cursor: default">|</span
+                  ><span id="tab-ETH" class="chart-tab">ETH</span>
+                </div>
+                <div class="alt-tabs">
+                  <span id="tab-SOL" class="chart-tab small-tab">SOL</span>
+                  <span id="tab-BNB" class="chart-tab small-tab">BNB</span>
+                  <span id="tab-XRP" class="chart-tab small-tab">XRP</span>
+                </div>
+              </div>
+              <div style="display: flex; align-items: center; gap: 15px">
+                <span
+                  id="tv-toggle-btn"
+                  class="fullscreen-btn"
+                  style="
+                    font-size: 0.85rem;
+                    border: 1px solid #555;
+                    padding: 4px 10px;
+                    border-radius: 6px;
+                    color: #aaa;
+                    cursor: pointer;
+                    user-select: none;
+                    transition: all 0.2s;
+                  "
+                  >TradingView</span
+                >
+                <span
+                  class="chart-title"
+                  style="color: #aaa; font-size: 0.9rem; user-select: none"
+                  data-key="histChart"
+                  >Исторический график</span
+                >
+                <span
+                  id="chart-fullscreen-btn"
+                  class="fullscreen-btn"
+                  style="cursor: pointer; user-select: none"
+                  >⛶</span
+                >
+              </div>
+            </div>
+            <div
+              class="canvas-container"
+              style="height: 400px; position: relative; width: 100%"
+            >
+              <div id="hist-advanced-chart" style="width: 100%; height: 100%">
+                <canvas id="cryptoChart"></canvas>
+                <div id="history-tooltip" class="history-tooltip"></div>
+              </div>
+              <div
+                id="tv-advanced-chart"
+                style="
+                  display: none;
+                  width: 100%;
+                  height: 100%;
+                  border-radius: 12px;
+                  overflow: hidden;
+                "
+              ></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ТЕПЛОВАЯ КАРТА S&P 500 -->
+        <div class="draggable-block" id="block-heatmap">
+          <div class="drag-handle">⋮⋮ Перетащить</div>
+          <div
+            class="heatmap-wrapper"
+            style="margin-top: 0; display: flex; flex-direction: column"
+          >
+            <div
+              class="chart-header"
+              style="margin-bottom: 10px; flex-shrink: 0"
+            >
+              <span
+                class="chart-tabs active"
+                style="color: #fff"
+                data-key="sp500"
+                >Тепловая карта S&P 500</span
+              >
+            </div>
+            <div
+              class="tradingview-widget-container"
+              id="tv-heatmap-container"
+              style="flex: 1; width: 100%"
+            >
+              <div
+                class="tradingview-widget-container__widget"
+                style="height: 100%; width: 100%"
+              ></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- МИНИ-ГРАФИКИ -->
+        <div class="draggable-block" id="block-mini">
+          <div class="drag-handle">⋮⋮ Перетащить</div>
+          <div class="mini-charts-row" style="margin-top: 0">
+            <div id="mini-chart-1" class="mini-chart-box"></div>
+            <div id="mini-chart-2" class="mini-chart-box"></div>
+            <div id="mini-chart-3" class="mini-chart-box"></div>
+            <div id="mini-chart-4" class="mini-chart-box"></div>
+            <div id="mini-chart-5" class="mini-chart-box"></div>
           </div>
         </div>
       </div>
 
-      <!-- ПРАВАЯ БОКОВАЯ ПАНЕЛЬ -->
-      <div class="sidebar">
+      <!-- Кнопка правого сайдбара -->
+      <button class="sidebar-toggle toggle-right" id="btn-toggle-right">
+        ▶
+      </button>
+
+      <!-- 3. ПРАВАЯ БОКОВАЯ ПАНЕЛЬ -->
+      <div class="sidebar" id="right-sidebar">
         <div class="sidebar-title">
-          <span data-ru="Рыночная аналитика">Рыночная аналитика</span>
+          <span data-key="marketAnalytics">Рыночная аналитика</span>
         </div>
         <div class="sidebar-content">
-          <h4>Акции Московской Биржи (MOEX)</h4>
+          <h4 data-key="moexStocks">Акции Московской Биржи (MOEX)</h4>
           <ul id="moex-list"></ul>
+          <div id="moex-status-note" class="moex-status-note"></div>
 
-          <h4>Индекс Страха и Жадности</h4>
-          <div
-            class="paragr"
-            style="
-              display: flex;
-              align-items: center;
-              justify-content: space-between;
-              padding: 15px 10px;
-              margin-bottom: 15px;
-            "
-          >
-            <!-- ЛЕВАЯ ЧАСТЬ: SVG Спидометр (Голова Трампа) -->
-            <div style="flex: 0 0 110px; position: relative">
-              <!-- Увеличен viewBox, чтобы вместить координаты пути (до 540x550), убран overflow: visible -->
-              <svg
-                viewBox="-10 -10 540 560"
-                style="
-                  width: 100%;
-                  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3));
-                "
-              >
-                <defs>
-                  <!-- Градиент от Красного к Зеленому (слева направо) -->
-                  <linearGradient
-                    id="trump-gradient"
-                    x1="0%"
-                    y1="0%"
-                    x2="100%"
-                    y2="0%"
-                  >
-                    <stop offset="0%" stop-color="#ff4d4d" />
-                    <stop offset="50%" stop-color="#ffcc00" />
-                    <stop offset="100%" stop-color="#00cc66" />
-                  </linearGradient>
-                </defs>
-
-                <!-- КОНТУР ПРОФИЛЯ -->
-                <path
-                  d="M171.059 526L163.559 521L157.559 518.5L152.059 515L145.059 512L137.059 507C127.559 501.167 108.159 488.6 106.559 485C75.7594 461 56.5594 457.5 53.5594 456C32.3594 449.6 27.7261 433.667 28.0594 426.5V422L28.5594 416.5L30.0594 412.5L32.5594 406.5L35.0594 402L38.5594 395.5L39.5594 393L40.5594 389C40.5594 384.5 36.5594 380 32.5594 377C29.3594 369.4 31.2261 364.5 32.5594 363L33.5594 361L34.0594 357.5L33.5594 355.5L31.5594 353.5L29.5594 352L28.5594 350L27.5594 347.5L27.0594 345V342.5C26.8927 341.334 26.5594 338.9 26.5594 338.5C26.5594 338 31.0594 320.5 35.5594 313.5C39.1594 307.9 34.7261 304.5 32.0594 303.5L28.0594 302L25.5594 301.5H20.5594H16.5594L12.5594 300L8.05941 298C4.39274 296.5 -2.04059 291.5 1.55941 283.5L2.55942 280L5.55942 274.5L10.0594 268.5L12.5594 263.5L19.0594 256.5L25.0594 248L31.0594 240L38.5594 229.5L44.5594 220.5C45.7261 218.667 48.1594 214.7 48.5594 213.5C49.0594 212 51.5594 207 51.5594 204C51.8928 201.5 52.2594 195.3 51.0594 190.5C49.8594 185.7 50.8928 177.5 51.5594 174C52.2261 169.667 53.9594 160.6 55.5594 159L56.5594 157V155L57.0594 152C58.5594 145 64.5594 132.5 67.0594 129.5M67.5594 129.5C73.9594 121.1 67.8928 116 64.0594 114.5L61.5594 113.5H59.0594H54.5594L47.5594 112.5L40.5594 110C37.7261 109.5 31.7594 106.4 30.5594 98.0004C28.1594 87.2004 31.2261 80.5004 33.0594 78.5004L39.0594 70.0004C40.5594 68.3337 43.6594 64.9004 44.0594 64.5004C44.4594 64.1004 49.2261 60.667 51.5594 59.0004L61.0594 51.5004L71.0594 46.0004L80.0594 40.5004L89.0594 35.5004L97.5594 30.0004L107.059 25.0004L119.559 20.5004L130.559 15.5004L140.559 13.5004L155.559 10.5004L172.559 8.50038C177.559 7.83371 187.759 6.40038 188.559 6.00038C189.559 5.50038 207.059 4.00038 207.559 4.00038C208.059 4.00038 224.059 2.50038 224.559 2.50038L239.059 1.00038L251.559 0.500381C255.893 0.667048 264.659 1.00038 265.059 1.00038C265.459 1.00038 276.226 1.66705 281.559 2.00038L292.559 3.50038L308.559 6.50038L328.059 11.0004L340.059 14.5004L359.059 19.0004L371.059 23.0004L383.059 28.5004C391.393 32.0004 408.159 39.7004 408.559 42.5004C418.159 50.9004 428.559 58.0004 432.559 60.5004C436.726 63.0004 446.759 71.0004 453.559 83.0004C465.959 93.8004 473.393 114.167 475.559 123C475.726 124 475.859 126.4 475.059 128C474.259 129.6 476.393 134 477.559 136C478.059 136.667 478.759 139.3 477.559 144.5C476.359 149.7 477.059 157.667 477.559 161V173V190.5L478.059 207L477.559 221L477.059 233V246V255V265.5V278.5L477.559 282L478.559 284.5C478.559 284.834 478.559 285.6 478.559 286C478.559 286.4 478.559 287.834 478.559 288.5L477.559 290L477.059 291.5L476.559 294L477.559 295.5L478.559 297.5L479.559 299.5L480.059 304.5L480.559 309L481.059 312C481.559 313 482.559 315.1 482.559 315.5C482.559 316 483.059 319.5 483.059 320C483.059 320.4 483.059 322.167 483.059 323C483.559 324.167 484.559 326.6 484.559 327C484.559 327.5 486.059 331 486.059 331.5C486.059 331.9 488.393 336 489.559 338L491.059 342L492.559 348L494.559 352L496.059 357.5L498.059 361.5L500.059 366.5L501.559 370L502.559 373L504.559 377C506.726 380.334 509.759 387.9 504.559 391.5L501.559 394.5L499.559 398L494.559 402L488.559 406.5L477.559 413.5L468.559 418L461.559 423L455.059 426.5L449.559 430.5L444.059 435C442.559 436.5 440.459 440.1 444.059 442.5L449.559 448.5L454.059 453L459.059 458L463.059 463L467.559 469C470.059 471.834 475.159 477.6 475.559 478C475.959 478.4 481.059 485.167 483.559 488.5L491.059 499L495.059 505.5L497.559 510L503.059 519L505.559 523L507.559 526.5"
-                  fill="none"
-                  stroke="url(#trump-gradient)"
-                  stroke-width="12"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-
-                <!-- Вращающаяся стрелка с биткоином (адаптирована под новые размеры головы) -->
-                <g
-                  id="fng-needle"
+          <h4 data-key="globalIndexes">Глобальные рыночные индексы</h4>
+          <div class="paragr" id="global-indexes-container">
+            <!-- ЛЕВАЯ ЧАСТЬ: Трамп -->
+            <div class="index-column">
+              <div class="index-subtitle" data-key="fearGreed">
+                Страх и Жадность
+              </div>
+              <div class="svg-container">
+                <svg
+                  viewBox="-10 -10 540 560"
                   style="
-                    transform-origin: 250px 450px;
-                    transition: transform 1.5s cubic-bezier(0.4, 0, 0.2, 1);
-                    transform: rotate(-90deg);
+                    width: 100%;
+                    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3));
                   "
                 >
-                  <polygon points="235,450 265,450 250,80" fill="#dbdbdb" />
-                  <circle cx="250" cy="450" r="35" fill="#dbdbdb" />
-                  <text
-                    x="250"
-                    y="464"
-                    font-family="sans-serif"
-                    font-size="40"
-                    font-weight="bold"
-                    fill="#333"
-                    text-anchor="middle"
+                  <defs>
+                    <linearGradient
+                      id="trump-gradient"
+                      x1="0%"
+                      y1="0%"
+                      x2="100%"
+                      y2="0%"
+                    >
+                      <stop offset="0%" stop-color="#ff4d4d" />
+                      <stop offset="50%" stop-color="#ffcc00" />
+                      <stop offset="100%" stop-color="#00cc66" />
+                    </linearGradient>
+                  </defs>
+                  <path
+                    d="M171.059 526L163.559 521L157.559 518.5L152.059 515L145.059 512L137.059 507C127.559 501.167 108.159 488.6 106.559 485C75.7594 461 56.5594 457.5 53.5594 456C32.3594 449.6 27.7261 433.667 28.0594 426.5V422L28.5594 416.5L30.0594 412.5L32.5594 406.5L35.0594 402L38.5594 395.5L39.5594 393L40.5594 389C40.5594 384.5 36.5594 380 32.5594 377C29.3594 369.4 31.2261 364.5 32.5594 363L33.5594 361L34.0594 357.5L33.5594 355.5L31.5594 353.5L29.5594 352L28.5594 350L27.5594 347.5L27.0594 345V342.5C26.8927 341.334 26.5594 338.9 26.5594 338.5C26.5594 338 31.0594 320.5 35.5594 313.5C39.1594 307.9 34.7261 304.5 32.0594 303.5L28.0594 302L25.5594 301.5H20.5594H16.5594L12.5594 300L8.05941 298C4.39274 296.5 -2.04059 291.5 1.55941 283.5L2.55942 280L5.55942 274.5L10.0594 268.5L12.5594 263.5L19.0594 256.5L25.0594 248L31.0594 240L38.5594 229.5L44.5594 220.5C45.7261 218.667 48.1594 214.7 48.5594 213.5C49.0594 212 51.5594 207 51.5594 204C51.8928 201.5 52.2594 195.3 51.0594 190.5C49.8594 185.7 50.8928 177.5 51.5594 174C52.2261 169.667 53.9594 160.6 55.5594 159L56.5594 157V155L57.0594 152C58.5594 145 64.5594 132.5 67.0594 129.5M67.5594 129.5C73.9594 121.1 67.8928 116 64.0594 114.5L61.5594 113.5H59.0594H54.5594L47.5594 112.5L40.5594 110C37.7261 109.5 31.7594 106.4 30.5594 98.0004C28.1594 87.2004 31.2261 80.5004 33.0594 78.5004L39.0594 70.0004C40.5594 68.3337 43.6594 64.9004 44.0594 64.5004C44.4594 64.1004 49.2261 60.667 51.5594 59.0004L61.0594 51.5004L71.0594 46.0004L80.0594 40.5004L89.0594 35.5004L97.5594 30.0004L107.059 25.0004L119.559 20.5004L130.559 15.5004L140.559 13.5004L155.559 10.5004L172.559 8.50038C177.559 7.83371 187.759 6.40038 188.559 6.00038C189.559 5.50038 207.059 4.00038 207.559 4.00038C208.059 4.00038 224.059 2.50038 224.559 2.50038L239.059 1.00038L251.559 0.500381C255.893 0.667048 264.659 1.00038 265.059 1.00038C265.459 1.00038 276.226 1.66705 281.559 2.00038L292.559 3.50038L308.559 6.50038L328.059 11.0004L340.059 14.5004L359.059 19.0004L371.059 23.0004L383.059 28.5004C391.393 32.0004 408.159 39.7004 408.559 42.5004C418.159 50.9004 428.559 58.0004 432.559 60.5004C436.726 63.0004 446.759 71.0004 453.559 83.0004C465.959 93.8004 473.393 114.167 475.559 123C475.726 124 475.859 126.4 475.059 128C474.259 129.6 476.393 134 477.559 136C478.059 136.667 478.759 139.3 477.559 144.5C476.359 149.7 477.059 157.667 477.559 161V173V190.5L478.059 207L477.559 221L477.059 233V246V255V265.5V278.5L477.559 282L478.559 284.5C478.559 284.834 478.559 285.6 478.559 286C478.559 286.4 478.559 287.834 478.559 288.5L477.559 290L477.059 291.5L476.559 294L477.559 295.5L478.559 297.5L479.559 299.5L480.059 304.5L480.559 309L481.059 312C481.559 313 482.559 315.1 482.559 315.5C482.559 316 483.059 319.5 483.059 320C483.059 320.4 483.059 322.167 483.059 323C483.559 324.167 484.559 326.6 484.559 327C484.559 327.5 486.059 331 486.059 331.5C486.059 331.9 488.393 336 489.559 338L491.059 342L492.559 348L494.559 352L496.059 357.5L498.059 361.5L500.059 366.5L501.559 370L502.559 373L504.559 377C506.726 380.334 509.759 387.9 504.559 391.5L501.559 394.5L499.559 398L494.559 402L488.559 406.5L477.559 413.5L468.559 418L461.559 423L455.059 426.5L449.559 430.5L444.059 435C442.559 436.5 440.459 440.1 444.059 442.5L449.559 448.5L454.059 453L459.059 458L463.059 463L467.559 469C470.059 471.834 475.159 477.6 475.559 478C475.959 478.4 481.059 485.167 483.559 488.5L491.059 499L495.059 505.5L497.559 510L503.059 519L505.559 523L507.559 526.5"
+                    fill="none"
+                    stroke="url(#trump-gradient)"
+                    stroke-width="12"
+                    stroke-linecap="round"
+                  />
+                  <g
+                    id="fng-needle"
+                    style="
+                      transform-origin: 250px 450px;
+                      transition: transform 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+                      transform: rotate(-90deg);
+                    "
                   >
-                    ₿
-                  </text>
-                </g>
-              </svg>
+                    <polygon points="235,450 265,450 250,80" fill="#dbdbdb" />
+                    <circle cx="250" cy="450" r="35" fill="#dbdbdb" />
+                    <text
+                      x="250"
+                      y="464"
+                      font-family="sans-serif"
+                      font-size="40"
+                      font-weight="bold"
+                      fill="#333"
+                      text-anchor="middle"
+                    >
+                      ₿
+                    </text>
+                  </g>
+                </svg>
+              </div>
+              <div class="index-text">
+                <div class="index-val" id="fng-value">--</div>
+                <div class="index-stat" id="fng-status">...</div>
+              </div>
             </div>
 
-            <!-- РАЗДЕЛИТЕЛЬ -->
-            <div
-              style="
-                width: 2px;
-                height: 70px;
-                background: rgba(255, 255, 255, 0.15);
-                border-radius: 2px;
-              "
-            ></div>
+            <div class="index-separator"></div>
 
-            <!-- ПРАВАЯ ЧАСТЬ: Цифры и текст -->
-            <div style="flex: 1; text-align: right; padding-left: 10px">
-              <div
-                style="
-                  margin-right: 30px;
-                  font-size: 2.2rem;
-                  font-weight: bold;
-                  line-height: 1;
-                  margin-bottom: 2px;
-                "
-                id="fng-value"
-              >
-                --
+            <!-- ПРАВАЯ ЧАСТЬ: Маск -->
+            <div class="index-column">
+              <div class="index-subtitle" data-key="altSeason">
+                Индекс Альтсезона
               </div>
-              <div
-                style="
-                  margin-right: 30px;
-                  font-size: 0.85rem;
-                  text-transform: uppercase;
-                  font-weight: 600;
-                  line-height: 1.2;
-                "
-                id="fng-status"
-              >
-                Загрузка...
+              <div class="svg-container">
+                <svg
+                  viewBox="50 -30 600 620"
+                  style="
+                    width: 100%;
+                    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3));
+                  "
+                >
+                  <defs>
+                    <linearGradient
+                      id="alt-gradient"
+                      x1="0%"
+                      y1="0%"
+                      x2="100%"
+                      y2="0%"
+                    >
+                      <stop offset="0%" stop-color="#f7931a" />
+                      <stop offset="50%" stop-color="#dbdbdb" />
+                      <stop offset="100%" stop-color="#00cc66" />
+                    </linearGradient>
+                  </defs>
+                  <path
+                    d="M679 507L677.5 505.5V501.5L676.5 497L675.5 492L674.5 486L672 480L669.5 476.5L667.5 473.5L665 471.5L664 470L661 469H660H658L655 469.5L652 470H650L647.5 469L645 467.5L641 466L635.5 464L631 462L621.5 458.5L613 456.5L602.5 453.5L597 452.5L592 450.5L581 447.5L564.5 442L546 437L525.5 432L506 427L485.5 421L478 418.5L469.5 415L467 412.5L464.5 411.5H463H461.5L460.5 411L458.5 410L455.5 408L451.5 404L448.5 399.5L443.5 392.5L440 389L437 384.5L434 381.5L432 379.5L431.5 373V366.5V363L432 361.5L434 360L436 359.5H439L441.5 358.5L444.5 357L448.5 355L453 353L456.5 351L460 349L461.5 347.5L463.5 346L466 344L468.5 341.5L470.5 339L472 337L473.5 334.5L474 333L474.5 331.5L475 329.5V328V323V320V317V315.5V313L475.5 311L476 309.5L476.5 307.5L477.5 305.5L478 303.5L478.5 301V299.5L479 298.5L479.5 296.5L479 295V291.5V286.5V281V272V270.5L479.5 269.5V268C479.667 267.667 480 266.9 480 266.5C480 266.1 480 265.333 480 265L480.5 264C480.833 264 481.5 263.9 481.5 263.5C481.5 263.1 481.833 261.667 482 261L482.5 259C483 258.167 484 256.4 484 256C484 255.6 484 253.5 484 252.5V249V247V246L484.5 244V242.5L484 240.5V238.5L483 236.5L482.5 234L482 232L481.5 230L480.5 228L480 226.5V223.5L479.5 221L479 219L478 216.5L477.5 214.5V212L476.5 209L475 206L473.5 205L472 203.5L470 203H469L468 202V200.5V198L468.5 196.5V195V193V192L469 190.5L470 189L471 187.5V186.5L472 185.5L473.5 184.5L474.5 183V181.5L473.5 180.5L472.5 180L472 179L471.5 177.5V176.5L472 176L472.5 175.5L473 174.5V173.5V172L473.5 171.5V169.5V167.5L474 165.5L474.5 164L475 162V160.5L474.5 158.5L473 157.5L472 155.5L471.5 153.5L470.5 151.5L469.5 150L468 148L465.5 146.5L463 145L461.5 143.5L460.5 142.5L459.5 140.5L458.5 139.5L458 138L456 135.5L455 133L454 131C453.833 130.5 453.4 129.3 453 128.5C452.6 127.7 452.5 126.167 452.5 125.5L452 123.5L451.5 122L450.5 120.5L449.5 119L448.5 117.5L447.5 116.5L447 115.5V114.5L446.5 113.5V112.5L447 111.5L446.5 110.5V109.5V108L445.5 106.5L444.5 104L443 102L441 100L439 98L437 95.5L435.5 94L435 93L434 92.5L432.5 91L431.5 89.5V88V86L432.5 84.5L434 83L435.5 81.5C436 81 437.1 79.9 437.5 79.5C438 79 439 78.5 439 77.5C439 76.5 439.5 76 439.5 75.5C439.5 75.1 439.833 74 440 73.5L440.5 71V69.5L440 66L439 63.5V60L439.5 57.5L440.5 55C440.833 54.6667 441.6 53.8 442 53C442.4 52.2 442.833 50.3333 443 49.5L442 44.5C441.667 43.5 440.6 41.2 439 40L437 37L435 35L433 32L430.5 29L428 26.5L426 23.5L424 21L422.5 18.5L420 17.5C419.333 17 417.9 15.9 417.5 15.5C417.1 15.1 414.667 14 413.5 13.5L409.5 12.5L404.5 11L401 9L394 5.5L388 2.5L382.5 1.5L377.5 0.5H375.5L374.5 2L373.5 3.5V5.5L372.5 7L371.5 7.5L370 9H368.5L365.5 7.5C365.333 7.5 364.9 7.4 364.5 7C364.1 6.6 362.333 4.83333 361.5 4L360 3.5L356.5 1.5H354L352 2H350.5L349 2.5L348 4.5L347 6.5L346.5 7.5H345.5L344 8L342 7L340 5.5L337.5 4.5L334 3.5H330L326 4L324 4.5C323 4.83333 320.9 5.5 320.5 5.5L319 8L316.5 9L314.5 10H310.5H307.5L305 9L301 8L298.5 7H296L294.5 8V10H295.5C296 10 297.1 10.1 297.5 10.5C297.9 10.9 300 12 301 12.5L302.5 14L304 16V18L299.5 18.5H295.5H293H290L288.5 19L287.5 20L285.5 22L284.5 24V25.5V28V30L283 31.5H281.5C280.667 31.3333 278.9 31.1 278.5 31.5L276 33L273 35L270.5 36.5L269 37L267 39L265 41.5L263 42.5L260 43.5L258 44.5L257 45.5V47L258 48H258.5V49L258 50.5L256 52L254.5 54L254 56L253.5 58L251 59.5L248.5 59L248 58L248.5 56.5L250.5 54.5L250 53H246.5H244L240.5 54H236.5L234 55L232 54H229C228.5 54 227.4 54 227 54C226.6 54 224.5 53.3333 223.5 53H221.5L218.5 54L219 56.5L220.5 58V59V61L219 61.5L217.5 63L215 64L213.5 63L210.5 64L210 66.5L208.5 68.5L209 70.5L208.5 72.5V77L206 79L203.5 81L198.5 85V87.5L196 90.5H194L192.5 89V86H190H188C186.833 86.8333 184.6 88.6 185 89C185.5 89.5 186 90.5 186 91.5C186 92.3 186 95.5 186 97L187.5 100.5V104.5L184 106H179C178.667 106 177.8 106 177 106C176.2 106 173.333 107.667 172 108.5C172.333 109.167 173 110.6 173 111C173 111.4 175 113.833 176 115H180.5C181.333 114.667 183.2 114 184 114C184.8 114 187 114 188 114L185 117.5C183.5 117.5 180.5 117.7 180.5 118.5C180.5 119.3 177.5 120.5 176 121C175.667 121.333 174.9 122.2 174.5 123C174 124 174 125.5 173 126C172.2 126.4 172 127.833 172 128.5L171 134V138L170 141.5V144.5L171 148C170.667 148.5 170.2 149.6 171 150C172 150.5 174.5 153.5 174.5 154.5C174.5 155.3 176.167 157.5 177 158.5L178 161L179 162.5C179.5 163.167 180.5 164.7 180.5 165.5C180.5 166.3 180.5 168.833 180.5 170C180.5 170.5 180.5 171.7 180.5 172.5C180.5 173.3 181.5 177.167 182 179L184 183.5V190C184 191 184 193.2 184 194C184 195 184 197.5 184 198C184 198.4 184 201.833 184 203.5V210L184.5 212L186.5 213.5L187.5 214L188.5 215L190 217.5C190.667 218.333 192 220.1 192 220.5C192 221 192.5 222.5 193 224C193.5 225.5 193 228 193 229.5C193 231 194 233.5 194 235C194 236.2 195.667 240.833 196.5 243C197 243.5 198.1 244.6 198.5 245C199 245.5 200 248.5 201 249.5C202 250.5 203 250.5 204 252.5L207.5 259.5L210 266.5C210.5 267.333 211.6 269.2 212 270C212.4 270.8 214.167 274 215 275.5L219 284.5C220.167 286.667 222.6 291.2 223 292C223.4 292.8 226.833 298.333 228.5 301C230 303 233.1 307.1 233.5 307.5C234 308 237 314 238.5 315C240 316 245.5 324.5 246.5 325.5C247.3 326.3 249.833 329.5 251 331L255 337.5C255.333 339.167 256.1 342.6 256.5 343C256.9 343.4 256.667 349.5 256.5 352.5V362.5L255.5 372.5L255 379L253.5 383L250.5 384L246.5 386.5L244 389.5C242.667 391 240 394.2 240 395C240 396 238.5 398.5 238.5 399C238.5 399.5 236 403.5 236 404.5C236 405.3 234.667 408.167 234 409.5L229 415L222.5 420.5L214.5 424L211 426L207.5 427.5L195.5 431.5L186 434.5L176.5 438L163 441L142.5 447L120 455.5L105 462L91.5 468L75 473.5L58.5 480.5L49.5 483L45.5 482.5H41L36.5 483L33.5 485.5L31.5 488.5L27.5 495L23.5 503L21 508.5L19.5 513.5L17 521.5L14 532.5L11.5 538L11 543.5L10.5 548.5V553.5L8.5 556H6L4.5 559L3 561.5L1.5 564.5C1.16667 565.333 0.5 567.1 0.5 567.5C0.5 567.9 1.16667 571.333 1.5 573L3 576.5L3.5 580C3.66667 580.833 4.1 582.6 4.5 583C4.9 583.4 4.66667 585.167 4.5 586L3 588.5C2.83333 589.333 2.5 591.2 2.5 592C2.5 592.8 1.83333 595 1.5 596"
+                    fill="none"
+                    stroke="url(#alt-gradient)"
+                    stroke-width="12"
+                    stroke-linecap="round"
+                  />
+                  <g
+                    id="alt-needle"
+                    style="
+                      transform-origin: 310px 450px;
+                      transition: transform 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+                      transform: rotate(-90deg);
+                    "
+                  >
+                    <polygon points="290,450 330,450 310,120" fill="#dbdbdb" />
+                    <circle cx="310" cy="450" r="40" fill="#dbdbdb" />
+                    <text
+                      x="310"
+                      y="465"
+                      font-family="sans-serif"
+                      font-size="45"
+                      font-weight="bold"
+                      fill="#333"
+                      text-anchor="middle"
+                    >
+                      Ð
+                    </text>
+                  </g>
+                </svg>
+              </div>
+              <div class="index-text">
+                <div class="index-val" id="alt-value">--</div>
+                <div class="index-stat" id="alt-status">...</div>
               </div>
             </div>
           </div>
+
           <div class="undertrump">
-            <small>0 — сильный страх | 100 — сильная жадность</small>
+            <small
+              style="
+                display: block;
+                text-align: center;
+                color: #777;
+                margin-bottom: 5px;
+              "
+              >0 — сильный страх | 100 — сильная жадность</small
+            >
+            <small style="display: block; text-align: center; color: #777"
+              >Данные альтсезона расчитываются за 30 дней</small
+            >
           </div>
-          <h4>Криптовалюты (Binance)</h4>
+
+          <h4 data-key="cryptoBinance">Криптовалюты (Binance)</h4>
           <div class="Crypto-i">
             <ul id="CriptoVVV"></ul>
           </div>
-
           <small
             style="
               display: block;
@@ -310,23 +542,427 @@
               text-align: center;
               color: #777;
             "
+            >• API ЦБ РФ, Forex, Binance, MOEX, Alternative.me</small
           >
-            данные 100% реальны • API ЦБ РФ, Forex, Binance, MOEX,
-            Alternative.me
-          </small>
         </div>
       </div>
     </main>
-    <footer>
-      <div id="footer">
-        © Copyright © 2026 — 3022 господин трижды многоуважаемый
-        наилегитимнейший исключительный владелец всех прав Mikaso Nakamoto. Все
-        права защищены лично мной.
-        <p style="font-weight: bold">
-          Ещё бы кто-то посмел нарушить мои права.™
-        </p>
+
+    <!-- ФУТЕР -->
+    <footer class="site-footer" id="footer-anchor">
+      <!-- ЛЕНТА 1: ТЕХНОЛОГИИ -->
+      <div class="marquee-section">
+        <div class="marquee-container">
+          <div class="marquee-track">
+            <!-- Набор 1 -->
+            <div class="marquee-item">
+              <i class="si si-tradingview" style="color: #2962ff"></i>
+              TradingView
+            </div>
+            <div class="marquee-item">
+              <i class="si si-binance" style="color: #f3ba2f"></i> Binance API
+            </div>
+            <div class="marquee-item">
+              <svg class="marquee-svg" viewBox="0 0 24 24">
+                <path
+                  d="M12 2L2 7l1.4 1.8L4 8.5V20H2v2h20v-2h-2V8.5l.6.3L22 7l-10-5zm-6 18V9h2v11H6zm4 0V9h2v11h-2zm4 0V9h2v11h-2zm4 0V9h2v11h-2z"
+                />
+              </svg>
+              ЦБ РФ API
+            </div>
+            <div class="marquee-item">
+              <svg class="marquee-svg" viewBox="0 0 24 24">
+                <path
+                  d="M3 3v18h18v-2H5V3H3zm6 14l-4-4 1.4-1.4 2.6 2.6 5-5L21 15v2.8l-7-7-5 5z"
+                />
+              </svg>
+              MOEX API
+            </div>
+            <div class="marquee-item">
+              <i class="si si-alteryx" style="color: #20558a"></i>
+              Alternative.me
+            </div>
+            <div class="marquee-item">
+              <svg class="marquee-svg" viewBox="0 0 24 24">
+                <path
+                  d="M12 22a10 10 0 110-20 10 10 0 010 20zm0-2a8 8 0 100-16 8 8 0 000 16zm-1-7.5v2.5H9v-2.5H7v-2h2v-2h2v2h2v2h-2z"
+                />
+              </svg>
+              Forex API
+            </div>
+            <div class="marquee-item">
+              <i class="si si-chartdotjs" style="color: #ff6384"></i> Chart.js
+            </div>
+            <!-- Набор 2 -->
+            <div class="marquee-item">
+              <i class="si si-tradingview" style="color: #2962ff"></i>
+              TradingView
+            </div>
+            <div class="marquee-item">
+              <i class="si si-binance" style="color: #f3ba2f"></i> Binance API
+            </div>
+            <div class="marquee-item">
+              <svg class="marquee-svg" viewBox="0 0 24 24">
+                <path
+                  d="M12 2L2 7l1.4 1.8L4 8.5V20H2v2h20v-2h-2V8.5l.6.3L22 7l-10-5zm-6 18V9h2v11H6zm4 0V9h2v11h-2zm4 0V9h2v11h-2zm4 0V9h2v11h-2z"
+                />
+              </svg>
+              ЦБ РФ API
+            </div>
+            <div class="marquee-item">
+              <svg class="marquee-svg" viewBox="0 0 24 24">
+                <path
+                  d="M3 3v18h18v-2H5V3H3zm6 14l-4-4 1.4-1.4 2.6 2.6 5-5L21 15v2.8l-7-7-5 5z"
+                />
+              </svg>
+              MOEX API
+            </div>
+            <div class="marquee-item">
+              <i class="si si-alteryx" style="color: #20558a"></i>
+              Alternative.me
+            </div>
+            <div class="marquee-item">
+              <svg class="marquee-svg" viewBox="0 0 24 24">
+                <path
+                  d="M12 22a10 10 0 110-20 10 10 0 010 20zm0-2a8 8 0 100-16 8 8 0 000 16zm-1-7.5v2.5H9v-2.5H7v-2h2v-2h2v2h2v2h-2z"
+                />
+              </svg>
+              Forex API
+            </div>
+            <div class="marquee-item">
+              <i class="si si-chartdotjs" style="color: #ff6384"></i> Chart.js
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ЛЕНТА 2: КРИПТОВАЛЮТЫ -->
+      <div class="marquee-section">
+        <div class="marquee-container">
+          <div
+            class="marquee-track"
+            style="animation-direction: reverse; animation-duration: 45s"
+          >
+            <!-- Набор 1 -->
+            <div class="marquee-item">
+              <img src="iconss/btc.svg" class="marquee-logo" alt="BTC" />
+              Bitcoin (BTC)
+            </div>
+            <div class="marquee-item">
+              <img src="iconss/eth.svg" class="marquee-logo" alt="ETH" />
+              Ethereum (ETH)
+            </div>
+            <div class="marquee-item">
+              <img src="iconss/usdt.svg" class="marquee-logo" alt="USDT" />
+              Tether (USDT)
+            </div>
+            <div class="marquee-item">
+              <img src="iconss/sol.svg" class="marquee-logo" alt="SOL" /> Solana
+              (SOL)
+            </div>
+            <div class="marquee-item">
+              <img src="iconss/bnb.svg" class="marquee-logo" alt="BNB" /> BNB
+              (BNB)
+            </div>
+            <div class="marquee-item">
+              <img src="iconss/xrp.svg" class="marquee-logo" alt="XRP" /> XRP
+              (XRP)
+            </div>
+            <div class="marquee-item">
+              <img src="iconss/doge.svg" class="marquee-logo" alt="DOGE" />
+              Dogecoin (DOGE)
+            </div>
+            <div class="marquee-item">
+              <img src="iconss/ton.svg" class="marquee-logo" alt="TON" />
+              Toncoin (TON)
+            </div>
+            <div class="marquee-item">
+              <img src="iconss/Trump.png" class="marquee-logo" alt="TRUMP" />
+              MAGA (TRUMP)
+            </div>
+            <!-- Набор 2 -->
+            <div class="marquee-item">
+              <img src="iconss/btc.svg" class="marquee-logo" alt="BTC" />
+              Bitcoin (BTC)
+            </div>
+            <div class="marquee-item">
+              <img src="iconss/eth.svg" class="marquee-logo" alt="ETH" />
+              Ethereum (ETH)
+            </div>
+            <div class="marquee-item">
+              <img src="iconss/usdt.svg" class="marquee-logo" alt="USDT" />
+              Tether (USDT)
+            </div>
+            <div class="marquee-item">
+              <img src="iconss/sol.svg" class="marquee-logo" alt="SOL" /> Solana
+              (SOL)
+            </div>
+            <div class="marquee-item">
+              <img src="iconss/bnb.svg" class="marquee-logo" alt="BNB" /> BNB
+              (BNB)
+            </div>
+            <div class="marquee-item">
+              <img src="iconss/xrp.svg" class="marquee-logo" alt="XRP" /> XRP
+              (XRP)
+            </div>
+            <div class="marquee-item">
+              <img src="iconss/doge.svg" class="marquee-logo" alt="DOGE" />
+              Dogecoin (DOGE)
+            </div>
+            <div class="marquee-item">
+              <img src="iconss/ton.svg" class="marquee-logo" alt="TON" />
+              Toncoin (TON)
+            </div>
+            <div class="marquee-item">
+              <img src="iconss/Trump.png" class="marquee-logo" alt="TRUMP" />
+              MAGA (TRUMP)
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ЛЕНТА 3: ФИАТНЫЕ ВАЛЮТЫ -->
+      <div class="marquee-section">
+        <div class="marquee-container">
+          <div class="marquee-track" style="animation-duration: 55s">
+            <!-- Набор 1 -->
+            <div class="marquee-item"><span class="fi fi-us"></span> $</div>
+            <div class="marquee-item"><span class="fi fi-eu"></span> €</div>
+            <div class="marquee-item"><span class="fi fi-gb"></span> £</div>
+            <div class="marquee-item"><span class="fi fi-jp"></span> ¥</div>
+            <div class="marquee-item"><span class="fi fi-cn"></span> ¥</div>
+            <div class="marquee-item"><span class="fi fi-ch"></span> ₣</div>
+            <div class="marquee-item"><span class="fi fi-ca"></span> $</div>
+            <div class="marquee-item"><span class="fi fi-au"></span> $</div>
+            <div class="marquee-item"><span class="fi fi-nz"></span> $</div>
+            <div class="marquee-item"><span class="fi fi-se"></span> kr</div>
+            <div class="marquee-item"><span class="fi fi-no"></span> kr</div>
+            <div class="marquee-item"><span class="fi fi-dk"></span> kr</div>
+            <div class="marquee-item"><span class="fi fi-pl"></span> zł</div>
+            <div class="marquee-item"><span class="fi fi-cz"></span> Kč</div>
+            <div class="marquee-item"><span class="fi fi-hu"></span> Ft</div>
+            <div class="marquee-item"><span class="fi fi-ru"></span> ₽</div>
+            <div class="marquee-item"><span class="fi fi-by"></span> Br</div>
+            <div class="marquee-item"><span class="fi fi-kz"></span> ₸</div>
+            <div class="marquee-item"><span class="fi fi-ua"></span> ₴</div>
+            <div class="marquee-item"><span class="fi fi-am"></span> ֏</div>
+            <div class="marquee-item"><span class="fi fi-ge"></span> ₾</div>
+            <!-- Набор 2 -->
+            <div class="marquee-item"><span class="fi fi-us"></span> $</div>
+            <div class="marquee-item"><span class="fi fi-eu"></span> €</div>
+            <div class="marquee-item"><span class="fi fi-gb"></span> £</div>
+            <div class="marquee-item"><span class="fi fi-jp"></span> ¥</div>
+            <div class="marquee-item"><span class="fi fi-cn"></span> ¥</div>
+            <div class="marquee-item"><span class="fi fi-ch"></span> ₣</div>
+            <div class="marquee-item"><span class="fi fi-ca"></span> $</div>
+            <div class="marquee-item"><span class="fi fi-au"></span> $</div>
+            <div class="marquee-item"><span class="fi fi-nz"></span> $</div>
+            <div class="marquee-item"><span class="fi fi-se"></span> kr</div>
+            <div class="marquee-item"><span class="fi fi-no"></span> kr</div>
+            <div class="marquee-item"><span class="fi fi-dk"></span> kr</div>
+            <div class="marquee-item"><span class="fi fi-pl"></span> zł</div>
+            <div class="marquee-item"><span class="fi fi-cz"></span> Kč</div>
+            <div class="marquee-item"><span class="fi fi-hu"></span> Ft</div>
+            <div class="marquee-item"><span class="fi fi-ru"></span> ₽</div>
+            <div class="marquee-item"><span class="fi fi-by"></span> Br</div>
+            <div class="marquee-item"><span class="fi fi-kz"></span> ₸</div>
+            <div class="marquee-item"><span class="fi fi-ua"></span> ₴</div>
+            <div class="marquee-item"><span class="fi fi-am"></span> ֏</div>
+            <div class="marquee-item"><span class="fi fi-ge"></span> ₾</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ЛЕНТА 4: АКЦИИ -->
+      <div class="marquee-section">
+        <div class="marquee-container">
+          <div
+            class="marquee-track"
+            style="animation-direction: reverse; animation-duration: 50s"
+          >
+            <!-- Набор 1 -->
+            <div class="marquee-item">
+              <i class="si si-apple" style="color: #a2aaad"></i> Apple
+            </div>
+            <div class="marquee-item">
+              <i class="si si-google" style="color: #4285f4"></i> Alphabet
+            </div>
+            <div class="marquee-item">
+              <i class="si si-microsoft" style="color: #00a4ef"></i> Microsoft
+            </div>
+            <div class="marquee-item">
+              <i class="si si-amazon" style="color: #ff9900"></i> Amazon
+            </div>
+            <div class="marquee-item">
+              <i class="si si-nvidia" style="color: #76b900"></i> NVIDIA
+            </div>
+            <div class="marquee-item">
+              <i class="si si-tesla" style="color: #cc0000"></i> Tesla
+            </div>
+            <div class="marquee-item">
+              <i class="si si-yandex" style="color: #ffcc00"></i> Яндекс
+            </div>
+            <div class="marquee-item">
+              <svg class="marquee-svg" viewBox="0 0 24 24">
+                <path
+                  d="M12 2L2 7l1.4 1.8L4 8.5V20H2v2h20v-2h-2V8.5l.6.3L22 7l-10-5zm-6 18V9h2v11H6zm4 0V9h2v11h-2zm4 0V9h2v11h-2zm4 0V9h2v11h-2z"
+                />
+              </svg>
+              Сбербанк
+            </div>
+            <div class="marquee-item">
+              <i class="si si-tinkoff" style="color: #ffdd2d"></i> Т-Банк
+            </div>
+            <!-- Набор 2 -->
+            <div class="marquee-item">
+              <i class="si si-apple" style="color: #a2aaad"></i> Apple
+            </div>
+            <div class="marquee-item">
+              <i class="si si-google" style="color: #4285f4"></i> Alphabet
+            </div>
+            <div class="marquee-item">
+              <i class="si si-microsoft" style="color: #00a4ef"></i> Microsoft
+            </div>
+            <div class="marquee-item">
+              <i class="si si-amazon" style="color: #ff9900"></i> Amazon
+            </div>
+            <div class="marquee-item">
+              <i class="si si-nvidia" style="color: #76b900"></i> NVIDIA
+            </div>
+            <div class="marquee-item">
+              <i class="si si-tesla" style="color: #cc0000"></i> Tesla
+            </div>
+            <div class="marquee-item">
+              <i class="si si-yandex" style="color: #ffcc00"></i> Яндекс
+            </div>
+            <div class="marquee-item">
+              <svg class="marquee-svg" viewBox="0 0 24 24">
+                <path
+                  d="M12 2L2 7l1.4 1.8L4 8.5V20H2v2h20v-2h-2V8.5l.6.3L22 7l-10-5zm-6 18V9h2v11H6zm4 0V9h2v11h-2zm4 0V9h2v11h-2zm4 0V9h2v11h-2z"
+                />
+              </svg>
+              Сбербанк
+            </div>
+            <div class="marquee-item">
+              <i class="si si-tinkoff" style="color: #ffdd2d"></i> Т-Банк
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- СТРУКТУРНЫЙ ФУТЕР -->
+      <div class="footer-structured">
+        <div class="footer-columns">
+          <div class="footer-col">
+            <h4>СНГ и соседи</h4>
+            <a href="#" class="footer-lang-btn" data-lang="ru"
+              ><span class="fi fi-ru"></span> Русский</a
+            >
+            <a href="#" class="footer-lang-btn" data-lang="by"
+              ><span class="fi fi-by"></span> Беларуская</a
+            >
+            <a href="#" class="footer-lang-btn" data-lang="uc"
+              ><span class="fi fi-ua"></span> Українська</a
+            >
+            <a href="#" class="footer-lang-btn" data-lang="kz"
+              ><span class="fi fi-kz"></span> Қазақша</a
+            >
+            <a href="#" class="footer-lang-btn" data-lang="am"
+              ><span class="fi fi-am"></span> հայերեն</a
+            >
+          </div>
+          <div class="footer-col">
+            <h4>Европа и Запад</h4>
+            <a href="#" class="footer-lang-btn" data-lang="en"
+              ><span class="fi fi-gb"></span> English</a
+            >
+            <a href="#" class="footer-lang-btn" data-lang="de"
+              ><span class="fi fi-de"></span> Deutsch</a
+            >
+            <a href="#" class="footer-lang-btn" data-lang="fr"
+              ><span class="fi fi-fr"></span> Français</a
+            >
+            <a href="#" class="footer-lang-btn" data-lang="fi"
+              ><span class="fi fi-fi"></span> Suomi</a
+            >
+            <a href="#" class="footer-lang-btn" data-lang="pl"
+              ><span class="fi fi-pl"></span> Polski</a
+            >
+            <a href="#" class="footer-lang-btn" data-lang="sk"
+              ><span class="fi fi-sk"></span> Slovenčina</a
+            >
+          </div>
+          <div class="footer-col">
+            <h4>Азия и другие</h4>
+            <a href="#" class="footer-lang-btn" data-lang="zh"
+              ><span class="fi fi-cn"></span> 中文</a
+            >
+            <a href="#" class="footer-lang-btn" data-lang="jp"
+              ><span class="fi fi-jp"></span> 日本語</a
+            >
+            <a href="#" class="footer-lang-btn" data-lang="kr"
+              ><span class="fi fi-kr"></span> 한국어</a
+            >
+            <a href="#" class="footer-lang-btn" data-lang="sr"
+              ><span class="fi fi-rs"></span> Српски</a
+            >
+            <a href="#" class="footer-lang-btn" data-lang="sl"
+              ><span class="fi fi-si"></span> Slovenščina</a
+            >
+            <a href="#" class="footer-lang-btn" data-lang="hu"
+              ><span class="fi fi-hu"></span> Magyar</a
+            >
+          </div>
+          <div class="footer-col">
+            <h4 data-key="news">Финансовые новости</h4>
+            <div
+              id="dynamic-news-list"
+              style="display: flex; flex-direction: column"
+            ></div>
+          </div>
+          <div class="footer-col">
+            <h4>Pulp Fiction Fed</h4>
+            <a href="#">О проекте</a>
+            <a href="gratitude.html" style="color: #00ff88">Благодарности 💚</a>
+            <a href="#">Документы</a>
+            <a href="#">Источники API</a>
+            <a href="#langToggle" style="margin-top: 15px; opacity: 0.5"
+              >↑ Наверх</a
+            >
+          </div>
+        </div>
+        <div class="footer-divider"></div>
+        <div class="footer-legal">
+          <h2 class="footer-logo-text">VICTORIA FALLS</h2>
+          <p data-key="dataDisclaimer">
+            Данные с ЦБ РФ, MOEX, NYSE, Binance, ByBit и других источников •
+            цены приблизительные и могут отличаться от реальных • для получения
+            более точной информации обращайтесь к официальным источникам.
+          </p>
+          <div class="footer-copyright">
+            © 2026 — 3022 Mikaso Nakamoto. Все права защищены лично мной.<br /><span
+              >Ещё бы кто-то посмел нарушить мои права.™</span
+            >
+          </div>
+        </div>
       </div>
     </footer>
+
+    <!-- Модальное окно для выбора валют (Строго ЗДЕСЬ!) -->
+    <div
+      id="sidebar-settings-modal"
+      class="modal-overlay"
+      style="display: none"
+    >
+      <div class="settings-modal-content">
+        <h3>Выберите регионы (макс. 3)</h3>
+        <div id="settings-options-list"></div>
+        <div style="text-align: right; margin-top: 15px">
+          <button id="save-sidebar-btn" class="save-btn">Сохранить</button>
+        </div>
+      </div>
+    </div>
+
     <script type="module" src="js/main.js"></script>
   </body>
 </html>

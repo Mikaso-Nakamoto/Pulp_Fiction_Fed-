@@ -1,48 +1,74 @@
-// js/i18n.js
 import { localeConfig, defaultLocale } from './localeConfig.js';
 import { translations } from './translations.js';
 
 let currentLocale = defaultLocale;
+const updateCallbacks = []; // Список функций, которые нужно вызвать при смене языка
 
-export function getCurrentLocale() {
-    return currentLocale;
+export function getCurrentLocale() { return currentLocale; }
+
+// Функция для регистрации функций, которые нужно перезапустить при смене языка
+export function addUpdateCallback(fn) {
+    updateCallbacks.push(fn);
+}
+
+export function t(key) {
+    const lang = translations[currentLocale] || translations.ru;
+    return lang[key] || translations.ru[key] || key;
 }
 
 export function setLocale(localeCode) {
-    if (!localeConfig[localeCode]) {
-        console.warn(`Локаль ${localeCode} не найдена, использую ${defaultLocale}`);
-        localeCode = defaultLocale;
-    }
-
+    if (!localeConfig[localeCode]) localeCode = defaultLocale;
     currentLocale = localeCode;
     localStorage.setItem('preferredLocale', localeCode);
     document.documentElement.lang = localeCode;
 
+    const topFlag = document.getElementById('current-flag');
+    const topLangName = document.getElementById('current-lang');
+    if(topFlag) topFlag.className = `fi fi-${localeConfig[localeCode].flag}`;
+    if(topLangName) topLangName.textContent = localeConfig[localeCode].name;
+
     applyTranslations();
-    console.log(`✅ Локаль изменена на: ${localeCode} (${localeConfig[localeCode].name})`);
+    renderDynamicNews();
+
+    // ВАЖНО: Вызываем все функции, которые «подписались» на обновление
+    updateCallbacks.forEach(fn => fn());
 }
 
 function applyTranslations() {
-    const locale = localeConfig[currentLocale];
-    const t = translations[currentLocale] || translations.ru;
-
+    const tDict = translations[currentLocale] || translations.ru;
     document.querySelectorAll('[data-key]').forEach(el => {
         const key = el.dataset.key;
-        if (t[key]) {
-            el.textContent = t[key];
-        }
+        if (tDict[key]) el.textContent = tDict[key];
     });
-
-    // Обновляем заголовок страницы
-    document.title = t.siteTitle || "Pulp Fiction Fed";
+    document.title = tDict.siteTitle || "Victoria Falls";
 }
 
-// Инициализация
+function renderDynamicNews() {
+    const newsContainer = document.getElementById('dynamic-news-list');
+    if (!newsContainer) return;
+    newsContainer.innerHTML = ''; 
+    
+    const ruNews = localeConfig['ru'].newsSources;
+    ruNews.forEach(source => {
+        const a = document.createElement('a');
+        a.href = source.url; a.target = "_blank";
+        a.innerHTML = `<span class="fi fi-ru"></span> ${source.name}`;
+        newsContainer.appendChild(a);
+    });
+
+    if (currentLocale !== 'ru') {
+        const localNews = localeConfig[currentLocale].newsSources;
+        localNews.forEach(source => {
+            const a = document.createElement('a');
+            a.href = source.url; a.target = "_blank";
+            a.innerHTML = `<span class="fi fi-${localeConfig[currentLocale].flag}"></span> ${source.name}`;
+            newsContainer.appendChild(a);
+        });
+    }
+}
+
 export function initI18n() {
     const saved = localStorage.getItem('preferredLocale');
     const initialLocale = saved && localeConfig[saved] ? saved : defaultLocale;
-    
     setLocale(initialLocale);
 }
-
-
