@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        background-color: rgba(129, 97, 57, 0.397);
+      }
+      .ball {
+        background-color: rgb(165, 147, 42);
+        border-radius: 100%;
+        border: solid rgb(88, 77, 10);
+        width: 100px;
+        height: 100px;
+        position: absolute;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="ball" id="ball"></div>
+    <script>
+      const ball = document.getElementById(`ball`);
+
+      ball.addEventListener(`mouseenter`, function () {
+        const maxX = window.innerWidth - ball.offsetWidth;
+        const maxY = window.innerHeight - ball.offsetHeight;
+
+        const randomX = Math.random() * maxX;
+        const randomY = Math.random() * maxY;
+
+        ball.style.left = randomX + "px";
+        ball.style.top = randomY + "px";
+      });
+    </script>
+  </body>
+</html>

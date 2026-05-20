@@ -120,44 +120,55 @@ div.undertrump {
     font-size: 0.85rem;
 }
 
+/* Кнопка-флаг (премиум стиль) */
 .langToggle {
     position: absolute;
     top: 20px;
     right: 20px;
-    background: rgba(29, 29, 29, 0.1);
-    backdrop-filter: blur(1px);
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    width: 45px;
-    height: 38px;
-    border-radius: 9px;
-    padding: 2px 2px 2px 8px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
+    width: 50px; 
+    height: 50px;
+    padding: 0;
+    overflow: hidden; /* КЛЮЧЕВОЕ: обрезает флаг по форме кнопки */
+    
+    border-radius: 14px;
+    border: 2px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4), 
+                inset 0 1px 1px rgba(255, 255, 255, 0.2); /* Объем */
+    
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 1000;
+    
+    display: block; /* Убрали flex, чтобы флаг растянулся */
 }
 
 .langToggle:hover {
-    background: rgba(7, 7, 7, 0.2);
-    transform: translateY(-2px);
+    transform: translateY(-3px) scale(1.05);
+    border-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
 }
 
-.langToggle img {
-    width: 24px;
-    height: 24px;
-    border-radius: 4px;
-    border: 1px solid rgba(255, 255, 255, 0.25); 
-    backdrop-filter: blur(14px);
-    user-select: none;
+/* Скрываем текст */
+#current-lang { display: none !important; }
+
+/* ФЛАГ ВО ВСЮ КНОПКУ */
+#current-flag {
+    /* Растягиваем флаг на весь блок */
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    
+    /* Делаем картинку флага красивой */
+    background-size: cover !important;
+    background-position: center !important;
+    display: block !important;
+    font-size: 0 !important; /* Убирает странные отступы у span */
 }
 
-#current-lang {
-    font-weight: 600;
-    font-size: 15px;
-    color: white;
-}
 
 .lang-dropdown {
     position: absolute;
@@ -656,101 +667,258 @@ div.undertrump {
 
 /* ==================== 12. АДАПТИВ (ПОДСТРАХОВКА ДЛЯ НОУТБУКОВ И ТЕЛЕФОНОВ) ==================== */
 
-/* Для экранов меньше 1400px (когда 3 колонки конвертера не влезают между сайдбарами) */
-@media screen and (max-width: 1400px) {
-    .converter-container {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-    }
-    .currency-selector {
-        height: 250px;
-    }
-    .converter-main {
-        order: -1;
-    }
-}
-
+/* ==================== МОБИЛЬНАЯ АДАПТАЦИЯ (В СТИЛЕ COINMARKETCAP / BINANCE) ==================== */
 @media screen and (max-width: 768px) {
-    body { background-attachment: scroll !important; }
+  /* 1. БАЗА: Темная тема, минимум отступов */
+  body { 
+    background: #000000 !important; 
+    background-attachment: scroll !important; 
+    padding-bottom: 40px; 
+  }
 
-    .KUI, .sidebar, .converter-main, .exchange-card, .sidebar-title, .left-sidebar-content, .currency-item, .draggable-block {
-        backdrop-filter: none !important;
-        background-color: rgba(45, 45, 45, 0.95) !important; 
-    }
+  .three-columns { 
+    display: flex; flex-direction: column; gap: 16px; padding: 0 12px; margin: 0; 
+  }
+  .Main-Content { order: 1; width: 100%; margin: 0; padding: 0 !important; gap: 16px !important; }
+  .sidebar:first-of-type { order: 2; width: 100%; }
+  .sidebar:last-of-type { order: 3; width: 100%; }
 
-    .currency-selector {
-        backdrop-filter: none !important; background-color: rgb(30, 30, 30) !important;
-        -webkit-overflow-scrolling: touch; transform: translateZ(0); 
-    }
-    .currency-list-scroll { -webkit-overflow-scrolling: touch; will-change: transform; }
-    body.modal-open::before { backdrop-filter: none !important; background: rgba(0, 0, 0, 0.85) !important; }
+  /* Шапка */
+  .KUI { margin: 10px 0; padding: 10px; background: transparent !important; border: none !important; }
+  .GLZG { font-size: 1.5rem; text-align: left; }
 
-    .KUI { margin: 70px 15px 20px 15px; }
-    .three-columns { display: flex; flex-direction: column; gap: 20px; padding: 10px; margin: 10px auto; }
-    .Main-Content { order: 1; width: 100%; margin: 0; padding-top: 0 !important;}
-    .sidebar:first-of-type { order: 2; width: 100%; }
-    .sidebar:last-of-type { order: 3; width: 100%; }
+  /* Скрываем десктопные элементы */
+  .drag-handle, .sidebar-toggle, .fullscreen-btn, #toggle-grid-view { display: none !important; }
 
-    .converter-container { display: flex; flex-direction: column; gap: 15px; }
-    .converter-main { width: 100%; padding: 20px 15px; order: 1; }
-    .exchange-card { padding: 15px 10px; gap: 10px; }
-    .currency-header {
-        min-width: auto; cursor: pointer; background: rgba(255, 255, 255, 0.1);
-        padding: 8px 12px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.2);
-        -webkit-tap-highlight-color: transparent;
-    }
-    .currency-header::after { content: '▼'; font-size: 0.6em; margin-left: 8px; color: #aaa; }
-    #from-amount, #to-amount { font-size: 1.5rem; }
+  /* Карточки-контейнеры (базовый стиль CMC) */
+  .draggable-block {
+    padding: 0 !important;
+    background: transparent !important;
+    border: none !important;
+    backdrop-filter: none !important;
+  }
 
-    .currency-selector {
-        display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-        width: 90% !important; max-height: 70vh; z-index: 9999;
-        border: 2px solid #666; box-shadow: 0 10px 50px rgba(0,0,0,0.8); border-radius: 20px;
-    }
-    .currency-selector.show-modal { display: flex !important; animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
-    .currency-selector h3 { display: none; }
-    .currency-item { justify-content: center; }
+  /* ==================== 1. МИНИ-ГРАФИКИ (ГОРИЗОНТАЛЬНЫЙ СКРОЛЛ) ==================== */
+  .mini-charts-row {
+    display: flex;
+    overflow-x: auto; 
+    padding-bottom: 10px;
+    gap: 12px;
+    scroll-snap-type: x mandatory; 
+    -webkit-overflow-scrolling: touch;
+  }
+  .mini-charts-row::-webkit-scrollbar { display: none; } 
+  
+  .mini-chart-box {
+    flex: 0 0 130px; 
+    height: 120px;
+    scroll-snap-align: start;
+    background: #111111;
+    border: 1px solid #222;
+    border-radius: 16px;
+  }
 
-    body.modal-open::before {
-        content: ''; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-        z-index: 9998; 
-    }
+  /* ==================== 2. КОНВЕРТЕР (В СТИЛЕ BINANCE) ==================== */
+  .converter-container { display: flex; flex-direction: column; gap: 0; }
+  
+  .converter-main { 
+    background: #111111 !important; 
+    border-radius: 24px !important;
+    border: 1px solid #222 !important;
+    padding: 15px !important;
+    display: flex; flex-direction: column;
+  }
 
-    .drag-handle { opacity: 0.6; top: -10px; }
-    .currencies-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); }
-    .heatmap-wrapper { height: 400px; border-radius: 16px; }
-    .mini-charts-row { justify-content: flex-start; }
+  .exchange-card { 
+    background: #1e1e1e !important; 
+    border: 1px solid #2a2a2a !important; 
+    border-radius: 16px !important;
+    padding: 15px !important; 
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between; 
+  }
 
-    .accordion-header {
-        cursor: pointer; background: rgba(255, 255, 255, 0.1); padding: 12px 15px; border-radius: 12px;
-        display: flex; justify-content: space-between; align-items: center;
-        margin-top: 15px; border: 1px solid rgba(255,255,255,0.2); -webkit-tap-highlight-color: transparent;
-    }
-    .accordion-header::after { content: '▼'; font-size: 0.7em; transition: transform 0.3s ease; color: #aaa; }
-    .accordion-header.active::after { transform: rotate(180deg); }
+  #from-amount, #to-amount { 
+    order: 1; text-align: left; font-size: 1.8rem; font-weight: 600; width: 55%; color: #fff; padding: 0;
+  }
+  
+  .currency-header { 
+    order: 2; background: #2a2a2a !important; padding: 8px 12px; border-radius: 12px; margin-left: 10px; display: flex; align-items: center;
+  }
+  .currency-header .code { font-size: 1rem; }
+  .currency-header::after { content: '▼'; font-size: 0.6em; margin-left: 6px; color: #888; }
 
-    .left-sidebar-content, #moex-list, .Crypto-i { display: none; }
-    .left-sidebar-content.show, #moex-list.show, .Crypto-i.show { display: block; animation: fadeIn 0.3s ease forwards; }
+  .swap-container { 
+    margin: -10px auto; 
+    width: 44px; height: 44px;
+    background: #2a2a2a;
+    border-radius: 50%;
+    display: flex; justify-content: center; align-items: center;
+    border: 4px solid #111111; 
+    z-index: 10;
+    position: relative;
+  }
+  .swap-arrow { display: none; }
+  .swap-container::before { content: '⇅'; font-size: 1.2rem; color: #fff; } 
 
-    .rate-display {
-        background: rgba(45, 45, 45, 0.95) !important; padding: 15px; border-radius: 16px;
-        border: 1px solid rgba(255, 255, 255, 0.2); font-size: 1.3rem; margin-top: 5px;
-    }
-    .currency-info-panel { padding: 0 !important; border: none !important; background: transparent !important; min-height: auto !important; margin-top: 10px; }
-    .currency-info-panel h4 {
-        cursor: pointer; background: rgba(255, 255, 255, 0.1); padding: 12px 15px; border-radius: 12px;
-        display: flex; justify-content: space-between; align-items: center; border: 1px solid rgba(255,255,255,0.2);
-        font-size: 1rem; margin-bottom: 0 !important; -webkit-tap-highlight-color: transparent;
-    }
-    .currency-info-panel h4::after { content: '▼'; font-size: 0.7em; transition: transform 0.3s; color: #aaa; }
-    .currency-info-panel h4.active::after { transform: rotate(180deg); }
-    .currency-info-panel p {
-        display: none; background: rgba(45, 45, 45, 0.95); padding: 15px; border-radius: 12px;
-        margin-top: 10px; border: 1px solid rgba(255, 255, 255, 0.1); font-size: 0.95rem;
-    }
-    .currency-info-panel p.show { display: block; animation: fadeIn 0.3s ease forwards; }
+  .currency-info-panel {
+    background: #1e1e1e !important;
+    border: 1px solid #2a2a2a !important;
+    border-radius: 16px !important;
+    padding: 12px 15px !important;
+    margin-top: 15px !important;
+  }
+  .currency-info-panel h4 { font-size: 1rem; background: transparent; padding: 0; border: none; }
+  .currency-info-panel p { background: transparent; padding: 10px 0 0 0; border: none; font-size: 0.9rem; color: #aaa; margin: 0; }
+
+  /* ==================== 3. ИНДЕКСЫ: СТРАХ И АЛЬТСЕЗОН (ЖЕСТКИЙ ФИКС) ==================== */
+  div.paragr#global-indexes-container {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-around !important;
+    align-items: stretch !important;
+    background: #111111 !important;
+    border-radius: 20px !important;
+    border: 1px solid #222 !important;
+    padding: 20px 10px !important;
+    height: auto !important;
+    min-height: max-content !important; 
+  }
+  
+  div.paragr#global-indexes-container .index-column { 
+    width: 48% !important; 
+    display: flex !important; 
+    flex-direction: column !important; 
+    align-items: center !important; 
+    justify-content: flex-start !important; 
+    gap: 12px !important; 
+  }
+  
+  div.paragr#global-indexes-container .index-subtitle { 
+    font-size: 0.75rem !important; 
+    text-align: center !important; 
+    height: auto !important; 
+    margin: 0 !important;
+    line-height: 1.2 !important;
+  }
+
+  div.paragr#global-indexes-container .svg-container { 
+    width: 100% !important; 
+    max-width: 90px !important; 
+    aspect-ratio: 1 / 1 !important; 
+    margin: 0 auto !important; 
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  div.paragr#global-indexes-container .svg-container svg {
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  div.paragr#global-indexes-container .index-text { 
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    width: 100% !important;
+    margin-top: auto !important; 
+  }
+
+  div.paragr#global-indexes-container .index-val { 
+    font-size: 1.5rem !important; 
+    font-weight: 700 !important; 
+    line-height: 1 !important;
+    color: #ffffff !important;
+  }
+
+  div.paragr#global-indexes-container .index-stat {
+    font-size: 0.8rem !important;
+    color: #888888 !important;
+    margin-top: 4px !important;
+  }
+  
+  .index-separator { display: none !important; }
+
+  /* ==================== 4. ГЛАВНЫЙ ГРАФИК КРИПТЫ ==================== */
+  .chart-wrapper { 
+    background: #111111; 
+    border-radius: 20px; 
+    border: 1px solid #222; 
+    padding: 15px; 
+    height: auto !important; 
+  }
+  
+  .chart-header { 
+    display: flex; 
+    flex-direction: column; 
+    align-items: flex-start; 
+    gap: 15px; 
+    padding: 0; 
+    margin-bottom: 15px; 
+  }
+  
+  .chart-header > div:last-child {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+  }
+  
+  .chart-tabs { 
+    display: flex; 
+    width: 100%; 
+    overflow-x: auto; 
+    padding-bottom: 5px; 
+    -webkit-overflow-scrolling: touch; 
+  }
+  .chart-tabs::-webkit-scrollbar { display: none; }
+  
+  .canvas-container { 
+    padding: 0; 
+    height: 350px !important; 
+    width: 100%;
+  }
+
+  /* ==================== 5. САЙДБАРЫ И РАСКРЫВАЮЩИЕСЯ СПИСКИ ==================== */
+  .sidebar { background: transparent !important; padding: 0 !important; border: none !important; }
+  .sidebar-title { background: transparent; padding: 10px 0; border: none; font-size: 1.3rem; color: #fff; text-align: left; }
+  
+  .accordion-header {
+    background: #111111; border: 1px solid #222; border-radius: 16px; padding: 16px 20px;
+    font-size: 1rem; font-weight: 600; color: #fff; margin-bottom: 10px;
+  }
+  .left-sidebar-content, #moex-list, .Crypto-i { 
+    background: #111111; border: 1px solid #222; border-radius: 16px; padding: 15px; margin-bottom: 15px; display: none;
+  }
+  .currency-list li, .moex-list li { border-bottom: 1px solid #222; padding: 12px 0; }
+  .currency-list li:last-child, .moex-list li:last-child { border-bottom: none; }
+
+  .all-currencies-wrapper { height: auto; max-height: 400px; background: #111111; border-radius: 20px; border: 1px solid #222; padding: 15px; }
+  .currencies-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; }
+  .currency-card { background: #1e1e1e; border: 1px solid #2a2a2a; border-radius: 12px; }
+
+  /* ==================== 6. ВСПЛЫВАЮЩЕЕ ОКНО ВАЛЮТ (BOTTOM SHEET) ==================== */
+  .currency-selector {
+    display: none; position: fixed; top: auto; bottom: 0; left: 0; transform: none;
+    width: 100% !important; max-height: 85vh; z-index: 9999;
+    border: none; border-radius: 24px 24px 0 0;
+    background: #111111 !important;
+    padding: 20px 15px !important;
+  }
+  .currency-selector.show-modal { display: flex !important; animation: slideUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1) forwards; }
+  .currency-selector h3 { display: block; font-size: 1.2rem; color: #fff; margin-bottom: 15px; }
+  .currency-item { background: transparent; border-bottom: 1px solid #222; padding: 15px 10px; justify-content: flex-start; }
+  @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+
+  body.modal-open::before {
+    content: ''; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.7) !important; z-index: 9998; backdrop-filter: blur(5px);
+  }
 }
+
+
 
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(-5px); }
@@ -896,15 +1064,7 @@ div.undertrump {
 .footer-copyright { color: #555; font-size: 0.85rem; }
 .footer-copyright span { font-weight: bold; opacity: 0.8; }
 
-@media screen and (max-width: 768px) {
-    .footer-columns { grid-template-columns: 1fr 1fr; gap: 20px; }
-    .footer-legal { text-align: center; }
-    .footer-logo-text { letter-spacing: 2px; }
-}
-@media screen and (max-width: 480px) {
-    .footer-columns { grid-template-columns: 1fr; text-align: center; }
-    .footer-col a:hover { transform: none; }
-}
+
 
 /* Скрываем текст "English/Русский" */
 #current-lang {

@@ -24,11 +24,7 @@
   <body>
     <!-- Переключатель языка -->
     <div class="langToggle" id="langToggle">
-      <span
-        id="current-flag"
-        class="fi fi-ru"
-        style="font-size: 1.5em; border-radius: 4px"
-      ></span>
+      <span id="current-flag" class="fi fi-ru"></span>
       <span id="current-lang">Русский</span>
     </div>
 
@@ -60,8 +56,8 @@
       <div class="lang-separator"></div>
       <div class="lang-other">
         <small
-          >Не нашли свой язык? посмотрите
-          <a href="#footer-anchor">здесь</a></small
+          >Didn't find your language?
+          <a href="#footer-anchor">Look here.</a></small
         >
       </div>
     </div>
@@ -118,7 +114,7 @@
 
           <small style="display: block; text-align: center; margin-top: 15px">
             <span data-key="updated">обновлено:</span>
-            <span id="update-date">загружается...</span> •
+            <span id="update-date" data-state="loading"></span> •
             <a href="https://cbr.ru/currency_base/daily/" target="_blank"
               >ЦБ РФ</a
             >
@@ -518,17 +514,23 @@
 
           <div class="undertrump">
             <small
+              data-key="fngScaleNote"
               style="
                 display: block;
                 text-align: center;
                 color: #777;
                 margin-bottom: 5px;
               "
-              >0 — сильный страх | 100 — сильная жадность</small
             >
-            <small style="display: block; text-align: center; color: #777"
-              >Данные альтсезона расчитываются за 30 дней</small
+              0 — сильный страх | 100 — сильная жадность
+            </small>
+
+            <small
+              data-key="altSeason30dNote"
+              style="display: block; text-align: center; color: #777"
             >
+              Данные альтсезона рассчитываются за 30 дней
+            </small>
           </div>
 
           <h4 data-key="cryptoBinance">Криптовалюты (Binance)</h4>
@@ -854,7 +856,7 @@
       <div class="footer-structured">
         <div class="footer-columns">
           <div class="footer-col">
-            <h4>СНГ и соседи</h4>
+            <h4 data-key="cisTitle">СНГ и соседи</h4>
             <a href="#" class="footer-lang-btn" data-lang="ru"
               ><span class="fi fi-ru"></span> Русский</a
             >
@@ -872,7 +874,7 @@
             >
           </div>
           <div class="footer-col">
-            <h4>Европа и Запад</h4>
+            <h4 data-key="cisTitle">Европа и Запад</h4>
             <a href="#" class="footer-lang-btn" data-lang="en"
               ><span class="fi fi-gb"></span> English</a
             >
@@ -893,7 +895,7 @@
             >
           </div>
           <div class="footer-col">
-            <h4>Азия и другие</h4>
+            <h4 data-key="cisTitle">Азия и другие</h4>
             <a href="#" class="footer-lang-btn" data-lang="zh"
               ><span class="fi fi-cn"></span> 中文</a
             >
@@ -921,11 +923,8 @@
             ></div>
           </div>
           <div class="footer-col">
-            <h4>Pulp Fiction Fed</h4>
-            <a href="#">О проекте</a>
-            <a href="gratitude.html" style="color: #00ff88">Благодарности 💚</a>
-            <a href="#">Документы</a>
-            <a href="#">Источники API</a>
+            <h4>Victoria falls</h4>
+            <a href="gratitude.html" style="color: #f8a100">Dankbarkeiten 🤝</a>
             <a href="#langToggle" style="margin-top: 15px; opacity: 0.5"
               >↑ Наверх</a
             >
@@ -934,13 +933,17 @@
         <div class="footer-divider"></div>
         <div class="footer-legal">
           <h2 class="footer-logo-text">VICTORIA FALLS</h2>
-          <p data-key="dataDisclaimer">
-            Данные с ЦБ РФ, MOEX, NYSE, Binance, ByBit и других источников •
-            цены приблизительные и могут отличаться от реальных • для получения
-            более точной информации обращайтесь к официальным источникам.
+          <p data-key="disclaimer">
+            Данные с ЦБ РФ, MOEX, Binance и других источников • цены
+            приблизительные и могут отличаться от реальных • для получения более
+            точной информации обращайтесь к официальным источникам.
           </p>
           <div class="footer-copyright">
-            © 2026 — 3022 Mikaso Nakamoto. Все права защищены лично мной.<br /><span
+            <span data-key="copyrightLine1">
+              © 2026 — 3022 Mikaso Nakamoto. Все права защищены лично
+              мной.</span
+            ><br />
+            <span data-key="copyrightLine2"
               >Ещё бы кто-то посмел нарушить мои права.™</span
             >
           </div>
@@ -955,7 +958,7 @@
       style="display: none"
     >
       <div class="settings-modal-content">
-        <h3>Выберите регионы (макс. 3)</h3>
+        <h3>Выберите регионы (3)</h3>
         <div id="settings-options-list"></div>
         <div style="text-align: right; margin-top: 15px">
           <button id="save-sidebar-btn" class="save-btn">Сохранить</button>

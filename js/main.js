@@ -1,8 +1,10 @@
 import { initCryptoChart } from './chart.js';
+import { currencyGroups } from './data.js';
 import { initConverter, updateSidebarRates } from './converter.js';
 // 1. Добавляем addUpdateCallback в импорты
-import { setLocale, initI18n, addUpdateCallback } from './i18n.js';
+import { setLocale, initI18n, addUpdateCallback, getCurrentLocale } from './i18n.js';
 import { 
+    getGroupTitle,
     renderAllCurrencies, 
     renderCrypto, 
     renderStocks,
@@ -21,6 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
     addUpdateCallback(renderMoex);
     addUpdateCallback(initConverter);
     addUpdateCallback(updateSidebarRates);
+    addUpdateCallback(initHeatmap);
 
     // 2. Первичная отрисовка (при загрузке сайта)
     renderAllCurrencies();
@@ -192,34 +195,59 @@ function handleMoexWeekend() {
     }
 }
 
+
+function getTradingViewLocale() {
+  const map = {
+    ru: "ru",
+    en: "en",
+    de: "de",
+    fr: "fr",
+    zh: "zh_CN",
+    jp: "ja",
+    kr: "ko",
+    pl: "pl",
+    fi: "fi",
+    hu: "hu",
+    sk: "sk",
+    sl: "sl",
+    sr: "sr",
+    uc: "uk"
+  };
+  return map[getCurrentLocale()] || "en";
+}
+
+
+
 function initHeatmap() {
-    const container = document.querySelector('#tv-heatmap-container .tradingview-widget-container__widget');
-    if (!container) return;
+  const container = document.querySelector('#tv-heatmap-container .tradingview-widget-container__widget');
+  if (!container) return;
 
-    const script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-stock-heatmap.js';
-    script.async = true;
-    
-    script.innerHTML = JSON.stringify({
-        "exchanges": [],
-        "isTransparent": true, 
-        "dataSource": "SPX500",
-        "grouping": "sector",
-        "blockSize": "market_cap_basic",
-        "blockColor": "change",
-        "locale": "ru",
-        "symbolUrl": "",
-        "colorTheme": "dark",
-        "hasTopBar": false,
-        "isDataSetEnabled": false,
-        "isZoomEnabled": true,
-        "hasSymbolTooltip": true,
-        "width": "100%",
-        "height": "100%"
-    });
+  container.innerHTML = ""; // чтобы пересоздавать при смене языка
 
-    container.appendChild(script);
+  const script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-stock-heatmap.js';
+  script.async = true;
+
+  script.innerHTML = JSON.stringify({
+    exchanges: [],
+    isTransparent: true,
+    dataSource: "SPX500",
+    grouping: "sector",
+    blockSize: "market_cap_basic",
+    blockColor: "change",
+    locale: getTradingViewLocale(),
+    symbolUrl: "",
+    colorTheme: "dark",
+    hasTopBar: false,
+    isDataSetEnabled: false,
+    isZoomEnabled: true,
+    hasSymbolTooltip: true,
+    width: "100%",
+    height: "100%"
+  });
+
+  container.appendChild(script);
 }
 
 function initMiniCharts() {

@@ -20,4 +20,8 @@ export const localeConfig = {
     am: { code: "am", name: "հայերեն", flag: "am", newsSources: [{ name: "Banks AM", url: "https://banks.am/" }, { name: "B24", url: "https://b24.am/" }] }
 };
 
+
+
+
+
 export const defaultLocale = 'ru'; // Ставим русский по умолчанию

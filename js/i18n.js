@@ -1,5 +1,6 @@
 import { localeConfig, defaultLocale } from './localeConfig.js';
 import { translations } from './translations.js';
+import { factTranslations } from './factTranslations.js';
 
 let currentLocale = defaultLocale;
 const updateCallbacks = []; // Список функций, которые нужно вызвать при смене языка
@@ -12,8 +13,16 @@ export function addUpdateCallback(fn) {
 }
 
 export function t(key) {
-    const lang = translations[currentLocale] || translations.ru;
-    return lang[key] || translations.ru[key] || key;
+  const langMain = translations[currentLocale] || translations.ru;
+  const langFacts = factTranslations[currentLocale] || factTranslations.ru || {};
+
+  return (
+    langMain[key] ??
+    langFacts[key] ??
+    translations.ru[key] ??
+    (factTranslations.ru ? factTranslations.ru[key] : undefined) ??
+    key
+  );
 }
 
 export function setLocale(localeCode) {
@@ -32,6 +41,9 @@ export function setLocale(localeCode) {
 
     // ВАЖНО: Вызываем все функции, которые «подписались» на обновление
     updateCallbacks.forEach(fn => fn());
+
+    const ud = document.getElementById('update-date');
+if (ud && ud.dataset.state === 'loading') ud.textContent = t('loading');
 }
 
 function applyTranslations() {
